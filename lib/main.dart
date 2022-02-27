@@ -13,6 +13,7 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'notificationservice.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -118,6 +119,18 @@ class _MyHomePageState extends State<MyHomePage> {
     //registerNotification();
 
     initFB();
+
+    //FirebaseAuth auth = FirebaseAuth.instance;
+
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+        _selectPage(3);
+      } else {
+        _selectPage(000);
+      }
+    });
+
     // FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
     //await registerNotification();
@@ -297,6 +310,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 ))
               ],
             ));
+      case 3:
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text("Login"),
+          ),
+          body: Column(children: [
+            InkWell(
+              child: IconButton(
+                icon: const Icon(Icons.ac_unit_outlined),
+                onPressed: () {},
+              ),
+            )
+          ]),
+        );
       default:
         return Scaffold(
           appBar: AppBar(
