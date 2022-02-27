@@ -1,0 +1,118 @@
+{
+  "project_info": {
+    "project_number": "328394741009",
+    "project_id": "bruxism-87ee3",
+    "storage_bucket": "bruxism-87ee3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328394741009:android:4122cbaa643f0b6ffda8b0",
+        "android_client_info": {
+          "package_name": "ai.abstrakt.bruxism.bruxism"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "328394741009-6jimlo0krtnefd3j9ri5qlvfkgbt33mk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaVhIHBqEEMa7mFDOl9KM73U-TMS0mGwU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "328394741009-6jimlo0krtnefd3j9ri5qlvfkgbt33mk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "328394741009-334jb8pjsdq3ksbqpk31206pijp2jrhk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gtkFlutter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328394741009:android:42f260c9a32b79bcfda8b0",
+        "android_client_info": {
+          "package_name": "com.example.gtk_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "328394741009-6jimlo0krtnefd3j9ri5qlvfkgbt33mk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaVhIHBqEEMa7mFDOl9KM73U-TMS0mGwU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "328394741009-6jimlo0krtnefd3j9ri5qlvfkgbt33mk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "328394741009-334jb8pjsdq3ksbqpk31206pijp2jrhk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gtkFlutter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328394741009:android:7625c460d6dbfbf6fda8b0",
+        "android_client_info": {
+          "package_name": "id.bruxism.bruxism2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "328394741009-6jimlo0krtnefd3j9ri5qlvfkgbt33mk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaVhIHBqEEMa7mFDOl9KM73U-TMS0mGwU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "328394741009-6jimlo0krtnefd3j9ri5qlvfkgbt33mk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "328394741009-334jb8pjsdq3ksbqpk31206pijp2jrhk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gtkFlutter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
