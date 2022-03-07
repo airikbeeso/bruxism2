@@ -110,6 +110,12 @@ class _MyHomePageState extends State<MyHomePage> {
   late int _totalNotifications;
   late final FirebaseMessaging _messaging;
   late PushNotification _notificationInfo;
+  late String? email;
+  late void Function(
+    String email,
+    String password,
+    void Function(Exception e) error,
+  ) signInWithEmailAndPassword;
 
   @override
   void initState() {
@@ -127,13 +133,31 @@ class _MyHomePageState extends State<MyHomePage> {
         print('User is currently signed out!');
         _selectPage(3);
       } else {
-        _selectPage(000);
+        _selectPage(0);
       }
     });
 
     // FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
     //await registerNotification();
+  }
+
+  void cancelRegistration() {
+    _selectPage(1);
+  }
+
+  Future<void> registerAccount(
+      String email,
+      String displayName,
+      String password,
+      void Function(FirebaseAuthException e) errorCallback) async {
+    try {
+      var credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      await credential.user!.updateDisplayName(displayName);
+    } on FirebaseAuthException catch (e) {
+      errorCallback(e);
+    }
   }
 
   void initFB() async {
@@ -268,6 +292,41 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  void _showErrorDialog(BuildContext context, String title, Exception e) {
+    showDialog<void>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            title,
+            style: const TextStyle(fontSize: 24),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(
+                  '${(e as dynamic).message}',
+                  style: const TextStyle(fontSize: 18),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            StyledButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                'OK',
+                style: TextStyle(color: Colors.deepPurple),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -315,16 +374,15 @@ class _MyHomePageState extends State<MyHomePage> {
           appBar: AppBar(
             title: const Text("Login"),
           ),
-          body: Column(children: [
-            InkWell(
-              child: IconButton(
-                icon: const Icon(Icons.ac_unit_outlined),
-                onPressed: () {},
-              ),
-            )
-          ]),
+          body: PasswordForm(
+            email: "",
+            login: (email, password) {
+              signInWithEmailAndPassword(email, password,
+                  (e) => _showErrorDialog(context, 'Failed to sign in', e));
+            },
+          ),
         );
-      default:
+      case 0:
         return Scaffold(
           appBar: AppBar(
             // Here we take the value from the MyHomePage object that was created by
@@ -418,6 +476,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ]),
         );
+      default:
+        return Scaffold(
+          appBar: AppBar(title: const Text("Info")),
+          body:
+              const Padding(padding: EdgeInsets.all(10.0), child: Text("SSSS")),
+        );
     }
   }
 }
@@ -458,4 +522,138 @@ class PushNotification {
   });
   String? title;
   String? body;
+}
+
+class PasswordForm extends StatefulWidget {
+  const PasswordForm({
+    required this.login,
+    required this.email,
+  });
+  final String email;
+  final void Function(String email, String password) login;
+  @override
+  _PasswordFormState createState() => _PasswordFormState();
+}
+
+class _PasswordFormState extends State<PasswordForm> {
+  final _formKey = GlobalKey<FormState>(debugLabel: '_PasswordFormState');
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.text = widget.email;
+    print(widget.email);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Header('Sign in'),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: TextFormField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(
+                      hintText: 'Enter your email',
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Enter your email address to continue';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: TextFormField(
+                    controller: _passwordController,
+                    decoration: const InputDecoration(
+                      hintText: 'Password',
+                    ),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Enter your password';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      const SizedBox(width: 16),
+                      StyledButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            widget.login(
+                              _emailController.text,
+                              _passwordController.text,
+                            );
+                          }
+                        },
+                        child: const Text('SIGN IN'),
+                      ),
+                      const SizedBox(width: 30),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class StyledButton extends StatelessWidget {
+  const StyledButton({required this.child, required this.onPressed});
+  final Widget child;
+  final void Function() onPressed;
+
+  @override
+  Widget build(BuildContext context) => OutlinedButton(
+        style: OutlinedButton.styleFrom(
+            side: const BorderSide(color: Colors.deepPurple)),
+        onPressed: onPressed,
+        child: child,
+      );
+}
+
+class Header extends StatelessWidget {
+  const Header(this.heading);
+  final String heading;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          heading,
+          style: const TextStyle(fontSize: 24),
+        ),
+      );
+}
+
+class RegisterForm extends StatelessWidget {
+  const RegisterForm({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
 }
