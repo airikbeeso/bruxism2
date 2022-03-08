@@ -142,6 +142,26 @@ class _MyHomePageState extends State<MyHomePage> {
     //await registerNotification();
   }
 
+  void signOut() {
+    FirebaseAuth.instance.signOut();
+  }
+  
+
+  Future<void> signInWithEmailAndPassword2(
+    String email,
+    String password,
+    void Function(FirebaseAuthException e) errorCallback,
+  ) async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      errorCallback(e);
+    }
+  }
+
   void cancelRegistration() {
     _selectPage(1);
   }
@@ -175,6 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('User granted permission');
+      _selectPage(0);
     } else if (settings.authorizationStatus ==
         AuthorizationStatus.provisional) {
       print('User granted provisional permission');
@@ -377,9 +398,10 @@ class _MyHomePageState extends State<MyHomePage> {
           body: PasswordForm(
             email: "",
             login: (email, password) {
-              signInWithEmailAndPassword(email, password,
+              signInWithEmailAndPassword2(email, password,
                   (e) => _showErrorDialog(context, 'Failed to sign in', e));
             },
+            registerAccount('email', displayName, password, (e) { })
           ),
         );
       case 0:
@@ -391,37 +413,40 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           body: GridView.count(
               primary: false,
-              padding: const EdgeInsets.only(left: 10, right: 10),
+              padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
               crossAxisSpacing: 5,
               mainAxisSpacing: 5,
               crossAxisCount: 2,
               children: <Widget>[
                 Container(
                   padding: const EdgeInsets.only(top: 30, left: 0, right: 0),
-                  child: Column(
-                    children: [
-                      Column(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              _selectPage(1);
-                            },
-                            icon: const Icon(Icons.settings,
-                                color: Colors.white, size: 45),
-                          ),
-                          const InkWell(
-                            child: Center(
-                                child: Padding(
-                              padding: EdgeInsets.only(top: 30),
-                              child: Text(
-                                "Your Alert",
-                                style: TextStyle(fontSize: 26),
-                              ),
-                            )),
-                          )
-                        ],
-                      )
-                    ],
+                  child: InkWell(
+                    onTap: (() => _selectPage(1)),
+                    child: Column(
+                      children: [
+                        Column(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                _selectPage(1);
+                              },
+                              icon: const Icon(Icons.settings,
+                                  color: Colors.white, size: 45),
+                            ),
+                            const InkWell(
+                              child: Center(
+                                  child: Padding(
+                                padding: EdgeInsets.only(top: 30),
+                                child: Text(
+                                  "Your Alert",
+                                  style: TextStyle(fontSize: 26),
+                                ),
+                              )),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                   color: Colors.teal[100],
                 ),
@@ -456,7 +481,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 Container(
                   padding: const EdgeInsets.all(8),
-                  child: const Text('Sound of screams but the'),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: StyledButton(
+                        child: const Text("Sign Out"),
+                        onPressed: () => signOut()),
+                  ),
                   color: Colors.teal[300],
                 ),
                 Container(
@@ -531,6 +561,7 @@ class PasswordForm extends StatefulWidget {
   });
   final String email;
   final void Function(String email, String password) login;
+  final void Function(String email, String password) register;
   @override
   _PasswordFormState createState() => _PasswordFormState();
 }
@@ -539,6 +570,10 @@ class _PasswordFormState extends State<PasswordForm> {
   final _formKey = GlobalKey<FormState>(debugLabel: '_PasswordFormState');
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _displayController = TextEditingController();
+  
+
+  static const lsMargin = 15.0;
 
   @override
   void initState() {
@@ -592,22 +627,37 @@ class _PasswordFormState extends State<PasswordForm> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                  child: Flex(
+                    direction: Axis.horizontal,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const SizedBox(width: 16),
-                      StyledButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            widget.login(
-                              _emailController.text,
-                              _passwordController.text,
-                            );
-                          }
-                        },
-                        child: const Text('SIGN IN'),
+                      // const SizedBox(width: 3),
+                      Padding(
+                        padding: const EdgeInsets.only(left: lsMargin),
+                        child: StyledButton(
+                          onPressed: () {
+                            _page
+                          },
+                          child: const Text('Register'),
+                        ),
                       ),
-                      const SizedBox(width: 30),
+                      // const SizedBox(width: 16),
+                      Padding(
+                        padding: const EdgeInsets.only(right: lsMargin),
+                        child: StyledButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              widget.login(
+                                _emailController.text,
+                                _passwordController.text,
+                              );
+                            }
+                          },
+                          child: const Text('SIGN IN'),
+                        ),
+                      )
+
+                      // const SizedBox(width: 3),
                     ],
                   ),
                 ),
