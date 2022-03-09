@@ -145,7 +145,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void signOut() {
     FirebaseAuth.instance.signOut();
   }
-  
 
   Future<void> signInWithEmailAndPassword2(
     String email,
@@ -347,6 +346,7 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     );
   }
+  bool isSwitched = false;
 
   @override
   Widget build(BuildContext context) {
@@ -356,6 +356,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+
     switch (_pageMode) {
       case 1:
         return Scaffold(
@@ -373,7 +374,14 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: const Text("Choose Time"),
             ),
-            Text("${selectedTime.hour}:${selectedTime.minute}")
+            Text("${selectedTime.hour}:${selectedTime.minute}"),
+            const SizedBox(height:10),
+            Switch(value: isSwitched, onChanged: (value){
+              setState(() {
+                isSwitched = value;
+              });
+
+            })
           ]),
         );
       case 2:
@@ -392,18 +400,54 @@ class _MyHomePageState extends State<MyHomePage> {
             ));
       case 3:
         return Scaffold(
-          appBar: AppBar(
-            title: const Text("Login"),
-          ),
-          body: PasswordForm(
-            email: "",
-            login: (email, password) {
-              signInWithEmailAndPassword2(email, password,
-                  (e) => _showErrorDialog(context, 'Failed to sign in', e));
-            },
-            registerAccount('email', displayName, password, (e) { })
-          ),
-        );
+            appBar: AppBar(
+              title: const Text("Login"),
+            ),
+            body: Column(
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                PasswordForm(
+                  email: "",
+                  login: (email, password) {
+                    signInWithEmailAndPassword2(
+                        email,
+                        password,
+                        (e) =>
+                            _showErrorDialog(context, 'Failed to sign in', e));
+                  },
+                ),
+                const Divider(
+                  height: 10,
+                  thickness: 2,
+                  indent: 20,
+                  endIndent: 0,
+                  color: Colors.grey,
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                RegisterForm(
+                  email: "",
+                  cancel: () {
+                    cancelRegistration();
+                  },
+                  registerAccount: (
+                    email,
+                    displayName,
+                    password,
+                  ) {
+                    registerAccount(
+                        email,
+                        displayName,
+                        password,
+                        (e) => _showErrorDialog(
+                            context, 'Failed to create account', e));
+                  },
+                ),
+              ],
+            ));
       case 0:
         return Scaffold(
           appBar: AppBar(
@@ -451,7 +495,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Colors.teal[100],
                 ),
                 Container(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.only(top: 25.0),
                   child: Column(
                     children: [
                       Column(
@@ -466,10 +510,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           const InkWell(
                             child: Center(
                                 child: Padding(
-                              padding: EdgeInsets.only(top: 30),
+                              padding: EdgeInsets.only(top: 35),
                               child: Text(
                                 "Heed not the rabble",
-                                style: TextStyle(fontSize: 26),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 25,
+                                ),
                               ),
                             )),
                           )
@@ -480,14 +527,37 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Colors.teal[200],
                 ),
                 Container(
-                  padding: const EdgeInsets.all(8),
+                  // padding: const EdgeInsets.all(8),
                   child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: StyledButton(
-                        child: const Text("Sign Out"),
-                        onPressed: () => signOut()),
-                  ),
-                  color: Colors.teal[300],
+                      padding: const EdgeInsets.only(top: 15),
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 20.0,
+                          ),
+                          IconButton(
+                            icon: const Icon(
+                              Icons.wysiwyg,
+                              color: Colors.white,
+                              size: 45,
+                            ),
+                            onPressed: () => signOut(),
+                          ),
+                          const SizedBox(
+                            height: 20.0,
+                          ),
+                          const Text(
+                            "Sign Out",
+                            style: TextStyle(fontSize: 25.0),
+                          )
+                        ],
+                      )
+
+                      // StyledButton(
+                      //     child: const Text("Sign Out"),
+                      //     onPressed: () => signOut()),
+                      ),
+                  color: Colors.grey,
                 ),
                 Container(
                   padding: const EdgeInsets.all(8),
@@ -561,7 +631,6 @@ class PasswordForm extends StatefulWidget {
   });
   final String email;
   final void Function(String email, String password) login;
-  final void Function(String email, String password) register;
   @override
   _PasswordFormState createState() => _PasswordFormState();
 }
@@ -570,8 +639,6 @@ class _PasswordFormState extends State<PasswordForm> {
   final _formKey = GlobalKey<FormState>(debugLabel: '_PasswordFormState');
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _displayController = TextEditingController();
-  
 
   static const lsMargin = 15.0;
 
@@ -629,18 +696,16 @@ class _PasswordFormState extends State<PasswordForm> {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: Flex(
                     direction: Axis.horizontal,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       // const SizedBox(width: 3),
-                      Padding(
-                        padding: const EdgeInsets.only(left: lsMargin),
-                        child: StyledButton(
-                          onPressed: () {
-                            _page
-                          },
-                          child: const Text('Register'),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(left: lsMargin),
+                      //   child: StyledButton(
+                      //     onPressed: () {},
+                      //     child: const Text('Register'),
+                      //   ),
+                      // ),
                       // const SizedBox(width: 16),
                       Padding(
                         padding: const EdgeInsets.only(right: lsMargin),
@@ -698,12 +763,121 @@ class Header extends StatelessWidget {
       );
 }
 
-class RegisterForm extends StatelessWidget {
-  const RegisterForm({Key? key}) : super(key: key);
+class RegisterForm extends StatefulWidget {
+  const RegisterForm({
+    required this.registerAccount,
+    required this.cancel,
+    required this.email,
+  });
+  final String email;
+  final void Function(String email, String displayName, String password)
+      registerAccount;
+  final void Function() cancel;
+  @override
+  _RegisterFormState createState() => _RegisterFormState();
+}
+
+class _RegisterFormState extends State<RegisterForm> {
+  final _formKey = GlobalKey<FormState>(debugLabel: '_RegisterFormState');
+  final _emailController = TextEditingController();
+  final _displayNameController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.text = widget.email;
+  }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Column(
+      children: [
+        const Header('Create account'),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: TextFormField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(
+                      hintText: 'Enter your email',
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Enter your email address to continue';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: TextFormField(
+                    controller: _displayNameController,
+                    decoration: const InputDecoration(
+                      hintText: 'First & last name',
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Enter your account name';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: TextFormField(
+                    controller: _passwordController,
+                    decoration: const InputDecoration(
+                      hintText: 'Password',
+                    ),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Enter your password';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: widget.cancel,
+                        child: const Text('CANCEL'),
+                      ),
+                      const SizedBox(width: 16),
+                      StyledButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            widget.registerAccount(
+                              _emailController.text,
+                              _displayNameController.text,
+                              _passwordController.text,
+                            );
+                          }
+                        },
+                        child: const Text('SAVE'),
+                      ),
+                      const SizedBox(width: 30),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
