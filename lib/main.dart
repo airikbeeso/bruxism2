@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -117,6 +118,8 @@ class _MyHomePageState extends State<MyHomePage> {
     void Function(Exception e) error,
   ) signInWithEmailAndPassword;
 
+  late String? loginStatus;
+
   @override
   void initState() {
     super.initState();
@@ -132,8 +135,10 @@ class _MyHomePageState extends State<MyHomePage> {
       if (user == null) {
         print('User is currently signed out!');
         _selectPage(3);
+        loginStatus = "logout";
       } else {
         _selectPage(0);
+        loginStatus = "loggedIn";
       }
     });
 
@@ -346,6 +351,20 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     );
   }
+
+  Future<DocumentReference> startSessions(String message) {
+    if (loginStatus == "logout") {
+      throw Exception('Must be logged in');
+    }
+
+    return FirebaseFirestore.instance.collection('users').add(<String, dynamic>{
+      'data': message,
+      'start': DateTime.now().millisecondsSinceEpoch,
+      'name': FirebaseAuth.instance.currentUser!.displayName,
+      'userId': FirebaseAuth.instance.currentUser!.uid,
+    });
+  }
+
   bool isSwitched = false;
 
   @override
@@ -375,13 +394,14 @@ class _MyHomePageState extends State<MyHomePage> {
               child: const Text("Choose Time"),
             ),
             Text("${selectedTime.hour}:${selectedTime.minute}"),
-            const SizedBox(height:10),
-            Switch(value: isSwitched, onChanged: (value){
-              setState(() {
-                isSwitched = value;
-              });
-
-            })
+            const SizedBox(height: 10),
+            Switch(
+                value: isSwitched,
+                onChanged: (value) {
+                  setState(() {
+                    isSwitched = value;
+                  });
+                })
           ]),
         );
       case 2:
@@ -622,6 +642,17 @@ class PushNotification {
   });
   String? title;
   String? body;
+}
+
+class AlertObj {
+  AlertObj({this.start, this.title});
+  String? title;
+  int? start;
+  String? question;
+  String? answer;
+
+
+  
 }
 
 class PasswordForm extends StatefulWidget {
