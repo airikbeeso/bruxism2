@@ -352,13 +352,16 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Future<DocumentReference> startSessions(String message) {
+  Future<DocumentReference> startSessions(String message, bool isActive) {
     if (loginStatus == "logout") {
       throw Exception('Must be logged in');
     }
 
     return FirebaseFirestore.instance.collection('users').add(<String, dynamic>{
-      'data': message,
+      'data': {
+        "isActive": isActive,
+
+      },
       'start': DateTime.now().millisecondsSinceEpoch,
       'name': FirebaseAuth.instance.currentUser!.displayName,
       'userId': FirebaseAuth.instance.currentUser!.uid,
@@ -400,6 +403,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onChanged: (value) {
                   setState(() {
                     isSwitched = value;
+                    startSessions("DDDDD", isSwitched).then((value) => print(value.id));
                   });
                 })
           ]),
@@ -448,24 +452,24 @@ class _MyHomePageState extends State<MyHomePage> {
                 const SizedBox(
                   height: 30,
                 ),
-                RegisterForm(
-                  email: "",
-                  cancel: () {
-                    cancelRegistration();
-                  },
-                  registerAccount: (
-                    email,
-                    displayName,
-                    password,
-                  ) {
-                    registerAccount(
-                        email,
-                        displayName,
-                        password,
-                        (e) => _showErrorDialog(
-                            context, 'Failed to create account', e));
-                  },
-                ),
+                // RegisterForm(
+                //   email: "",
+                //   cancel: () {
+                //     cancelRegistration();
+                //   },
+                //   registerAccount: (
+                //     email,
+                //     displayName,
+                //     password,
+                //   ) {
+                //     registerAccount(
+                //         email,
+                //         displayName,
+                //         password,
+                //         (e) => _showErrorDialog(
+                //             context, 'Failed to create account', e));
+                //   },
+                // ),
               ],
             ));
       case 0:
