@@ -127,8 +127,6 @@ class _MyHomePageState extends State<MyHomePage> {
     _totalNotifications = 0;
     //registerNotification();
 
-    initFB();
-
     //FirebaseAuth auth = FirebaseAuth.instance;
 
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
@@ -145,6 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
     //await registerNotification();
+    initFB();
   }
 
   void signOut() {
@@ -199,7 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('User granted permission');
-      _selectPage(0);
+      //_selectPage(0);
     } else if (settings.authorizationStatus ==
         AuthorizationStatus.provisional) {
       print('User granted provisional permission');
@@ -352,20 +351,27 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Future<DocumentReference> startSessions(String message, bool isActive) {
+  Future<DocumentReference> startSessions(dynamic message, bool isActive) {
     if (loginStatus == "logout") {
       throw Exception('Must be logged in');
     }
 
     return FirebaseFirestore.instance.collection('users').add(<String, dynamic>{
-      'data': {
-        "isActive": isActive,
-
-      },
+      'data': message,
+      'isActive': isActive,
       'start': DateTime.now().millisecondsSinceEpoch,
       'name': FirebaseAuth.instance.currentUser!.displayName,
       'userId': FirebaseAuth.instance.currentUser!.uid,
     });
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> readSession(
+      dynamic message, bool isActive) {
+    String id = FirebaseAuth.instance.currentUser!.uid;
+    return FirebaseFirestore.instance
+        .collection('users')
+        .where("userId", isEqualTo: id)
+        .get();
   }
 
   bool isSwitched = false;
@@ -403,7 +409,24 @@ class _MyHomePageState extends State<MyHomePage> {
                 onChanged: (value) {
                   setState(() {
                     isSwitched = value;
-                    startSessions("DDDDD", isSwitched).then((value) => print(value.id));
+                    const context = [
+                      {
+                        "nine": {
+                          "question": "q1",
+                          "answer": "a1",
+                        },
+                        "twelve": {"question": "q2", "answer": "a2"},
+                        "fifteen": {
+                          "question": "q3",
+                          "answer": "a3",
+                        },
+                        "eighteen": {"question": "q4", "answer": "a4"},
+                        "twentyone": {"question": "q5", "answer": "a5"}
+                      }
+                    ];
+
+                    startSessions(context, isSwitched)
+                        .then((value) => print(value.id));
                   });
                 })
           ]),
@@ -654,9 +677,6 @@ class AlertObj {
   int? start;
   String? question;
   String? answer;
-
-
-  
 }
 
 class PasswordForm extends StatefulWidget {
