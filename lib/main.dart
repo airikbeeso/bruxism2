@@ -359,18 +359,20 @@ class _MyHomePageState extends State<MyHomePage> {
     return FirebaseFirestore.instance.collection('users').add(<String, dynamic>{
       'data': message,
       'isActive': isActive,
+      'status' : 0,
       'start': DateTime.now().millisecondsSinceEpoch,
       'name': FirebaseAuth.instance.currentUser!.displayName,
       'userId': FirebaseAuth.instance.currentUser!.uid,
     });
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> readSession(
-      dynamic message, bool isActive) {
+  Future<QuerySnapshot<Map<String, dynamic>>> readSession() {
     String id = FirebaseAuth.instance.currentUser!.uid;
     return FirebaseFirestore.instance
         .collection('users')
         .where("userId", isEqualTo: id)
+        .where("status", isEqualTo: 0)
+        .where("isActive", isEqualTo: true)
         .get();
   }
 
@@ -378,6 +380,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    readSession().then((value) {
+      print("DT");
+      print(value.docs.length);
+      for (int i = 0; i < value.docs.length; i++) {
+        print(value.docs[i]["data"]);
+      }
+    });
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
