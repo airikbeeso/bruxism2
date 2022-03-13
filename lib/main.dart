@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -138,13 +139,20 @@ class _MyHomePageState extends State<MyHomePage> {
       } else {
         _selectPage(0);
         loginStatus = "loggedIn";
-        readSettings().then((value) {
-          print("DT");
-          print(value.docs.length);
-          // for (int i = 0; i < value.docs.length; i++) {
-          //   print(value.docs[i]["data"]);
-          // }
-        });
+        // readSettings().then((value) {
+        //   print("DT");
+        //   print(value.docs.length);
+        //   if (value.docs.isNotEmpty) {
+        //     value.docs.forEach((element) {
+        //       // isSwitched = Bool.par element["active"];
+
+        //       print(element["active"] == true);
+        //     });
+        //   }
+        //   // for (int i = 0; i < value.docs.length; i++) {
+        //   //   print(value.docs[i]["data"]);
+        //   // }
+        // });
       }
     });
 
@@ -362,16 +370,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // Future<DocumentReference>
 
-  Future<void> startSessions(dynamic message, bool isActive) {
+  startSessions(bool isActive) {
     if (loginStatus == "logout") {
       throw Exception('Must be logged in');
     }
-    return FirebaseFirestore.instance
+    FirebaseFirestore.instance
         .collection("settings")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
         .set({
-      'data': message,
+      'data': "",
       'active': isActive,
       'start': DateTime.now().millisecondsSinceEpoch,
       'end': 0,
@@ -406,12 +414,24 @@ class _MyHomePageState extends State<MyHomePage> {
     // });
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> readSettings() {
+  // Future<QuerySnapshot<Map<String, dynamic>>>
+
+  Future<bool> readSettings() async {
     String id = FirebaseAuth.instance.currentUser!.uid;
-    return FirebaseFirestore.instance
+    var e = await FirebaseFirestore.instance
         .collection('settings')
         .where("userId", isEqualTo: id)
         .get();
+
+    return e.docs[0]["active"];
+    // e.then((value) {
+
+    //                 if (value.docs.isNotEmpty) {
+    //                   value.docs.forEach((element) {
+    //                     return element["active"];
+    //                   });
+    //                 }
+    //               }
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> readSession() {
@@ -435,6 +455,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
     switch (_pageMode) {
       case 1:
+        readSettings().then((val) => isSwitched = val);
+
         return Scaffold(
           appBar: AppBar(title: const Text("Create Alert")),
           body: Column(children: [
@@ -457,28 +479,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 onChanged: (value) {
                   setState(() {
                     isSwitched = value;
-                    const context = [
-                      {
-                        "nine": {
-                          "question": "q1",
-                          "answer": "a1",
-                        },
-                        "twelve": {"question": "q2", "answer": "a2"},
-                        "fifteen": {
-                          "question": "q3",
-                          "answer": "a3",
-                        },
-                        "eighteen": {"question": "q4", "answer": "a4"},
-                        "twentyone": {"question": "q5", "answer": "a5"}
-                      }
-                    ];
-
-                    // startSchedule();
-
-                    startSessions(context, isSwitched);
-                    // .then((value) => print(value));
+                    startSessions(isSwitched);
+   
                   });
-                })
+
+                }),
+            const SizedBox(
+              height: 10,
+            ),
+            BackButton(
+              onPressed: () => _selectPage(0),
+            )
           ]),
         );
       case 2:
