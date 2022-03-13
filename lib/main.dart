@@ -119,6 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
   ) signInWithEmailAndPassword;
 
   late String? loginStatus;
+  bool isSwitched = false;
 
   @override
   void initState() {
@@ -137,12 +138,12 @@ class _MyHomePageState extends State<MyHomePage> {
       } else {
         _selectPage(0);
         loginStatus = "loggedIn";
-        readSession().then((value) {
+        readSettings().then((value) {
           print("DT");
           print(value.docs.length);
-          for (int i = 0; i < value.docs.length; i++) {
-            print(value.docs[i]["data"]);
-          }
+          // for (int i = 0; i < value.docs.length; i++) {
+          //   print(value.docs[i]["data"]);
+          // }
         });
       }
     });
@@ -151,6 +152,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     //await registerNotification();
     initFB();
+    // startSchedule();
   }
 
   void signOut() {
@@ -358,25 +360,27 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  startSchedule() {
-    readSettings().then(
-      (value) => print(value),
-    );
-  }
-
   Future<DocumentReference> startSessions(dynamic message, bool isActive) {
     if (loginStatus == "logout") {
       throw Exception('Must be logged in');
     }
-
-    return FirebaseFirestore.instance.collection('users').add(<String, dynamic>{
+    return FirebaseFirestore.instance
+        .collection('settings')
+        .add(<String, dynamic>{
       'data': message,
-      'isActive': isActive,
-      'status': 0,
+      'active': isActive,
       'start': DateTime.now().millisecondsSinceEpoch,
-      'name': FirebaseAuth.instance.currentUser!.displayName,
+      'end': 0,
       'userId': FirebaseAuth.instance.currentUser!.uid,
     });
+    // return FirebaseFirestore.instance.collection('users').add(<String, dynamic>{
+    //   'data': message,
+    //   'isActive': isActive,
+    //   'status': 0,
+    //   'start': DateTime.now().millisecondsSinceEpoch,
+    //   'name': FirebaseAuth.instance.currentUser!.displayName,
+    //   'userId': FirebaseAuth.instance.currentUser!.uid,
+    // });
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> readSettings() {
@@ -396,8 +400,6 @@ class _MyHomePageState extends State<MyHomePage> {
         .where("isActive", isEqualTo: true)
         .get();
   }
-
-  bool isSwitched = false;
 
   @override
   Widget build(BuildContext context) {
@@ -447,7 +449,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         "twentyone": {"question": "q5", "answer": "a5"}
                       }
                     ];
-                    startSchedule();
+
+                    // startSchedule();
 
                     startSessions(context, isSwitched)
                         .then((value) => print(value.id));
