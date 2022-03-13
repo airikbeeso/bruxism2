@@ -137,6 +137,13 @@ class _MyHomePageState extends State<MyHomePage> {
       } else {
         _selectPage(0);
         loginStatus = "loggedIn";
+        readSession().then((value) {
+          print("DT");
+          print(value.docs.length);
+          for (int i = 0; i < value.docs.length; i++) {
+            print(value.docs[i]["data"]);
+          }
+        });
       }
     });
 
@@ -351,6 +358,12 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  startSchedule() {
+    readSettings().then(
+      (value) => print(value),
+    );
+  }
+
   Future<DocumentReference> startSessions(dynamic message, bool isActive) {
     if (loginStatus == "logout") {
       throw Exception('Must be logged in');
@@ -359,11 +372,19 @@ class _MyHomePageState extends State<MyHomePage> {
     return FirebaseFirestore.instance.collection('users').add(<String, dynamic>{
       'data': message,
       'isActive': isActive,
-      'status' : 0,
+      'status': 0,
       'start': DateTime.now().millisecondsSinceEpoch,
       'name': FirebaseAuth.instance.currentUser!.displayName,
       'userId': FirebaseAuth.instance.currentUser!.uid,
     });
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> readSettings() {
+    String id = FirebaseAuth.instance.currentUser!.uid;
+    return FirebaseFirestore.instance
+        .collection('settings')
+        .where("userId", isEqualTo: id)
+        .get();
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> readSession() {
@@ -380,13 +401,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    readSession().then((value) {
-      print("DT");
-      print(value.docs.length);
-      for (int i = 0; i < value.docs.length; i++) {
-        print(value.docs[i]["data"]);
-      }
-    });
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -433,6 +447,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         "twentyone": {"question": "q5", "answer": "a5"}
                       }
                     ];
+                    startSchedule();
 
                     startSessions(context, isSwitched)
                         .then((value) => print(value.id));
