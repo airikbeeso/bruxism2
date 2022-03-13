@@ -360,19 +360,42 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Future<DocumentReference> startSessions(dynamic message, bool isActive) {
+  // Future<DocumentReference>
+
+  Future<void> startSessions(dynamic message, bool isActive) {
     if (loginStatus == "logout") {
       throw Exception('Must be logged in');
     }
     return FirebaseFirestore.instance
-        .collection('settings')
-        .add(<String, dynamic>{
+        .collection("settings")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
+        .set({
       'data': message,
       'active': isActive,
       'start': DateTime.now().millisecondsSinceEpoch,
       'end': 0,
       'userId': FirebaseAuth.instance.currentUser!.uid,
     });
+
+    //     .collection('settings').
+    //     .add(<String, dynamic>{
+    //   'data': message,
+    //   'active': isActive,
+    //   'start': DateTime.now().millisecondsSinceEpoch,
+    //   'end': 0,
+    //   'userId': FirebaseAuth.instance.currentUser!.uid,
+    // });
+
+    // return FirebaseFirestore.instance
+    //     .collection('settings')
+    //     .add(<String, dynamic>{
+    //   'data': message,
+    //   'active': isActive,
+    //   'start': DateTime.now().millisecondsSinceEpoch,
+    //   'end': 0,
+    //   'userId': FirebaseAuth.instance.currentUser!.uid,
+    // });
     // return FirebaseFirestore.instance.collection('users').add(<String, dynamic>{
     //   'data': message,
     //   'isActive': isActive,
@@ -452,8 +475,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
                     // startSchedule();
 
-                    startSessions(context, isSwitched)
-                        .then((value) => print(value.id));
+                    startSessions(context, isSwitched);
+                    // .then((value) => print(value));
                   });
                 })
           ]),
