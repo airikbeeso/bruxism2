@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -415,6 +416,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   // Future<QuerySnapshot<Map<String, dynamic>>>
+  void setSwitch(bool s) {
+    setState(() {
+      isSwitched = s;
+      startSessions(isSwitched);
+    });
+  }
 
   Future<bool> readSettings() async {
     String id = FirebaseAuth.instance.currentUser!.uid;
@@ -423,7 +430,7 @@ class _MyHomePageState extends State<MyHomePage> {
         .where("userId", isEqualTo: id)
         .get();
 
-    return e.docs[0]["active"];
+    return e.docs[0]["active"] as bool;
     // e.then((value) {
 
     //                 if (value.docs.isNotEmpty) {
@@ -455,7 +462,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     switch (_pageMode) {
       case 1:
-        readSettings().then((val) => isSwitched = val);
+        //readSettings().then((val) => isSwitched = val);
 
         return Scaffold(
           appBar: AppBar(title: const Text("Create Alert")),
@@ -474,16 +481,16 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text("${selectedTime.hour}:${selectedTime.minute}"),
             const SizedBox(height: 10),
-            Switch(
-                value: isSwitched,
-                onChanged: (value) {
-                  setState(() {
-                    isSwitched = value;
-                    startSessions(isSwitched);
-   
-                  });
-
-                }),
+            SlideSchedule(
+                getStatus: () => readSettings(), setSwitch: setSwitch),
+            // Switch(
+            //     value: isSwitched,
+            //     onChanged: (value) {
+            //       setState(() {
+            //         isSwitched = value;
+            //         startSessions(isSwitched);
+            //       });
+            //     }),
             const SizedBox(
               height: 10,
             ),
@@ -691,6 +698,32 @@ class _MyHomePageState extends State<MyHomePage> {
               const Padding(padding: EdgeInsets.all(10.0), child: Text("SSSS")),
         );
     }
+  }
+}
+
+class SlideSchedule extends StatelessWidget {
+  SlideSchedule({Key? key, required this.getStatus, required this.setSwitch})
+      : super(key: key);
+  late Function getStatus;
+  late Function(bool a) setSwitch;
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Switch(
+              value: snapshot.data as bool,
+              onChanged: (value) {
+                setSwitch(value);
+              });
+        } else {
+          return const SizedBox(
+            height: 10.0,
+          );
+        }
+      },
+      future: getStatus(),
+    );
   }
 }
 
