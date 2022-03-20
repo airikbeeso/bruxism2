@@ -1,6 +1,14 @@
 import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:io' show Platform;
+
+import 'dart:developer' as developer;
+import 'dart:isolate';
+import 'dart:math';
+import 'dart:ui';
+
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -17,6 +25,7 @@ import 'notificationservice.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'LocalNotifyManager.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -128,6 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     tz.initializeTimeZones();
     _totalNotifications = 0;
+
     //registerNotification();
 
     //FirebaseAuth auth = FirebaseAuth.instance;
@@ -162,6 +172,16 @@ class _MyHomePageState extends State<MyHomePage> {
     //await registerNotification();
     initFB();
     // startSchedule();
+
+    localNotifyManager.setOnNotificationReceive(onNotificationReceive);
+    localNotifyManager.setOnNotificationClick(onNotificationClick);
+  }
+
+  onNotificationReceive(ReceivedNotification notification) {
+    print('Notification Received: ${notification.id}');
+  }
+  onNotificationClick(String payload) {
+    print('Payload $payload');
   }
 
   void signOut() {
@@ -483,17 +503,20 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(height: 10),
             SlideSchedule(
                 getStatus: () => readSettings(), setSwitch: setSwitch),
-            // Switch(
-            //     value: isSwitched,
-            //     onChanged: (value) {
-            //       setState(() {
-            //         isSwitched = value;
-            //         startSessions(isSwitched);
-            //       });
-            //     }),
+
             const SizedBox(
               height: 10,
             ),
+
+            TextButton(onPressed: () async {
+              await localNotifyManager.showNotification();
+
+            }, child: const Text("Notification")),
+            const SizedBox(
+              height: 10,
+            ),
+
+
             BackButton(
               onPressed: () => _selectPage(0),
             )
