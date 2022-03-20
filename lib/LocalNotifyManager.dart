@@ -26,19 +26,19 @@ class LocalNotifyManager {
 
   initializePlatform() {
     var initSettingAndroid =
-        const AndroidInitializationSettings('app_notification_icon');
-    var initSettingIOS = const IOSInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
-      // onDidReceiveLocalNotification: (id,title,body,payload) async {
-      //   ReceiveNotification notification = ReceiveNotification(
-      //     id: id, title: title, body: body, payload: payload
-      //     );
-      // }
-    );
+        const AndroidInitializationSettings('ic_launcher_background');
+    // var initSettingIOS = const IOSInitializationSettings(
+    //   requestAlertPermission: true,
+    //   requestBadgePermission: true,
+    //   requestSoundPermission: true,
+    //   // onDidReceiveLocalNotification: (id,title,body,payload) async {
+    //   //   ReceiveNotification notification = ReceiveNotification(
+    //   //     id: id, title: title, body: body, payload: payload
+    //   //     );
+    //   // }
+    // );
     initSettings = InitializationSettings(
-        android: initSettingAndroid, iOS: initSettingIOS);
+        android: initSettingAndroid);
   }
 
   setOnNotificationReceive(Function onNotificationReceive) {
@@ -58,8 +58,8 @@ class LocalNotifyManager {
     var androidChannel = const AndroidNotificationDetails(
         'CHANNEL_ID', 'CHANNEL_NAME',
         importance: Importance.max, priority: Priority.high, playSound: true);
-        var iosChannel = const IOSNotificationDetails();
-        var platformChannel = NotificationDetails(android: androidChannel, iOS: iosChannel);
+        // var iosChannel = const IOSNotificationDetails();
+        var platformChannel = NotificationDetails(android: androidChannel);
         await flutterLocalNotificationsPlugin.show(0, 'Test Title', 'body', platformChannel, payload: 'Net Payload');
 
   }

@@ -180,7 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
   onNotificationReceive(ReceivedNotification notification) {
     print('Notification Received: ${notification.id}');
   }
-  onNotificationClick(String payload) {
+  onNotificationClick(String? payload) {
     print('Payload $payload');
   }
 
