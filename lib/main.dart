@@ -26,6 +26,7 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'LocalNotifyManager.dart';
+import 'package:intl/intl.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -180,6 +181,7 @@ class _MyHomePageState extends State<MyHomePage> {
   onNotificationReceive(ReceivedNotification notification) {
     print('Notification Received: ${notification.id}');
   }
+
   onNotificationClick(String? payload) {
     print('Payload $payload');
   }
@@ -395,6 +397,45 @@ class _MyHomePageState extends State<MyHomePage> {
     if (loginStatus == "logout") {
       throw Exception('Must be logged in');
     }
+    var dt = DateTime.now();
+    var now = dt.millisecondsSinceEpoch;
+    bool nine = true;
+    bool twelve = true;
+    bool fifteen = true;
+    bool eighteen = true;
+    bool twentyone = true;
+
+    if (dt.hour > 9) {
+      nine = false;
+      if (dt.hour > 12) {
+        twelve = false;
+        if (dt.hour > 15) {
+          fifteen = false;
+          if (dt.hour > 18) {
+            eighteen = false;
+            if (dt.hour > 21) {
+              twentyone = false;
+            }
+          }
+        }
+      }
+    }
+    var list = [];
+    if (nine) {
+      var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
+      var inputDate = inputFormat.parse(
+          '${dt.day}/${dt.month}/${dt.year} ${9}:00'); // <-- dd/MM 24H format
+      list.add({
+        "mode": "9",
+        "i_h": dt.hour,
+        "i_m": dt.minute,
+        "i_s": dt.second,
+        "i": now,
+        "e": inputDate.millisecondsSinceEpoch,
+        "date": dt.toIso8601String(),
+        "status": "onSchedule",
+      });
+    }
     FirebaseFirestore.instance
         .collection("settings")
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -402,10 +443,12 @@ class _MyHomePageState extends State<MyHomePage> {
         .set({
       'data': "",
       'active': isActive,
-      'start': DateTime.now().millisecondsSinceEpoch,
+      'start': now,
       'end': 0,
       'userId': FirebaseAuth.instance.currentUser!.uid,
     });
+
+    //set schedule
 
     //     .collection('settings').
     //     .add(<String, dynamic>{
@@ -503,20 +546,17 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(height: 10),
             SlideSchedule(
                 getStatus: () => readSettings(), setSwitch: setSwitch),
-
             const SizedBox(
               height: 10,
             ),
-
-            TextButton(onPressed: () async {
-              await localNotifyManager.showNotification();
-
-            }, child: const Text("Notification")),
+            TextButton(
+                onPressed: () async {
+                  await localNotifyManager.showNotification();
+                },
+                child: const Text("Notification")),
             const SizedBox(
               height: 10,
             ),
-
-
             BackButton(
               onPressed: () => _selectPage(0),
             )
