@@ -425,8 +425,127 @@ class _MyHomePageState extends State<MyHomePage> {
       var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
       var inputDate = inputFormat.parse(
           '${dt.day}/${dt.month}/${dt.year} ${9}:00'); // <-- dd/MM 24H format
-      list.add({
+      // list.add({
+      //   "mode": "9",
+      //   "i_h": dt.hour,
+      //   "i_m": dt.minute,
+      //   "i_s": dt.second,
+      //   "i": now,
+      //   "e": inputDate.millisecondsSinceEpoch,
+      //   "date": dt.toIso8601String(),
+      //   "status": "onSchedule",
+      // });
+      var context = {
         "mode": "9",
+        "ih": dt.hour,
+        "im": dt.minute,
+        "is": dt.second,
+        "init": now,
+        "end": inputDate.millisecondsSinceEpoch,
+        "date": dt.toIso8601String(),
+        "status": "onSchedule",
+        "question": "default question",
+        "answer": "default answer",
+        'userId': FirebaseAuth.instance.currentUser!.uid,
+      };
+
+      FirebaseFirestore.instance
+          .collection("alerts")
+          //.doc(FirebaseAuth.instance.currentUser!.uid)
+          // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
+          .add(context);
+    }
+    if (twelve) {
+      var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
+      var inputDate = inputFormat.parse(
+          '${dt.day}/${dt.month}/${dt.year} ${12}:00'); // <-- dd/MM 24H format
+      // list.add({
+      //   "mode": "12",
+      //   "i_h": dt.hour,
+      //   "i_m": dt.minute,
+      //   "i_s": dt.second,
+      //   "i": now,
+      //   "e": inputDate.millisecondsSinceEpoch,
+      //   "date": dt.toIso8601String(),
+      //   "status": "onSchedule",
+      // });
+
+      var context = {
+        "mode": "12",
+        "ih": dt.hour,
+        "im": dt.minute,
+        "is": dt.second,
+        "init": now,
+        "end": inputDate.millisecondsSinceEpoch,
+        "date": dt.toIso8601String(),
+        "status": "onSchedule",
+        "question": "default question",
+        "answer": "default answer",
+        'userId': FirebaseAuth.instance.currentUser!.uid,
+      };
+
+      FirebaseFirestore.instance
+          .collection("alerts")
+          //.doc(FirebaseAuth.instance.currentUser!.uid)
+          // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
+          .add(context);
+    }
+    if (fifteen) {
+      var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
+      var inputDate = inputFormat.parse(
+          '${dt.day}/${dt.month}/${dt.year} ${15}:00'); // <-- dd/MM 24H format
+      list.add({
+        "mode": "15",
+        "i_h": dt.hour,
+        "i_m": dt.minute,
+        "i_s": dt.second,
+        "i": now,
+        "e": inputDate.millisecondsSinceEpoch,
+        "date": dt.toIso8601String(),
+        "status": "onSchedule",
+      });
+
+      var context = {
+        "mode": "15",
+        "ih": dt.hour,
+        "im": dt.minute,
+        "is": dt.second,
+        "init": now,
+        "end": inputDate.millisecondsSinceEpoch,
+        "date": dt.toIso8601String(),
+        "status": "onSchedule",
+        "question": "default question",
+        "answer": "default answer",
+        'userId': FirebaseAuth.instance.currentUser!.uid,
+      };
+
+      FirebaseFirestore.instance
+          .collection("alerts")
+          //.doc(FirebaseAuth.instance.currentUser!.uid)
+          // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
+          .add(context);
+    }
+    if (eighteen) {
+      var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
+      var inputDate = inputFormat.parse(
+          '${dt.day}/${dt.month}/${dt.year} ${18}:00'); // <-- dd/MM 24H format
+      list.add({
+        "mode": "18",
+        "i_h": dt.hour,
+        "i_m": dt.minute,
+        "i_s": dt.second,
+        "i": now,
+        "e": inputDate.millisecondsSinceEpoch,
+        "date": dt.toIso8601String(),
+        "status": "onSchedule",
+      });
+    }
+    if (twentyone) {
+      var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
+      var inputDate = inputFormat.parse(
+          '${dt.day}/${dt.month}/${dt.year} ${21}:00'); // <-- dd/MM 24H format
+      list.add({
+        "mode": "21",
         "i_h": dt.hour,
         "i_m": dt.minute,
         "i_s": dt.second,
@@ -441,7 +560,7 @@ class _MyHomePageState extends State<MyHomePage> {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
         .set({
-      'data': "",
+      'data': jsonEncode(list),
       'active': isActive,
       'start': now,
       'end': 0,
