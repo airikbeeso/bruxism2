@@ -539,6 +539,25 @@ class _MyHomePageState extends State<MyHomePage> {
         "date": dt.toIso8601String(),
         "status": "onSchedule",
       });
+      var context = {
+        "mode": "18",
+        "ih": dt.hour,
+        "im": dt.minute,
+        "is": dt.second,
+        "init": now,
+        "end": inputDate.millisecondsSinceEpoch,
+        "date": dt.toIso8601String(),
+        "status": "onSchedule",
+        "question": "default question",
+        "answer": "default answer",
+        'userId': FirebaseAuth.instance.currentUser!.uid,
+      };
+
+      FirebaseFirestore.instance
+          .collection("alerts")
+          //.doc(FirebaseAuth.instance.currentUser!.uid)
+          // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
+          .add(context);
     }
     if (twentyone) {
       var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
@@ -554,7 +573,26 @@ class _MyHomePageState extends State<MyHomePage> {
         "date": dt.toIso8601String(),
         "status": "onSchedule",
       });
-    }
+      var context = {
+        "mode": "21",
+        "ih": dt.hour,
+        "im": dt.minute,
+        "is": dt.second,
+        "init": now,
+        "end": inputDate.millisecondsSinceEpoch,
+        "date": dt.toIso8601String(),
+        "status": "onSchedule",
+        "question": "default question",
+        "answer": "default answer",
+        'userId': FirebaseAuth.instance.currentUser!.uid,
+      };
+
+      FirebaseFirestore.instance
+          .collection("alerts")
+          //.doc(FirebaseAuth.instance.currentUser!.uid)
+          // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
+          .add(context);
+    } else {}
     FirebaseFirestore.instance
         .collection("settings")
         .doc(FirebaseAuth.instance.currentUser!.uid)
