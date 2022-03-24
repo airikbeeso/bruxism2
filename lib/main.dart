@@ -393,6 +393,35 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // Future<DocumentReference>
 
+  saveSchedule(DateTime dt, int mode) {
+    var now = DateTime.now();
+    var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
+    var inputDate = inputFormat.parse(
+        '${dt.day}/${dt.month}/${dt.year} ${mode.toString()}:00'); // <-- dd/MM 24H format
+
+    var context = {
+      "mode": "9",
+      "ih": dt.hour,
+      "im": dt.minute,
+      "is": dt.second,
+      "init": now.millisecondsSinceEpoch,
+      "end": inputDate.millisecondsSinceEpoch,
+      "date": dt.toIso8601String(),
+      "status": "onSchedule",
+      "question": "default question",
+      "answer": "default answer",
+      'userId': FirebaseAuth.instance.currentUser!.uid,
+    };
+    var genId =
+        "${dt.year}-${dt.month}-${dt.day}-9-${FirebaseAuth.instance.currentUser!.uid}";
+
+    FirebaseFirestore.instance
+        .collection("alerts")
+        .doc(genId)
+        // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
+        .set(context);
+  }
+
   startSessions(bool isActive, DateTime dt, bool repeat) {
     if (loginStatus == "logout") {
       throw Exception('Must be logged in');
@@ -417,6 +446,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ///set next day for hours
 
       var nd9 = DateTime.utc(dt.year, dt.month, dt.day + 1, 9);
+
       print("next day: ${nd9.toIso8601String()}");
       var nd12 = DateTime.utc(dt.year, dt.month, dt.day + 1, 12);
       print("next day: ${nd12.toIso8601String()}");
@@ -429,15 +459,25 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       if (dt.hour < 9) {
         var nd9 = DateTime.utc(dt.year, dt.month, dt.day, 9);
+        saveSchedule(nd9, 9);
         print("next day: ${nd9.toIso8601String()}");
+        
         var nd12 = DateTime.utc(dt.year, dt.month, dt.day, 12);
+        saveSchedule(nd12, 12);
         print("next day: ${nd12.toIso8601String()}");
+        
         var nd15 = DateTime.utc(dt.year, dt.month, dt.day, 15);
+        saveSchedule(nd15, 15);
         print("next day: ${nd15.toIso8601String()}");
+        
         var nd18 = DateTime.utc(dt.year, dt.month, dt.day, 18);
+        saveSchedule(nd18, 18);
         print("next day: ${nd18.toIso8601String()}");
+        
         var nd21 = DateTime.utc(dt.year, dt.month, dt.day, 21);
+        saveSchedule(nd21, 21);
         print("next day: ${nd21.toIso8601String()}");
+
       } else if (dt.hour >= 9 && dt.hour < 12) {
         var nd12 = DateTime.utc(dt.year, dt.month, dt.day, 12);
         print("next day: ${nd12.toIso8601String()}");
@@ -734,7 +774,7 @@ class _MyHomePageState extends State<MyHomePage> {
       isSwitched = s;
 
       var now = DateTime.now();
-      var now2 = DateTime.utc(now.year,now.month,now.day, 15);
+      var now2 = DateTime.utc(now.year, now.month, now.day, 15);
 
       startSessions(isSwitched, now2, false);
     });
