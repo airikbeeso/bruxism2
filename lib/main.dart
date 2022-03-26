@@ -400,7 +400,7 @@ class _MyHomePageState extends State<MyHomePage> {
         '${dt.day}/${dt.month}/${dt.year} ${mode.toString()}:00'); // <-- dd/MM 24H format
 
     var context = {
-      "mode": "9",
+      "mode": mode,
       "ih": dt.hour,
       "im": dt.minute,
       "is": dt.second,
@@ -413,7 +413,7 @@ class _MyHomePageState extends State<MyHomePage> {
       'userId': FirebaseAuth.instance.currentUser!.uid,
     };
     var genId =
-        "${dt.year}-${dt.month}-${dt.day}-9-${FirebaseAuth.instance.currentUser!.uid}";
+        "${dt.year}-${dt.month}-${dt.day}-${mode.toString()}-${FirebaseAuth.instance.currentUser!.uid}";
 
     FirebaseFirestore.instance
         .collection("alerts")
@@ -442,329 +442,79 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     print("hour: ${dt.hour} : ${dt.minute} : ${dt.second}");
 
-    if (dt.hour >= 21) {
-      ///set next day for hours
+    if (isActive) {
+      if (dt.hour >= 21) {
+        ///set next day for hours
 
-      var nd9 = DateTime.utc(dt.year, dt.month, dt.day + 1, 9);
+        var nd9 = DateTime.utc(dt.year, dt.month, dt.day + 1, 9);
 
-      print("next day: ${nd9.toIso8601String()}");
-      var nd12 = DateTime.utc(dt.year, dt.month, dt.day + 1, 12);
-      print("next day: ${nd12.toIso8601String()}");
-      var nd15 = DateTime.utc(dt.year, dt.month, dt.day + 1, 15);
-      print("next day: ${nd15.toIso8601String()}");
-      var nd18 = DateTime.utc(dt.year, dt.month, dt.day + 1, 18);
-      print("next day: ${nd18.toIso8601String()}");
-      var nd21 = DateTime.utc(dt.year, dt.month, dt.day + 1, 21);
-      print("next day: ${nd21.toIso8601String()}");
-    } else {
-      if (dt.hour < 9) {
-        var nd9 = DateTime.utc(dt.year, dt.month, dt.day, 9);
-        saveSchedule(nd9, 9);
         print("next day: ${nd9.toIso8601String()}");
-        
-        var nd12 = DateTime.utc(dt.year, dt.month, dt.day, 12);
-        saveSchedule(nd12, 12);
+        var nd12 = DateTime.utc(dt.year, dt.month, dt.day + 1, 12);
         print("next day: ${nd12.toIso8601String()}");
-        
-        var nd15 = DateTime.utc(dt.year, dt.month, dt.day, 15);
-        saveSchedule(nd15, 15);
+        var nd15 = DateTime.utc(dt.year, dt.month, dt.day + 1, 15);
         print("next day: ${nd15.toIso8601String()}");
-        
-        var nd18 = DateTime.utc(dt.year, dt.month, dt.day, 18);
-        saveSchedule(nd18, 18);
+        var nd18 = DateTime.utc(dt.year, dt.month, dt.day + 1, 18);
         print("next day: ${nd18.toIso8601String()}");
-        
-        var nd21 = DateTime.utc(dt.year, dt.month, dt.day, 21);
-        saveSchedule(nd21, 21);
+        var nd21 = DateTime.utc(dt.year, dt.month, dt.day + 1, 21);
         print("next day: ${nd21.toIso8601String()}");
+      } else {
+        if (dt.hour < 9) {
+          var nd9 = DateTime.utc(dt.year, dt.month, dt.day, 9);
+          saveSchedule(nd9, 9);
+          print("next day: ${nd9.toIso8601String()}");
 
-      } else if (dt.hour >= 9 && dt.hour < 12) {
-        var nd12 = DateTime.utc(dt.year, dt.month, dt.day, 12);
-        print("next day: ${nd12.toIso8601String()}");
-        var nd15 = DateTime.utc(dt.year, dt.month, dt.day, 15);
-        print("next day: ${nd15.toIso8601String()}");
-        var nd18 = DateTime.utc(dt.year, dt.month, dt.day, 18);
-        print("next day: ${nd18.toIso8601String()}");
-        var nd21 = DateTime.utc(dt.year, dt.month, dt.day, 21);
-        print("next day: ${nd21.toIso8601String()}");
-      } else if (dt.hour >= 12 && dt.hour < 15) {
-        var nd15 = DateTime.utc(dt.year, dt.month, dt.day, 15);
-        print("next day: ${nd15.toIso8601String()}");
-        var nd18 = DateTime.utc(dt.year, dt.month, dt.day, 18);
-        print("next day: ${nd18.toIso8601String()}");
-        var nd21 = DateTime.utc(dt.year, dt.month, dt.day, 21);
-        print("next day: ${nd21.toIso8601String()}");
-      } else if (dt.hour >= 15 && dt.hour < 18) {
-        var nd18 = DateTime.utc(dt.year, dt.month, dt.day, 18);
-        print("next day: ${nd18.toIso8601String()}");
-        var nd21 = DateTime.utc(dt.year, dt.month, dt.day, 21);
-        print("next day: ${nd21.toIso8601String()}");
-      } else if (dt.hour >= 18 && dt.hour < 21) {
-        var nd21 = DateTime.utc(dt.year, dt.month, dt.day, 21);
-        print("next day: ${nd21.toIso8601String()}");
-      }
-    }
+          var nd12 = DateTime.utc(dt.year, dt.month, dt.day, 12);
+          saveSchedule(nd12, 12);
+          print("next day: ${nd12.toIso8601String()}");
 
-    // var dt = DateTime.now();
+          var nd15 = DateTime.utc(dt.year, dt.month, dt.day, 15);
+          saveSchedule(nd15, 15);
+          print("next day: ${nd15.toIso8601String()}");
 
-    /* if (isActive) {
-      var now = dt.millisecondsSinceEpoch;
-      bool nine = true;
-      bool twelve = true;
-      bool fifteen = true;
-      bool eighteen = true;
-      bool twentyone = true;
+          var nd18 = DateTime.utc(dt.year, dt.month, dt.day, 18);
+          saveSchedule(nd18, 18);
+          print("next day: ${nd18.toIso8601String()}");
 
-      if (dt.hour > 9) {
-        nine = false;
-        if (dt.hour > 12) {
-          twelve = false;
-          if (dt.hour > 15) {
-            fifteen = false;
-            if (dt.hour > 18) {
-              eighteen = false;
-              if (dt.hour > 21) {
-                twentyone = false;
-              }
-            }
-          }
+          var nd21 = DateTime.utc(dt.year, dt.month, dt.day, 21);
+          saveSchedule(nd21, 21);
+          print("next day: ${nd21.toIso8601String()}");
+        } else if (dt.hour >= 9 && dt.hour < 12) {
+          var nd12 = DateTime.utc(dt.year, dt.month, dt.day, 12);
+          saveSchedule(nd12, 12);
+          print("next day: ${nd12.toIso8601String()}");
+          var nd15 = DateTime.utc(dt.year, dt.month, dt.day, 15);
+          saveSchedule(nd15, 15);
+          print("next day: ${nd15.toIso8601String()}");
+          var nd18 = DateTime.utc(dt.year, dt.month, dt.day, 18);
+          saveSchedule(nd18, 18);
+          print("next day: ${nd18.toIso8601String()}");
+          var nd21 = DateTime.utc(dt.year, dt.month, dt.day, 21);
+          saveSchedule(nd21, 21);
+          print("next day: ${nd21.toIso8601String()}");
+        } else if (dt.hour >= 12 && dt.hour < 15) {
+          var nd15 = DateTime.utc(dt.year, dt.month, dt.day, 15);
+          saveSchedule(nd15, 15);
+          print("next day: ${nd15.toIso8601String()}");
+          var nd18 = DateTime.utc(dt.year, dt.month, dt.day, 18);
+          saveSchedule(nd18, 18);
+          print("next day: ${nd18.toIso8601String()}");
+          var nd21 = DateTime.utc(dt.year, dt.month, dt.day, 21);
+          saveSchedule(nd21, 21);
+          print("next day: ${nd21.toIso8601String()}");
+        } else if (dt.hour >= 15 && dt.hour < 18) {
+          var nd18 = DateTime.utc(dt.year, dt.month, dt.day, 18);
+          saveSchedule(nd18, 18);
+          print("next day: ${nd18.toIso8601String()}");
+          var nd21 = DateTime.utc(dt.year, dt.month, dt.day, 21);
+          saveSchedule(nd21, 21);
+          print("next day: ${nd21.toIso8601String()}");
+        } else if (dt.hour >= 18 && dt.hour < 21) {
+          var nd21 = DateTime.utc(dt.year, dt.month, dt.day, 21);
+          saveSchedule(nd21, 21);
+          print("next day: ${nd21.toIso8601String()}");
         }
       }
-      var list = [];
-      nine = false;
-      if (!nine) {
-        print("9");
-        var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
-        var inputDate = inputFormat.parse(
-            '${dt.day}/${dt.month}/${dt.year} ${9}:00'); // <-- dd/MM 24H format
-        // list.add({
-        //   "mode": "9",
-        //   "i_h": dt.hour,
-        //   "i_m": dt.minute,
-        //   "i_s": dt.second,
-        //   "i": now,
-        //   "e": inputDate.millisecondsSinceEpoch,
-        //   "date": dt.toIso8601String(),
-        //   "status": "onSchedule",
-        // });
-        var context = {
-          "mode": "9",
-          "ih": dt.hour,
-          "im": dt.minute,
-          "is": dt.second,
-          "init": now,
-          "end": inputDate.millisecondsSinceEpoch,
-          "date": dt.toIso8601String(),
-          "status": "onSchedule",
-          "question": "default question",
-          "answer": "default answer",
-          'userId': FirebaseAuth.instance.currentUser!.uid,
-        };
-        var genId =
-            "${dt.year}-${dt.month}-${dt.day}-9-${FirebaseAuth.instance.currentUser!.uid}";
-
-        FirebaseFirestore.instance
-            .collection("alerts")
-            .doc(genId)
-            // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
-            .set(context);
-      }
-      if (!twelve) {
-        print("12");
-
-        var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
-        var inputDate = inputFormat.parse(
-            '${dt.day}/${dt.month}/${dt.year} ${12}:00'); // <-- dd/MM 24H format
-        // list.add({
-        //   "mode": "12",
-        //   "i_h": dt.hour,
-        //   "i_m": dt.minute,
-        //   "i_s": dt.second,
-        //   "i": now,
-        //   "e": inputDate.millisecondsSinceEpoch,
-        //   "date": dt.toIso8601String(),
-        //   "status": "onSchedule",
-        // });
-        var genId =
-            "${dt.year}-${dt.month}-${dt.day}-12-${FirebaseAuth.instance.currentUser!.uid}";
-
-        var context = {
-          "mode": "12",
-          "ih": dt.hour,
-          "im": dt.minute,
-          "is": dt.second,
-          "init": now,
-          "end": inputDate.millisecondsSinceEpoch,
-          "date": dt.toIso8601String(),
-          "status": "onSchedule",
-          "question": "default question",
-          "answer": "default answer",
-          'userId': FirebaseAuth.instance.currentUser!.uid,
-        };
-
-        // FirebaseFirestore.instance
-        //     .collection("alerts")
-        //     .doc(genId)
-        //     // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
-        //     .set(context);
-      }
-      if (!fifteen) {
-        print("15");
-
-        var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
-        var inputDate = inputFormat.parse(
-            '${dt.day}/${dt.month}/${dt.year} ${15}:00'); // <-- dd/MM 24H format
-
-        var genId =
-            "${dt.year}-${dt.month}-${dt.day}-15-${FirebaseAuth.instance.currentUser!.uid}";
-
-        // list.add({
-        //   "mode": "15",
-        //   "i_h": dt.hour,
-        //   "i_m": dt.minute,
-        //   "i_s": dt.second,
-        //   "i": now,
-        //   "e": inputDate.millisecondsSinceEpoch,
-        //   "date": dt.toIso8601String(),
-        //   "status": "onSchedule",
-        // });
-
-        var context = {
-          "mode": "15",
-          "ih": dt.hour,
-          "im": dt.minute,
-          "is": dt.second,
-          "init": now,
-          "end": inputDate.millisecondsSinceEpoch,
-          "date": dt.toIso8601String(),
-          "status": "onSchedule",
-          "question": "default question",
-          "answer": "default answer",
-          'userId': FirebaseAuth.instance.currentUser!.uid,
-        };
-
-        // FirebaseFirestore.instance
-        //     .collection("alerts")
-        //     .doc(genId)
-        //     // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
-        //     .set(context);
-      }
-      if (!eighteen) {
-        print("18");
-
-        var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
-        var inputDate = inputFormat.parse(
-            '${dt.day}/${dt.month}/${dt.year} ${18}:00'); // <-- dd/MM 24H format
-        var genId =
-            "${dt.year}-${dt.month}-${dt.day}-18-${FirebaseAuth.instance.currentUser!.uid}";
-        list.add({
-          "mode": "18",
-          "i_h": dt.hour,
-          "i_m": dt.minute,
-          "i_s": dt.second,
-          "i": now,
-          "e": inputDate.millisecondsSinceEpoch,
-          "date": dt.toIso8601String(),
-          "status": "onSchedule",
-        });
-        var context = {
-          "mode": "18",
-          "ih": dt.hour,
-          "im": dt.minute,
-          "is": dt.second,
-          "init": now,
-          "end": inputDate.millisecondsSinceEpoch,
-          "date": dt.toIso8601String(),
-          "status": "onSchedule",
-          "question": "default question",
-          "answer": "default answer",
-          'userId': FirebaseAuth.instance.currentUser!.uid,
-        };
-
-        // FirebaseFirestore.instance
-        //     .collection("alerts")
-        //     .doc(genId)
-        //     // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
-        //     .set(context);
-      }
-      if (!twentyone) {
-        print("21");
-
-        var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
-        var inputDate = inputFormat.parse(
-            '${dt.day}/${dt.month}/${dt.year} ${21}:00'); // <-- dd/MM 24H format
-
-        var genId =
-            "${dt.year}-${dt.month}-${dt.day}-21-${FirebaseAuth.instance.currentUser!.uid}";
-        print("time ${genId}");
-        // list.add({
-        //   "mode": "21",
-        //   "i_h": dt.hour,
-        //   "i_m": dt.minute,
-        //   "i_s": dt.second,
-        //   "i": now,
-        //   "e": inputDate.millisecondsSinceEpoch,
-        //   "date": dt.toIso8601String(),
-        //   "status": "onSchedule",
-        // });
-        var context = {
-          "mode": "21",
-          "ih": dt.hour,
-          "im": dt.minute,
-          "is": dt.second,
-          "init": now,
-          "end": inputDate.millisecondsSinceEpoch,
-          "date": dt.toIso8601String(),
-          "status": "onSchedule",
-          "question": "default question",
-          "answer": "default answer",
-          'userId': FirebaseAuth.instance.currentUser!.uid,
-        };
-
-        // FirebaseFirestore.instance
-        //     .collection("alerts")
-        //     .doc(genId)
-        //     // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
-        //     .set(context);
-      } else {
-        // dt.add(const Duration(days: 1));
-        // var genId =
-        //     "${dt.year}-${dt.month}-${dt.day}-9-${FirebaseAuth.instance.currentUser!.uid}";
-        // var gg = dt.add(const Duration(days: 10));
-        // // print("will go now ${genId} ${gg.toIso8601String()}");
-
-        // startSessions(isActive, gg, true);
-      }
-    }*/
-
-    //set schedule
-
-    //     .collection('settings').
-    //     .add(<String, dynamic>{
-    //   'data': message,
-    //   'active': isActive,
-    //   'start': DateTime.now().millisecondsSinceEpoch,
-    //   'end': 0,
-    //   'userId': FirebaseAuth.instance.currentUser!.uid,
-    // });
-
-    // return FirebaseFirestore.instance
-    //     .collection('settings')
-    //     .add(<String, dynamic>{
-    //   'data': message,
-    //   'active': isActive,
-    //   'start': DateTime.now().millisecondsSinceEpoch,
-    //   'end': 0,
-    //   'userId': FirebaseAuth.instance.currentUser!.uid,
-    // });
-    // return FirebaseFirestore.instance.collection('users').add(<String, dynamic>{
-    //   'data': message,
-    //   'isActive': isActive,
-    //   'status': 0,
-    //   'start': DateTime.now().millisecondsSinceEpoch,
-    //   'name': FirebaseAuth.instance.currentUser!.displayName,
-    //   'userId': FirebaseAuth.instance.currentUser!.uid,
-    // });
+    }
   }
 
   // Future<QuerySnapshot<Map<String, dynamic>>>
@@ -774,9 +524,9 @@ class _MyHomePageState extends State<MyHomePage> {
       isSwitched = s;
 
       var now = DateTime.now();
-      var now2 = DateTime.utc(now.year, now.month, now.day, 15);
+      // var now2 = DateTime.utc(now.year, now.month, now.day, 15);
 
-      startSessions(isSwitched, now2, false);
+      startSessions(isSwitched, now, false);
     });
   }
 
