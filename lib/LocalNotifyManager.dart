@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'dart:io' show Platform;
 import 'package:rxdart/subjects.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class LocalNotifyManager {
   late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
@@ -71,8 +73,28 @@ class LocalNotifyManager {
     var platformChannel = NotificationDetails(android: androidChannel);
 
     await flutterLocalNotificationsPlugin.periodicallyShow(
-        0, 'Test Title', 'body', RepeatInterval.daily, platformChannel,
+        0, 'Test Title', 'body', RepeatInterval.everyMinute, platformChannel,
         payload: 'Net Payload');
+  }
+
+  Future<void> dailyAtTimeNotification(int hour, String id, String title, String description) async {
+    tz.initializeTimeZones();
+    tz.setLocalLocation(tz.local);
+    var dt = tz.TZDateTime.now(tz.local);
+    var currentDateTime = tz.TZDateTime.utc(dt.year, dt.month, dt.day, hour);
+
+    var androidChannel = const AndroidNotificationDetails(
+        'CHANNEL_ID', 'CHANNEL_NAME',
+        importance: Importance.max, priority: Priority.high, playSound: true);
+    // var iosChannel = const IOSNotificationDetails();
+    var platformChannel = NotificationDetails(android: androidChannel);
+
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        0, title, description, dt.add(const Duration(seconds: 5)), platformChannel,
+        payload: id,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.wallClockTime,
+        androidAllowWhileIdle: true);
   }
 
   Future<void> cancelAllScheduled() async {

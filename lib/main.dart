@@ -188,7 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
         return SecondScreen(
-            id: "", description: payload as String, title: "Bruxism");
+            id: payload as String, description: "", title: "Bruxism");
       },
     ));
   }
@@ -400,7 +400,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // Future<DocumentReference>
 
-  saveSchedule(DateTime dt, int mode) {
+  Future<void> saveSchedule(DateTime dt, int mode) async {
     var now = DateTime.now();
     var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
     var inputDate = inputFormat.parse(
@@ -427,6 +427,9 @@ class _MyHomePageState extends State<MyHomePage> {
         .doc(genId)
         // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
         .set(context);
+
+    await LocalNotifyManager.init().dailyAtTimeNotification(
+        mode, genId, "Bruxism Notificaiton", "Rate your pain 1-10");
   }
 
   Future<void> startSessions(bool isActive, DateTime dt, bool repeat) async {
@@ -605,7 +608,12 @@ class _MyHomePageState extends State<MyHomePage> {
             TextButton(
                 onPressed: () async {
                   // await localNotifyManager.showNotification();
-                  await localNotifyManager.repeatNotification();
+                  // await localNotifyManager.repeatNotification();
+                  await localNotifyManager.dailyAtTimeNotification(
+                      1,
+                      '2022-3-26-12-JWfkws6uSReUCvYVzmcSy',
+                      'Bruxism Notificaiton',
+                      'Rate your pain 1-10');
                 },
                 child: const Text("Notification")),
             const SizedBox(
