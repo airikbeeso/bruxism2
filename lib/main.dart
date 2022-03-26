@@ -611,7 +611,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   // await localNotifyManager.repeatNotification();
                   await localNotifyManager.dailyAtTimeNotification(
                       1,
-                      '2022-3-26-12-JWfkws6uSReUCvYVzmcSy',
+                      '2022-3-26-12-JWfkws6uSReUCvYVzmcSyY69esJ3',
                       'Bruxism Notificaiton',
                       'Rate your pain 1-10');
                 },
