@@ -9,6 +9,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:bruxism2/SecondScreen.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -184,6 +185,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   onNotificationClick(String? payload) {
     print('Payload $payload');
+    Navigator.push(context, MaterialPageRoute(
+      builder: (context) {
+        return SecondScreen(
+            id: "", description: payload as String, title: "Bruxism");
+      },
+    ));
   }
 
   void signOut() {
@@ -422,7 +429,7 @@ class _MyHomePageState extends State<MyHomePage> {
         .set(context);
   }
 
-  startSessions(bool isActive, DateTime dt, bool repeat) {
+  Future<void> startSessions(bool isActive, DateTime dt, bool repeat) async {
     if (loginStatus == "logout") {
       throw Exception('Must be logged in');
     } else {
@@ -514,6 +521,8 @@ class _MyHomePageState extends State<MyHomePage> {
           print("next day: ${nd21.toIso8601String()}");
         }
       }
+    } else {
+      localNotifyManager.cancelAllScheduled();
     }
   }
 
@@ -595,7 +604,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             TextButton(
                 onPressed: () async {
-                  await localNotifyManager.showNotification();
+                  // await localNotifyManager.showNotification();
+                  await localNotifyManager.repeatNotification();
                 },
                 child: const Text("Notification")),
             const SizedBox(

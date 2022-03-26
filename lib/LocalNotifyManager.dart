@@ -9,8 +9,8 @@ class LocalNotifyManager {
   var initSettings;
   BehaviorSubject<ReceiveNotification> get didReceiveLocalNotificationSubject =>
       BehaviorSubject<ReceiveNotification>();
-      
-   LocalNotifyManager.init() {
+
+  LocalNotifyManager.init() {
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     if (Platform.isIOS) {
       requestIOSPermission();
@@ -37,8 +37,7 @@ class LocalNotifyManager {
     //   //     );
     //   // }
     // );
-    initSettings = InitializationSettings(
-        android: initSettingAndroid);
+    initSettings = InitializationSettings(android: initSettingAndroid);
   }
 
   setOnNotificationReceive(Function onNotificationReceive) {
@@ -58,13 +57,31 @@ class LocalNotifyManager {
     var androidChannel = const AndroidNotificationDetails(
         'CHANNEL_ID', 'CHANNEL_NAME',
         importance: Importance.max, priority: Priority.high, playSound: true);
-        // var iosChannel = const IOSNotificationDetails();
-        var platformChannel = NotificationDetails(android: androidChannel);
-        await flutterLocalNotificationsPlugin.show(0, 'Test Title', 'body', platformChannel, payload: 'Net Payload');
+    // var iosChannel = const IOSNotificationDetails();
+    var platformChannel = NotificationDetails(android: androidChannel);
+    await flutterLocalNotificationsPlugin
+        .show(0, 'Test Title', 'body', platformChannel, payload: 'Net Payload');
+  }
 
+  Future<void> repeatNotification() async {
+    var androidChannel = const AndroidNotificationDetails(
+        'CHANNEL_ID', 'CHANNEL_NAME',
+        importance: Importance.max, priority: Priority.high, playSound: true);
+    // var iosChannel = const IOSNotificationDetails();
+    var platformChannel = NotificationDetails(android: androidChannel);
+
+    await flutterLocalNotificationsPlugin.periodicallyShow(
+        0, 'Test Title', 'body', RepeatInterval.daily, platformChannel,
+        payload: 'Net Payload');
+  }
+
+  Future<void> cancelAllScheduled() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
   }
 }
+
 LocalNotifyManager localNotifyManager = LocalNotifyManager.init();
+
 class ReceiveNotification {
   final int id;
   final String title;
