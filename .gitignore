@@ -30,6 +30,7 @@
 .pub-cache/
 .pub/
 /build/
+./fb_admin.json
 
 # Web related
 lib/generated_plugin_registrant.dart
@@ -44,4 +45,4 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-fb_admin.json
+
