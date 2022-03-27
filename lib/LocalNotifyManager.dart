@@ -90,7 +90,10 @@ class LocalNotifyManager {
     var platformChannel = NotificationDetails(android: androidChannel);
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        0, title, description, dt.add(const Duration(seconds: 5)), platformChannel,
+        0, title, description, 
+        // currentDateTime,
+        dt.add(const Duration(seconds: 5)), 
+        platformChannel,
         payload: id,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.wallClockTime,

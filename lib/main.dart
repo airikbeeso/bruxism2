@@ -406,6 +406,9 @@ class _MyHomePageState extends State<MyHomePage> {
     var inputDate = inputFormat.parse(
         '${dt.day}/${dt.month}/${dt.year} ${mode.toString()}:00'); // <-- dd/MM 24H format
 
+    var genId =
+        "${dt.year}-${dt.month}-${dt.day}-${mode.toString()}-${FirebaseAuth.instance.currentUser!.uid}";
+
     var context = {
       "mode": mode,
       "ih": dt.hour,
@@ -418,18 +421,16 @@ class _MyHomePageState extends State<MyHomePage> {
       "question": "default question",
       "answer": "default answer",
       'userId': FirebaseAuth.instance.currentUser!.uid,
+      'genId': genId
     };
-    var genId =
-        "${dt.year}-${dt.month}-${dt.day}-${mode.toString()}-${FirebaseAuth.instance.currentUser!.uid}";
+    // FirebaseFirestore.instance
+    //     .collection("alerts")
+    //     .doc(genId)
+    //     // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
+    //     .set(context);
 
-    FirebaseFirestore.instance
-        .collection("alerts")
-        .doc(genId)
-        // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
-        .set(context);
-
-    await LocalNotifyManager.init().dailyAtTimeNotification(
-        mode, genId, "Bruxism Notificaiton", "Rate your pain 1-10");
+    await LocalNotifyManager.init().dailyAtTimeNotification(mode,
+        jsonEncode(context), "Bruxism Notificaiton", "Rate your pain 1-10");
   }
 
   Future<void> startSessions(bool isActive, DateTime dt, bool repeat) async {
@@ -609,11 +610,48 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () async {
                   // await localNotifyManager.showNotification();
                   // await localNotifyManager.repeatNotification();
-                  await localNotifyManager.dailyAtTimeNotification(
-                      1,
-                      '2022-3-26-12-JWfkws6uSReUCvYVzmcSyY69esJ3',
-                      'Bruxism Notificaiton',
-                      'Rate your pain 1-10');
+
+                  var now = DateTime.now();
+                  var dt = DateTime.now();
+                  var mode = 9;
+                  var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
+                  var inputDate = inputFormat.parse(
+                      '${dt.day}/${dt.month}/${dt.year} ${mode.toString()}:00'); // <-- dd/MM 24H format
+
+                  var genId =
+                      "${dt.year}-${dt.month}-${dt.day}-${mode.toString()}-${FirebaseAuth.instance.currentUser!.uid}";
+
+                  var context = {
+                    "mode": mode,
+                    "ih": dt.hour,
+                    "im": dt.minute,
+                    "is": dt.second,
+                    "init": now.millisecondsSinceEpoch,
+                    "end": inputDate.millisecondsSinceEpoch,
+                    "date": dt.toIso8601String(),
+                    "status": "onSchedule",
+                    "question": "default question",
+                    "answer": "default answer",
+                    'userId': FirebaseAuth.instance.currentUser!.uid,
+                    'genId': genId
+                  };
+                  // FirebaseFirestore.instance
+                  //     .collection("alerts")
+                  //     .doc(genId)
+                  //     // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
+                  //     .set(context);
+
+                  await LocalNotifyManager.init().dailyAtTimeNotification(
+                      mode,
+                      jsonEncode(context),
+                      "Bruxism Notificaiton",
+                      "Rate your pain 1-10");
+
+                  // await localNotifyManager.dailyAtTimeNotification(
+                  //     1,
+                  //     '2022-3-26-12-JWfkws6uSReUCvYVzmcSyY69esJ3',
+                  //     'Bruxism Notificaiton',
+                  //     'Rate your pain 1-10');
                 },
                 child: const Text("Notification")),
             const SizedBox(
