@@ -69,6 +69,7 @@ Future<void> main() async {
   // FirebaseMessaging.instance.subscribeToTopic("all");
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
+  await localNotifyManager.initializePlatform();
   await Firebase.initializeApp();
 
   runApp(const MyApp());
@@ -133,6 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   late String? loginStatus;
   bool isSwitched = false;
+  String? country;
 
   @override
   void initState() {
@@ -291,6 +293,18 @@ class _MyHomePageState extends State<MyHomePage> {
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
       print('Message clicked!');
     });
+
+    final NotificationAppLaunchDetails? notificationAppLaunchDetails =
+        await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+    country = notificationAppLaunchDetails!.payload;
+    if (null != country) {
+      Navigator.push(context, MaterialPageRoute(
+        builder: (context) {
+          return SecondScreen(
+              id: country as String, description: "", title: "Bruxism");
+        },
+      ));
+    }
   }
 
   void _createAlert() {
@@ -742,6 +756,11 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 Container(
                   padding: const EdgeInsets.only(top: 30, left: 0, right: 0),
+                  child: Text(country ?? "booboe"),
+                  color: Colors.teal[100],
+                ),
+                Container(
+                  padding: const EdgeInsets.only(top: 30, left: 0, right: 0),
                   child: InkWell(
                     onTap: (() => _selectPage(1)),
                     child: Column(
@@ -760,7 +779,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   child: Padding(
                                 padding: EdgeInsets.only(top: 30),
                                 child: Text(
-                                  "Your Alert",
+                                  "Your Alert ",
                                   style: TextStyle(fontSize: 26),
                                 ),
                               )),
