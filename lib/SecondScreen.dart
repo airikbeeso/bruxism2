@@ -35,6 +35,25 @@ class _SecondScreenState extends State<SecondScreen> {
     return FirebaseFirestore.instance.collection("alerts").doc(widget.id).get();
   }
 
+  int _radioValue = 0;
+
+  void _handleRadioValueChange(int? value) {
+    setState(() {
+      _radioValue = value as int;
+
+      switch (_radioValue) {
+        case 0:
+          break;
+
+        case 1:
+          break;
+
+        case 2:
+          break;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var context = jsonDecode(widget.id);
@@ -42,17 +61,52 @@ class _SecondScreenState extends State<SecondScreen> {
 
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(context["userId"]),
-          Text(context["status"]),
-          Text(context["question"]),
-          Text(context["answer"]),
-          Text(context["genId"]),
-
+      body: Container(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 15, bottom: 15),
+              child: Text(
+                context["question"],
+                style: const TextStyle(fontSize: 25),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Radio(
+                  value: 0,
+                  groupValue: _radioValue,
+                  onChanged: _handleRadioValueChange,
+                ),
+                const Text('1', style: TextStyle(fontSize: 16.0)),
+                Radio(
+                  value: 1,
+                  groupValue: _radioValue,
+                  onChanged: _handleRadioValueChange,
+                ),
+                const Text(
+                  '2',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                  ),
+                ),
+                Radio(
+                  value: 2,
+                  groupValue: _radioValue,
+                  onChanged: _handleRadioValueChange,
+                ),
+                const Text(
+                  '3',
+                  style: TextStyle(fontSize: 16.0),
+                ),
+              ],
+            )
           ],
+        ),
       ),
     );
 
