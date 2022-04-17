@@ -718,6 +718,82 @@ class _MyHomePageState extends State<MyHomePage> {
                   var genId =
                       "${dt.year}-${dt.month}-${dt.day}-${mode.toString()}-${FirebaseAuth.instance.currentUser!.uid}";
 
+                  var packOfQuestions = [
+                    {
+                      "id": 0,
+                      "question": "Kondisi gigi geligi anda saat ini",
+                      "option": [
+                        "Terpisah",
+                        "Berkontak ringan",
+                        "Berkontak erat",
+                        "Bergemeretak"
+                      ]
+                    },
+                    {
+                      "id": 1,
+                      "question": "Kondisi otot wajah/rahang (?) anda saat ini",
+                      "option": [
+                        "Rileks",
+                        "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
+                      ]
+                    },
+                    {
+                      "id": 2,
+                      "question": "Apakah anda merasakan nyeri di daerah wajah",
+                      "option": ["Ya", "Tidak"]
+                    },
+                    {
+                      "id": 3,
+                      "question": "Apakah anda merasakan nyeri di daerah wajah",
+                      "option": ["Ya", "Tidak"]
+                    }
+                  ];
+
+                  var packOfQuestions2 = [
+                    {
+                      "id": 0,
+                      "question": "Kondisi gigi geligi anda saat ini",
+                      "option": [
+                        "Terpisah",
+                        "Berkontak ringan",
+                        "Berkontak erat",
+                        "Bergemeretak"
+                      ]
+                    },
+                    {
+                      "id": 1,
+                      "question": "Kondisi otot wajah/rahang (?) anda saat ini",
+                      "option": [
+                        "Rileks",
+                        "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
+                      ]
+                    },
+                    {
+                      "id": 2,
+                      "question": "Apakah anda merasakan nyeri di daerah wajah",
+                      "option": ["Ya", "Tidak"]
+                    },
+                    {
+                      "id": 3,
+                      "question": "erasa gugup atau tegang",
+                      "option": ["Ya", "Tidak"]
+                    },
+                    {
+                      "id": 4,
+                      "question": "Kondisi anda hari ini",
+                      "option": [
+                        "Merasa gugup atau tegang",
+                        "Sulit mengontrol kawatir",
+                        "Merasa sedih, depresi",
+                        "Merasa malas melakukan sesuatu"
+                      ]
+                    }
+                  ];
+                  var rng = Random();
+                  int rn = rng.nextInt(100);
+                  var chosenQuestion =
+                      rn % 2 == 0 ? packOfQuestions2 : packOfQuestions;
+
                   var context = {
                     "mode": mode,
                     "ih": dt.hour,
@@ -729,6 +805,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     "status": "onSchedule",
                     "question": "default question",
                     "answer": "default answer",
+                    "listQuestions": chosenQuestion,
                     'userId': FirebaseAuth.instance.currentUser!.uid,
                     'genId': genId
                   };

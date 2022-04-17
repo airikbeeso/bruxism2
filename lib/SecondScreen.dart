@@ -57,58 +57,95 @@ class _SecondScreenState extends State<SecondScreen> {
   @override
   Widget build(BuildContext context) {
     var context = jsonDecode(widget.id);
-    print(context);
+    // print(context);
+    print(context["listQuestions"]);
 
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       body: Container(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 15, bottom: 15),
-              child: Text(
-                context["question"],
-                style: const TextStyle(fontSize: 25),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Radio(
-                  value: 0,
-                  groupValue: _radioValue,
-                  onChanged: _handleRadioValueChange,
+          padding: const EdgeInsets.all(10.0),
+          child: ListView.builder(
+            itemBuilder: (body, index) {
+              var data = context["listQuestions"][index];
+
+              return Container(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  children: [
+                    Text(data["question"]),
+                  ],
                 ),
-                const Text('1', style: TextStyle(fontSize: 16.0)),
-                Radio(
-                  value: 1,
-                  groupValue: _radioValue,
-                  onChanged: _handleRadioValueChange,
-                ),
-                const Text(
-                  '2',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                  ),
-                ),
-                Radio(
-                  value: 2,
-                  groupValue: _radioValue,
-                  onChanged: _handleRadioValueChange,
-                ),
-                const Text(
-                  '3',
-                  style: TextStyle(fontSize: 16.0),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
+              );
+            },
+            itemCount: context["listQuestions"].length,
+          )),
     );
+    // return Scaffold(
+    //   appBar: AppBar(title: Text(widget.title)),
+    //   body: Container(
+    //     padding: const EdgeInsets.all(10.0),
+    //     child: Column(
+    //       crossAxisAlignment: CrossAxisAlignment.start,
+    //       mainAxisAlignment: MainAxisAlignment.start,
+    //       children: [
+    //         Padding(
+    //           padding: const EdgeInsets.only(top: 15, bottom: 15),
+    //           child: Text(
+    //             context["question"],
+    //             style: const TextStyle(fontSize: 25),
+    //           ),
+    //         ),
+    //         ListView.builder(
+    //           itemBuilder: (body, index) {
+    //             var data = context["listQuestions"][index];
+
+    //             return Container(
+    //               padding: const EdgeInsets.all(10.0),
+    //               child: Row(
+    //                 children: [
+    //                   Text(data["question"]),
+
+    //                 ],
+    //               ),
+    //             );
+    //           },
+    //           itemCount: context["listQuestions"].length,
+    //         ),
+    //         Row(
+    //           mainAxisAlignment: MainAxisAlignment.start,
+    //           children: [
+    //             Radio(
+    //               value: 0,
+    //               groupValue: _radioValue,
+    //               onChanged: _handleRadioValueChange,
+    //             ),
+    //             const Text('1', style: TextStyle(fontSize: 16.0)),
+    //             Radio(
+    //               value: 1,
+    //               groupValue: _radioValue,
+    //               onChanged: _handleRadioValueChange,
+    //             ),
+    //             const Text(
+    //               '2',
+    //               style: TextStyle(
+    //                 fontSize: 16.0,
+    //               ),
+    //             ),
+    //             Radio(
+    //               value: 2,
+    //               groupValue: _radioValue,
+    //               onChanged: _handleRadioValueChange,
+    //             ),
+    //             const Text(
+    //               '3',
+    //               style: TextStyle(fontSize: 16.0),
+    //             ),
+    //           ],
+    //         )
+    //       ],
+    //     ),
+    //   ),
+    // );
 
     // FutureBuilder(
     //   future:
