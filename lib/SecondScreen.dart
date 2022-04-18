@@ -20,11 +20,13 @@ class SecondScreen extends StatefulWidget {
 
 class _SecondScreenState extends State<SecondScreen> {
   String name = "";
+  String groupValue = "";
 
   @override
   initState() {
     super.initState();
     Firebase.initializeApp();
+    groupValue = "";
 
     // loadData().then((value) {
     //   name = value["answer"];
@@ -60,6 +62,8 @@ class _SecondScreenState extends State<SecondScreen> {
     // print(context);
     print(context["listQuestions"]);
 
+    String selected = "";
+
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       body: Container(
@@ -67,12 +71,35 @@ class _SecondScreenState extends State<SecondScreen> {
           child: ListView.builder(
             itemBuilder: (body, index) {
               var data = context["listQuestions"][index];
+              var items = data["option"].join(', ');
 
               return Container(
                 padding: const EdgeInsets.all(10.0),
-                child: Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(data["question"]),
+                    Text(data["question"],
+                        style: const TextStyle(
+                            fontSize: 16.0, fontWeight: FontWeight.bold)),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: List<Widget>.generate(
+                          data["option"].length,
+                          (int i) => ListTile(
+                                title: Text(data["option"][i]),
+                                leading: Radio<String>(
+                                  value: index.toString() + "_" + i.toString(),
+                                  groupValue: groupValue,
+                                  onChanged: (String? val) {
+                                    setState(() {
+                                      groupValue = val!;
+                                      // radioButtonItem = 'ONE';
+                                      // id = 1;
+                                    });
+                                  },
+                                ),
+                              )),
+                    )
                   ],
                 ),
               );
