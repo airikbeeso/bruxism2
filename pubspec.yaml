@@ -46,6 +46,7 @@ dependencies:
   group_radio_button: ^1.2.0
   grouped_buttons_ns: ^1.0.0
   group_button: ^5.0.0
+  word_break_text: ^0.1.0
 
 
 dev_dependencies:
