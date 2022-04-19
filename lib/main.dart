@@ -440,7 +440,7 @@ class _MyHomePageState extends State<MyHomePage> {
         "question": "Kondisi otot wajah/rahang (?) anda saat ini",
         "option": [
           "Rileks",
-          "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
+          "Otot wajah/rahang tegang dan rahang\nterasa kencang tanpa\nada gigi yang berkontak"
         ]
       },
       {
@@ -471,7 +471,7 @@ class _MyHomePageState extends State<MyHomePage> {
         "question": "Kondisi otot wajah/rahang (?) anda saat ini",
         "option": [
           "Rileks",
-          "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
+          "Otot wajah/rahang tegang dan rahang\nterasa kencang tanpa\nada gigi yang berkontak"
         ]
       },
       {

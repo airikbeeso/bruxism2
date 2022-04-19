@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bruxism2/ViewQuestion.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -78,28 +79,29 @@ class _SecondScreenState extends State<SecondScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(data["question"],
-                        style: const TextStyle(
-                            fontSize: 16.0, fontWeight: FontWeight.bold)),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: List<Widget>.generate(
-                          data["option"].length,
-                          (int i) => ListTile(
-                                title: Text(data["option"][i]),
-                                leading: Radio<String>(
-                                  value: index.toString() + "_" + i.toString(),
-                                  groupValue: groupValue,
-                                  onChanged: (String? val) {
-                                    setState(() {
-                                      groupValue = val!;
-                                      // radioButtonItem = 'ONE';
-                                      // id = 1;
-                                    });
-                                  },
-                                ),
-                              )),
-                    )
+                    ViewQuestion(data: data, index: index)
+                    // Text(data["question"],
+                    //     style: const TextStyle(
+                    //         fontSize: 16.0, fontWeight: FontWeight.bold)),
+                    // Column(
+                    //   crossAxisAlignment: CrossAxisAlignment.start,
+                    //   children: List<Widget>.generate(
+                    //       data["option"].length,
+                    //       (int i) => ListTile(
+                    //             title: Text(data["option"][i]),
+                    //             leading: Radio<String>(
+                    //               value: index.toString() + "_" + i.toString(),
+                    //               groupValue: groupValue,
+                    //               onChanged: (String? val) {
+                    //                 setState(() {
+                    //                   groupValue = val!;
+                    //                   // radioButtonItem = 'ONE';
+                    //                   // id = 1;
+                    //                 });
+                    //               },
+                    //             ),
+                    //           )),
+                    // )
                   ],
                 ),
               );
