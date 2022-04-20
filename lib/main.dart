@@ -433,7 +433,8 @@ class _MyHomePageState extends State<MyHomePage> {
           "Berkontak ringan",
           "Berkontak erat",
           "Bergemeretak"
-        ]
+        ],
+        "answer": ""
       },
       {
         "id": 1,
@@ -441,17 +442,20 @@ class _MyHomePageState extends State<MyHomePage> {
         "option": [
           "Rileks",
           "Otot wajah/rahang tegang dan rahang\nterasa kencang tanpa\nada gigi yang berkontak"
-        ]
+        ],
+        "answer": ""
       },
       {
         "id": 2,
         "question": "Apakah anda merasakan nyeri di daerah wajah",
-        "option": ["Ya", "Tidak"]
+        "option": ["Ya", "Tidak"],
+        "answer": ""
       },
       {
         "id": 3,
         "question": "Apakah anda merasakan nyeri di daerah wajah",
-        "option": ["Ya", "Tidak"]
+        "option": ["Ya", "Tidak"],
+        "answer": ""
       }
     ];
 
@@ -464,7 +468,8 @@ class _MyHomePageState extends State<MyHomePage> {
           "Berkontak ringan",
           "Berkontak erat",
           "Bergemeretak"
-        ]
+        ],
+        "answer": ""
       },
       {
         "id": 1,
@@ -472,17 +477,20 @@ class _MyHomePageState extends State<MyHomePage> {
         "option": [
           "Rileks",
           "Otot wajah/rahang tegang dan rahang\nterasa kencang tanpa\nada gigi yang berkontak"
-        ]
+        ],
+        "answer": ""
       },
       {
         "id": 2,
         "question": "Apakah anda merasakan nyeri di daerah wajah",
-        "option": ["Ya", "Tidak"]
+        "option": ["Ya", "Tidak"],
+        "answer": ""
       },
       {
         "id": 3,
         "question": "erasa gugup atau tegang",
-        "option": ["Ya", "Tidak"]
+        "option": ["Ya", "Tidak"],
+        "answer": ""
       },
       {
         "id": 4,
@@ -492,7 +500,8 @@ class _MyHomePageState extends State<MyHomePage> {
           "Sulit mengontrol kawatir",
           "Merasa sedih, depresi",
           "Merasa malas melakukan sesuatu"
-        ]
+        ],
+        "answer": ""
       }
     ];
     var rng = Random();

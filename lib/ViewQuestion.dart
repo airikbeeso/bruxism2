@@ -14,7 +14,6 @@ class ViewQuestion extends StatefulWidget {
 }
 
 class _ViewQuestionState extends State<ViewQuestion> {
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -23,11 +22,11 @@ class _ViewQuestionState extends State<ViewQuestion> {
     var groupValue;
     var listOption = <String>[];
 
-    for(var m in data["option"])
-    {
+    for (var m in data["option"]) {
       listOption.add(m);
-
     }
+
+    //use flexible api
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,22 +34,37 @@ class _ViewQuestionState extends State<ViewQuestion> {
         Text(data["question"],
             style:
                 const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-    
-      RadioButtonGroup(
-        labelStyle: const TextStyle(leadingDistribution: TextLeadingDistribution.proportional),
-        labels: listOption,
-        onChange: (String label, int index) =>
-            print('label: $label index: $index'),
-        onSelected: (String label) => print(label),
-  
-      )
+
+        RadioButtonGroup(
+          labelStyle: const TextStyle(
+              leadingDistribution: TextLeadingDistribution.proportional),
+          labels: listOption,
+          onChange: (String label, int index) =>
+              print('label: $label index: $index'),
+          onSelected: (String label) {
+            data["answer"] = label;
+            print(data);
+          },
+          itemBuilder: (rd, txt, idx) {
+            return Row(
+              children: [
+                rd,
+                Flexible(
+                    child: Text(
+                  txt.data.toString(),
+                  style: const TextStyle(fontSize: 19.0),
+                ))
+              ],
+            );
+          },
+        )
 
         // Column(
         //   crossAxisAlignment: CrossAxisAlignment.start,
         //   children: List<Widget>.generate(
         //       data["option"].length,
-        //       (int i) => 
-              
+        //       (int i) =>
+
         //       ListTile(
         //             title: Text(data["option"][i]),
         //             leading: Radio<int>(

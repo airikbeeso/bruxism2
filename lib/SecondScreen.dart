@@ -79,7 +79,7 @@ class _SecondScreenState extends State<SecondScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ViewQuestion(data: data, index: index)
+                    ViewQuestion(data: data, index: index),
                     // Text(data["question"],
                     //     style: const TextStyle(
                     //         fontSize: 16.0, fontWeight: FontWeight.bold)),
@@ -108,6 +108,14 @@ class _SecondScreenState extends State<SecondScreen> {
             },
             itemCount: context["listQuestions"].length,
           )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print("FACE...");
+          print(context);
+        },
+        backgroundColor: Colors.green,
+        child: const Icon(Icons.send, semanticLabel: "Send"),
+      ),
     );
     // return Scaffold(
     //   appBar: AppBar(title: Text(widget.title)),
