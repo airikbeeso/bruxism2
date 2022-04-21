@@ -4,16 +4,19 @@ import 'package:bruxism2/ViewQuestion.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'main.dart';
 
 class SecondScreen extends StatefulWidget {
   final String title;
   final String description;
   final String id;
+  final Function selectPage;
   const SecondScreen(
       {Key? key,
       required this.title,
       required this.description,
-      required this.id})
+      required this.id,
+      required this.selectPage})
       : super(key: key);
   @override
   State<StatefulWidget> createState() => _SecondScreenState();
@@ -59,16 +62,48 @@ class _SecondScreenState extends State<SecondScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var context = jsonDecode(widget.id);
+    var context2 = jsonDecode(widget.id);
     // print(context);
-    print(context["listQuestions"]);
+    print(context2["listQuestions"]);
 
     String selected = "";
+    showAlertDialog() {
+      // set up the buttons
+      Widget cancelButton = TextButton(
+        child: const Text("Cancel"),
+        onPressed: () {},
+      );
+      Widget continueButton = TextButton(
+        child: const Text("Continue"),
+        onPressed: () {
+    
+        },
+      );
 
+      // set up the AlertDialog
+      AlertDialog alert = AlertDialog(
+        title: const Text("AlertDialog"),
+        content: const Text(
+            "Would you like to continue learning how to use Flutter alerts?"),
+        actions: [
+          cancelButton,
+          continueButton,
+        ],
+      );
 
-    Future<void> updateAnswer() 
-    async {
-      
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
+
+    Future<void> updateAnswer() async {
+      await FirebaseFirestore.instance.collection("alerts").add(context2);
+      showAlertDialog();
+      Navigator.pop(context);
     }
 
     return Scaffold(
@@ -77,7 +112,7 @@ class _SecondScreenState extends State<SecondScreen> {
           padding: const EdgeInsets.all(10.0),
           child: ListView.builder(
             itemBuilder: (body, index) {
-              var data = context["listQuestions"][index];
+              var data = context2["listQuestions"][index];
               var items = data["option"].join(', ');
 
               return Container(
@@ -112,12 +147,14 @@ class _SecondScreenState extends State<SecondScreen> {
                 ),
               );
             },
-            itemCount: context["listQuestions"].length,
+            itemCount: context2["listQuestions"].length,
           )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print("FACE...");
-          print(context);
+          print(context2);
+          updateAnswer();
+          widget.selectPage(0);
         },
         backgroundColor: Colors.green,
         child: const Icon(Icons.send, semanticLabel: "Send"),

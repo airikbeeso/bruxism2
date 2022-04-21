@@ -191,7 +191,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
         return SecondScreen(
-            id: payload as String, description: "", title: "Bruxism");
+            id: payload as String, description: "", title: "Bruxism", selectPage: _selectPage,);
       },
     ));
   }
@@ -302,7 +302,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Navigator.push(context, MaterialPageRoute(
         builder: (context) {
           return SecondScreen(
-              id: country as String, description: "", title: "Bruxism");
+              id: country as String, description: "", title: "Bruxism",  selectPage: _selectPage,);
         },
       ));
     }
