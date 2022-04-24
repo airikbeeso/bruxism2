@@ -76,15 +76,15 @@ class _SecondScreenState extends State<SecondScreen> {
       Widget continueButton = TextButton(
         child: const Text("Continue"),
         onPressed: () {
-    
+          Navigator.pop(context);
         },
       );
 
       // set up the AlertDialog
       AlertDialog alert = AlertDialog(
-        title: const Text("AlertDialog"),
+        title: const Text("Your answers have been save!"),
         content: const Text(
-            "Would you like to continue learning how to use Flutter alerts?"),
+            "Thank you, for the answers"),
         actions: [
           cancelButton,
           continueButton,
@@ -92,7 +92,7 @@ class _SecondScreenState extends State<SecondScreen> {
       );
 
       // show the dialog
-      showDialog(
+    return showDialog(
         context: context,
         builder: (BuildContext context) {
           return alert;
@@ -102,8 +102,8 @@ class _SecondScreenState extends State<SecondScreen> {
 
     Future<void> updateAnswer() async {
       await FirebaseFirestore.instance.collection("alerts").add(context2);
-      showAlertDialog();
-      Navigator.pop(context);
+      showAlertDialog().then((value) => Navigator.pop(context));
+      // Navigator.pop(context);
     }
 
     return Scaffold(
