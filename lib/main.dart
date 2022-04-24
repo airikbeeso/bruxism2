@@ -191,7 +191,11 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
         return SecondScreen(
-            id: payload as String, description: "", title: "Bruxism", selectPage: _selectPage,);
+          id: payload as String,
+          description: "",
+          title: "Bruxism",
+          selectPage: _selectPage,
+        );
       },
     ));
   }
@@ -216,7 +220,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void cancelRegistration() {
-    _selectPage(1);
+    _selectPage(3);
   }
 
   Future<void> registerAccount(
@@ -302,7 +306,11 @@ class _MyHomePageState extends State<MyHomePage> {
       Navigator.push(context, MaterialPageRoute(
         builder: (context) {
           return SecondScreen(
-              id: country as String, description: "", title: "Bruxism",  selectPage: _selectPage,);
+            id: country as String,
+            description: "",
+            title: "Bruxism",
+            selectPage: _selectPage,
+          );
         },
       ));
     }
@@ -650,13 +658,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<bool> readSettings() async {
-    String id = FirebaseAuth.instance.currentUser!.uid;
+
+
+      String id = FirebaseAuth.instance.currentUser!.uid;
     var e = await FirebaseFirestore.instance
         .collection('settings')
         .where("userId", isEqualTo: id)
         .get();
 
-    return e.docs[0]["active"] as bool;
+    return e.docs[0]["active"] as bool;    
+    
+
     // e.then((value) {
 
     //                 if (value.docs.isNotEmpty) {
@@ -878,17 +890,19 @@ class _MyHomePageState extends State<MyHomePage> {
                         (e) =>
                             _showErrorDialog(context, 'Failed to sign in', e));
                   },
+                  selectPage: _selectPage,
                 ),
-                const Divider(
-                  height: 10,
-                  thickness: 2,
-                  indent: 20,
-                  endIndent: 0,
-                  color: Colors.grey,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
+                // const Divider(
+                //   height: 10,
+                //   thickness: 2,
+                //   indent: 20,
+                //   endIndent: 0,
+                //   color: Colors.grey,
+                // ),
+                // const SizedBox(
+                //   height: 30,
+                // ),
+
                 // RegisterForm(
                 //   email: "",
                 //   cancel: () {
@@ -909,6 +923,29 @@ class _MyHomePageState extends State<MyHomePage> {
                 // ),
               ],
             ));
+      case 4:
+        return Scaffold(
+          appBar: AppBar(title: const Text("Register")),
+          body: RegisterForm(
+            email: "",
+            cancel: () {
+              cancelRegistration();
+            },
+            registerAccount: (
+              email,
+              displayName,
+              password,
+            ) {
+              registerAccount(
+                  email,
+                  displayName,
+                  password,
+                  (e) =>
+                      _showErrorDialog(context, 'Failed to create account', e));
+            },
+          ),
+        );
+
       case 0:
         return Scaffold(
           appBar: AppBar(
@@ -1125,12 +1162,11 @@ class AlertObj {
 }
 
 class PasswordForm extends StatefulWidget {
-  const PasswordForm({
-    required this.login,
-    required this.email,
-  });
+  const PasswordForm(
+      {required this.login, required this.email, required this.selectPage});
   final String email;
   final void Function(String email, String password) login;
+  final void Function(int page) selectPage;
   @override
   _PasswordFormState createState() => _PasswordFormState();
 }
@@ -1207,6 +1243,23 @@ class _PasswordFormState extends State<PasswordForm> {
                       //   ),
                       // ),
                       // const SizedBox(width: 16),
+                      Padding(
+                          padding: const EdgeInsets.only(right: lsMargin),
+                          child: TextButton(
+                            onPressed: () {
+                              widget.selectPage(0);
+                            },
+                            child: const Text("Forgot password"),
+                          )),
+                      Padding(
+                        padding: const EdgeInsets.only(right: lsMargin),
+                        child: StyledButton(
+                          onPressed: () {
+                            widget.selectPage(4);
+                          },
+                          child: const Text('REGISTER'),
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(right: lsMargin),
                         child: StyledButton(

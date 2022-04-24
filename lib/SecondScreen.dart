@@ -83,8 +83,7 @@ class _SecondScreenState extends State<SecondScreen> {
       // set up the AlertDialog
       AlertDialog alert = AlertDialog(
         title: const Text("Your answers have been save!"),
-        content: const Text(
-            "Thank you, for the answers"),
+        content: const Text("Thank you, for the answers"),
         actions: [
           cancelButton,
           continueButton,
@@ -92,7 +91,7 @@ class _SecondScreenState extends State<SecondScreen> {
       );
 
       // show the dialog
-    return showDialog(
+      return showDialog(
         context: context,
         builder: (BuildContext context) {
           return alert;
@@ -151,8 +150,8 @@ class _SecondScreenState extends State<SecondScreen> {
           )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print("FACE...");
-          print(context2);
+          // print("FACE...");
+          // print(context2);
           updateAnswer();
           widget.selectPage(0);
         },
