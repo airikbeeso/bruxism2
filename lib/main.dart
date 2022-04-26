@@ -666,7 +666,7 @@ class _MyHomePageState extends State<MyHomePage> {
         .where("userId", isEqualTo: id)
         .get();
 
-    return e.docs[0]["active"] as bool;    
+    return e.docs.isNotEmpty ? e.docs[0]["active"] as bool : false;
     
 
     // e.then((value) {
@@ -960,11 +960,11 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisSpacing: 5,
               crossAxisCount: 2,
               children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.only(top: 30, left: 0, right: 0),
-                  child: Text(country ?? "booboe"),
-                  color: Colors.teal[100],
-                ),
+                // Container(
+                //   padding: const EdgeInsets.only(top: 30, left: 0, right: 0),
+                //   child: Text(country ?? "booboe"),
+                //   color: Colors.teal[100],
+                // ),
                 Container(
                   padding: const EdgeInsets.only(top: 30, left: 0, right: 0),
                   child: InkWell(
@@ -997,38 +997,38 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   color: Colors.teal[100],
                 ),
-                Container(
-                  padding: const EdgeInsets.only(top: 25.0),
-                  child: Column(
-                    children: [
-                      Column(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              _selectPage(2);
-                            },
-                            icon: const Icon(Icons.note_alt_outlined,
-                                color: Colors.white, size: 45),
-                          ),
-                          const InkWell(
-                            child: Center(
-                                child: Padding(
-                              padding: EdgeInsets.only(top: 35),
-                              child: Text(
-                                "Heed not the rabble",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 25,
-                                ),
-                              ),
-                            )),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                  color: Colors.teal[200],
-                ),
+                // Container(
+                //   padding: const EdgeInsets.only(top: 25.0),
+                //   child: Column(
+                //     children: [
+                //       Column(
+                //         children: [
+                //           IconButton(
+                //             onPressed: () {
+                //               _selectPage(2);
+                //             },
+                //             icon: const Icon(Icons.note_alt_outlined,
+                //                 color: Colors.white, size: 45),
+                //           ),
+                //           const InkWell(
+                //             child: Center(
+                //                 child: Padding(
+                //               padding: EdgeInsets.only(top: 35),
+                //               child: Text(
+                //                 "Heed not the rabble",
+                //                 textAlign: TextAlign.center,
+                //                 style: TextStyle(
+                //                   fontSize: 25,
+                //                 ),
+                //               ),
+                //             )),
+                //           )
+                //         ],
+                //       )
+                //     ],
+                //   ),
+                //   color: Colors.teal[200],
+                // ),
                 Container(
                   // padding: const EdgeInsets.all(8),
                   child: Padding(
@@ -1062,21 +1062,21 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                   color: Colors.grey,
                 ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  child: const Text('Who scream'),
-                  color: Colors.teal[400],
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  child: const Text('Revolution is coming...'),
-                  color: Colors.teal[500],
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  child: const Text('Revolution, they...'),
-                  color: Colors.teal[600],
-                ),
+                // Container(
+                //   padding: const EdgeInsets.all(8),
+                //   child: const Text('Who scream'),
+                //   color: Colors.teal[400],
+                // ),
+                // Container(
+                //   padding: const EdgeInsets.all(8),
+                //   child: const Text('Revolution is coming...'),
+                //   color: Colors.teal[500],
+                // ),
+                // Container(
+                //   padding: const EdgeInsets.all(8),
+                //   child: const Text('Revolution, they...'),
+                //   color: Colors.teal[600],
+                // ),
               ]),
         );
       default:
