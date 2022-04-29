@@ -537,11 +537,157 @@ class _MyHomePageState extends State<MyHomePage> {
     //     // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
     //     .set(context);
 
-    await LocalNotifyManager.init().dailyAtTimeNotification(mode,
+    await LocalNotifyManager.init().dailyAtTimeNotification(mode, dt,
         jsonEncode(context), "Bruxism Notificaiton", "Rate your pain 1-10");
   }
 
   Future<void> startSessions(bool isActive, DateTime dt, bool repeat) async {
+    if (loginStatus == "logout") {
+      throw Exception('Must be logged in');
+    } else {
+      if (!repeat) {
+        FirebaseFirestore.instance
+            .collection("settings")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
+            .set({
+          'data': "",
+          'active': isActive,
+          'start': dt.toIso8601String(),
+          'end': 0,
+          'userId': FirebaseAuth.instance.currentUser!.uid,
+        });
+      }
+    }
+    print("hour: ${dt.hour} : ${dt.minute} : ${dt.second}");
+
+    if (isActive) {
+      if (dt.hour >= 21) {
+        ///set next day for hours
+
+        var nd9 = DateTime.utc(dt.year, dt.month, dt.day + 1, 9);
+
+        print("next day: ${nd9.toIso8601String()}");
+        var nd12 = DateTime.utc(dt.year, dt.month, dt.day + 1, 12);
+        print("next day: ${nd12.toIso8601String()}");
+        var nd15 = DateTime.utc(dt.year, dt.month, dt.day + 1, 15);
+        print("next day: ${nd15.toIso8601String()}");
+        var nd18 = DateTime.utc(dt.year, dt.month, dt.day + 1, 18);
+        print("next day: ${nd18.toIso8601String()}");
+        var nd21 = DateTime.utc(dt.year, dt.month, dt.day + 1, 21);
+        print("next day: ${nd21.toIso8601String()}");
+      } else {
+        if (dt.hour < 9) {
+          var nd9 = DateTime.utc(dt.year, dt.month, dt.day, 9);
+          saveSchedule(nd9, 9);
+          print("next day: ${nd9.toIso8601String()}");
+
+          var nd12 = DateTime.utc(dt.year, dt.month, dt.day, 12);
+          saveSchedule(nd12, 12);
+          print("next day: ${nd12.toIso8601String()}");
+
+          var nd15 = DateTime.utc(dt.year, dt.month, dt.day, 15);
+          saveSchedule(nd15, 15);
+          print("next day: ${nd15.toIso8601String()}");
+
+          var nd18 = DateTime.utc(dt.year, dt.month, dt.day, 18);
+          saveSchedule(nd18, 18);
+          print("next day: ${nd18.toIso8601String()}");
+
+          var nd21 = DateTime.utc(dt.year, dt.month, dt.day, 21);
+          saveSchedule(nd21, 21);
+          print("next day: ${nd21.toIso8601String()}");
+        } else if (dt.hour >= 9 && dt.hour < 12) {
+          var nd12 = DateTime.utc(dt.year, dt.month, dt.day, 12);
+          saveSchedule(nd12, 12);
+          print("next day: ${nd12.toIso8601String()}");
+
+          var nd15 = DateTime.utc(dt.year, dt.month, dt.day, 15);
+          saveSchedule(nd15, 15);
+          print("next day: ${nd15.toIso8601String()}");
+
+          var nd18 = DateTime.utc(dt.year, dt.month, dt.day, 18);
+          saveSchedule(nd18, 18);
+          print("next day: ${nd18.toIso8601String()}");
+
+          var nd21 = DateTime.utc(dt.year, dt.month, dt.day, 21);
+          saveSchedule(nd21, 21);
+          print("next day: ${nd21.toIso8601String()}");
+
+          ///schedule next day
+          dt.add(const Duration(days: 1));
+          var nd9 = DateTime.utc(dt.year, dt.month, dt.day, 9);
+          saveSchedule(nd9, 9);
+          print("next day: ${nd9.toIso8601String()}");
+        } else if (dt.hour >= 12 && dt.hour < 15) {
+          var nd15 = DateTime.utc(dt.year, dt.month, dt.day, 15);
+          saveSchedule(nd15, 15);
+          print("next day: ${nd15.toIso8601String()}");
+
+          var nd18 = DateTime.utc(dt.year, dt.month, dt.day, 18);
+          saveSchedule(nd18, 18);
+          print("next day: ${nd18.toIso8601String()}");
+
+          var nd21 = DateTime.utc(dt.year, dt.month, dt.day, 21);
+          saveSchedule(nd21, 21);
+          print("next day: ${nd21.toIso8601String()}");
+
+          ///schedule next day
+          dt.add(const Duration(days: 1));
+          var nd9 = DateTime.utc(dt.year, dt.month, dt.day, 9);
+          saveSchedule(nd9, 9);
+          print("next day: ${nd9.toIso8601String()}");
+          var nd12 = DateTime.utc(dt.year, dt.month, dt.day, 12);
+          saveSchedule(nd12, 12);
+          print("next day: ${nd12.toIso8601String()}");
+        } else if (dt.hour >= 15 && dt.hour < 18) {
+          var nd18 = DateTime.utc(dt.year, dt.month, dt.day, 18);
+          saveSchedule(nd18, 18);
+          print("next day: ${nd18.toIso8601String()}");
+
+          var nd21 = DateTime.utc(dt.year, dt.month, dt.day, 21);
+          saveSchedule(nd21, 21);
+          print("next day: ${nd21.toIso8601String()}");
+
+          ///schedule next day
+          dt.add(const Duration(days: 1));
+          var nd9 = DateTime.utc(dt.year, dt.month, dt.day, 9);
+          saveSchedule(nd9, 9);
+          print("next day: ${nd9.toIso8601String()}");
+          var nd12 = DateTime.utc(dt.year, dt.month, dt.day, 12);
+          saveSchedule(nd12, 12);
+          print("next day: ${nd12.toIso8601String()}");
+          var nd15 = DateTime.utc(dt.year, dt.month, dt.day, 15);
+          saveSchedule(nd15, 15);
+          print("next day: ${nd15.toIso8601String()}");
+        } else if (dt.hour >= 18 && dt.hour < 21) {
+          var nd21 = DateTime.utc(dt.year, dt.month, dt.day, 21);
+          saveSchedule(nd21, 21);
+          print("next day: ${nd21.toIso8601String()}");
+
+          ///schedule next day
+          dt.add(const Duration(days: 1));
+          var nd9 = DateTime.utc(dt.year, dt.month, dt.day, 9);
+          saveSchedule(nd9, 9);
+          print("next day: ${nd9.toIso8601String()}");
+          var nd12 = DateTime.utc(dt.year, dt.month, dt.day, 12);
+          saveSchedule(nd12, 12);
+          print("next day: ${nd12.toIso8601String()}");
+          var nd15 = DateTime.utc(dt.year, dt.month, dt.day, 15);
+          saveSchedule(nd15, 15);
+          print("next day: ${nd15.toIso8601String()}");
+
+          var nd18 = DateTime.utc(dt.year, dt.month, dt.day, 18);
+          saveSchedule(nd18, 18);
+          print("next day: ${nd18.toIso8601String()}");
+        }
+      }
+    } else {
+      localNotifyManager.cancelAllScheduled();
+    }
+  }
+
+  Future<void> startSessions1(bool isActive, DateTime dt, bool repeat) async {
     if (loginStatus == "logout") {
       throw Exception('Must be logged in');
     } else {
@@ -658,16 +804,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<bool> readSettings() async {
-
-
-      String id = FirebaseAuth.instance.currentUser!.uid;
+    String id = FirebaseAuth.instance.currentUser!.uid;
     var e = await FirebaseFirestore.instance
         .collection('settings')
         .where("userId", isEqualTo: id)
         .get();
 
     return e.docs.isNotEmpty ? e.docs[0]["active"] as bool : false;
-    
 
     // e.then((value) {
 
@@ -838,6 +981,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   await LocalNotifyManager.init().dailyAtTimeNotification(
                       mode,
+                      DateTime.now(),
                       jsonEncode(context),
                       "Bruxism Notificaiton",
                       "Rate your pain 1-10");

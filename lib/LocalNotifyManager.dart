@@ -77,12 +77,13 @@ class LocalNotifyManager {
         payload: 'Net Payload');
   }
 
-  Future<void> dailyAtTimeNotification(int hour, String id, String title, String description) async {
+  Future<void> dailyAtTimeNotification(int hour, DateTime dt, String id,
+      String title, String description) async {
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.local);
     var dt = tz.TZDateTime.now(tz.local);
-    var currentDateTime = tz.TZDateTime.utc(dt.year, dt.month, dt.day, hour);
-
+    // var currentDateTime = tz.TZDateTime.utc(dt.year, dt.month, dt.day, hour);
+    var currentDateTime = dt;
     var androidChannel = const AndroidNotificationDetails(
         'CHANNEL_ID', 'CHANNEL_NAME',
         importance: Importance.max, priority: Priority.high, playSound: true);
@@ -90,9 +91,11 @@ class LocalNotifyManager {
     var platformChannel = NotificationDetails(android: androidChannel);
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        0, title, description, 
-        // currentDateTime,
-        dt.add(const Duration(seconds: 5)), 
+        0,
+        title,
+        description,
+        currentDateTime,
+        // dt.add(Duration(seconds: hour)),
         platformChannel,
         payload: id,
         uiLocalNotificationDateInterpretation:
