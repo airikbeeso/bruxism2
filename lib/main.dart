@@ -615,7 +615,7 @@ class _MyHomePageState extends State<MyHomePage> {
           print("next day: ${nd21.toIso8601String()}");
 
           ///schedule next day
-          dt.add(const Duration(days: 1));
+          dt = dt.add(const Duration(days: 1));
           var nd9 = DateTime.utc(dt.year, dt.month, dt.day, 9);
           saveSchedule(nd9, 9);
           print("next day: ${nd9.toIso8601String()}");
@@ -633,7 +633,7 @@ class _MyHomePageState extends State<MyHomePage> {
           print("next day: ${nd21.toIso8601String()}");
 
           ///schedule next day
-          dt.add(const Duration(days: 1));
+          dt = dt.add(const Duration(days: 1));
           var nd9 = DateTime.utc(dt.year, dt.month, dt.day, 9);
           saveSchedule(nd9, 9);
           print("next day: ${nd9.toIso8601String()}");
@@ -650,7 +650,7 @@ class _MyHomePageState extends State<MyHomePage> {
           print("next day: ${nd21.toIso8601String()}");
 
           ///schedule next day
-          dt.add(const Duration(days: 1));
+          dt = dt.add(const Duration(days: 1));
           var nd9 = DateTime.utc(dt.year, dt.month, dt.day, 9);
           saveSchedule(nd9, 9);
           print("next day: ${nd9.toIso8601String()}");
@@ -666,7 +666,7 @@ class _MyHomePageState extends State<MyHomePage> {
           print("next day: ${nd21.toIso8601String()}");
 
           ///schedule next day
-          dt.add(const Duration(days: 1));
+          dt = dt.add(const Duration(days: 1));
           var nd9 = DateTime.utc(dt.year, dt.month, dt.day, 9);
           saveSchedule(nd9, 9);
           print("next day: ${nd9.toIso8601String()}");

@@ -81,9 +81,8 @@ class LocalNotifyManager {
       String title, String description) async {
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.local);
-    var dt = tz.TZDateTime.now(tz.local);
-    // var currentDateTime = tz.TZDateTime.utc(dt.year, dt.month, dt.day, hour);
-    var currentDateTime = dt;
+    // var dt = tz.TZDateTime.now(tz.local);
+    var currentDateTime = tz.TZDateTime.utc(dt.year, dt.month, dt.day, hour);
     var androidChannel = const AndroidNotificationDetails(
         'CHANNEL_ID', 'CHANNEL_NAME',
         importance: Importance.max, priority: Priority.high, playSound: true);
