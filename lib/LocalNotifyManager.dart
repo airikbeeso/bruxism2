@@ -9,6 +9,7 @@ import 'package:timezone/timezone.dart' as tz;
 class LocalNotifyManager {
   late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   var initSettings;
+  int genId = 0;
   BehaviorSubject<ReceiveNotification> get didReceiveLocalNotificationSubject =>
       BehaviorSubject<ReceiveNotification>();
 
@@ -77,24 +78,47 @@ class LocalNotifyManager {
         payload: 'Net Payload');
   }
 
-  Future<void> dailyAtTimeNotification(int hour, DateTime dt, String id,
-      String title, String description) async {
+  Future<void> dailyAtTimeNotification(int _id, int hour, DateTime dt2,
+      String id, String title, String description) async {
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.local);
-    // var dt = tz.TZDateTime.now(tz.local);
+    var dt = tz.TZDateTime.now(tz.local);
     var currentDateTime = tz.TZDateTime.utc(dt.year, dt.month, dt.day, hour);
+
+    if (dt.hour < hour) {
+      currentDateTime = tz.TZDateTime.utc(dt.year, dt.month, dt.day, hour);
+    } else {
+      currentDateTime =
+          tz.TZDateTime.utc(dt2.year, dt2.month, dt2.day + 1, hour);
+      // final String timeZoneName =
+      //     await platform.invokeMethod('getTimeZoneName');
+      // tz.setLocalLocation(tz.getLocation(timeZoneName));
+      // Duration offsetTime = tz.TZDateTime.now(tz.local).timeZoneOffset;
+
+      // var dt3 = tz.TZDateTime.now(tz.local);
+      // // var dt3 = DateTime.now();
+      // currentDateTime = tz.TZDateTime.utc(
+      //     dt3.year, dt3.month, dt3.day, dt3.hour, dt3.minute, dt3.second + 5);
+
+      // currentDateTime = dt.add(const Duration(seconds: 5));
+      // currentDateTime = tz.TZDateTime.utc(
+      //     dt3.year, dt3.month, dt3.day, dt3.hour, dt3.minute, dt3.second + 3);
+      // print("current Date Time ${tz.local} ${currentDateTime}");
+    }
+
     var androidChannel = const AndroidNotificationDetails(
         'CHANNEL_ID', 'CHANNEL_NAME',
         importance: Importance.max, priority: Priority.high, playSound: true);
     // var iosChannel = const IOSNotificationDetails();
     var platformChannel = NotificationDetails(android: androidChannel);
 
+    print("gen Id : ${_id}");
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
+        _id,
         title,
         description,
         currentDateTime,
-        // dt.add(Duration(seconds: hour)),
+        // dt.add(const Duration(seconds: 5)),
         platformChannel,
         payload: id,
         uiLocalNotificationDateInterpretation:
