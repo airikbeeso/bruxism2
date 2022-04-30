@@ -113,39 +113,39 @@ class LocalNotifyManager {
 
     print("gen Id : $_id");
 
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-        _id + 1000 + 1,
-        title,
-        description,
-        // currentDateTime,
-        dt.add(const Duration(seconds: 5)),
-        platformChannel,
-        payload: id,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.wallClockTime,
-        androidAllowWhileIdle: true);
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-        _id += 1000 + 1,
-        title,
-        description,
-        // currentDateTime,
-        dt.add(const Duration(seconds: 5 + 1)),
-        platformChannel,
-        payload: id,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.wallClockTime,
-        androidAllowWhileIdle: true);
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-        _id += 1000 + 1,
-        title,
-        description,
-        // currentDateTime,
-        dt.add(const Duration(seconds: 5 + 2)),
-        platformChannel,
-        payload: id,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.wallClockTime,
-        androidAllowWhileIdle: true);
+    // await flutterLocalNotificationsPlugin.zonedSchedule(
+    //     _id + 1000 + 1,
+    //     title,
+    //     description,
+    //     // currentDateTime,
+    //     dt.add(const Duration(seconds: 5)),
+    //     platformChannel,
+    //     payload: id,
+    //     uiLocalNotificationDateInterpretation:
+    //         UILocalNotificationDateInterpretation.wallClockTime,
+    //     androidAllowWhileIdle: true);
+    // await flutterLocalNotificationsPlugin.zonedSchedule(
+    //     _id += 1000 + 1,
+    //     title,
+    //     description,
+    //     // currentDateTime,
+    //     dt.add(const Duration(seconds: 5 + 1)),
+    //     platformChannel,
+    //     payload: id,
+    //     uiLocalNotificationDateInterpretation:
+    //         UILocalNotificationDateInterpretation.wallClockTime,
+    //     androidAllowWhileIdle: true);
+    // await flutterLocalNotificationsPlugin.zonedSchedule(
+    //     _id += 1000 + 1,
+    //     title,
+    //     description,
+    //     // currentDateTime,
+    //     dt.add(const Duration(seconds: 5 + 2)),
+    //     platformChannel,
+    //     payload: id,
+    //     uiLocalNotificationDateInterpretation:
+    //         UILocalNotificationDateInterpretation.wallClockTime,
+    //     androidAllowWhileIdle: true);
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
         _id,
