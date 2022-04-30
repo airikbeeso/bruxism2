@@ -88,8 +88,7 @@ class LocalNotifyManager {
     if (dt.hour < hour) {
       currentDateTime = tz.TZDateTime.utc(dt.year, dt.month, dt.day, hour);
     } else {
-      currentDateTime =
-          tz.TZDateTime.utc(dt2.year, dt2.month, dt2.day + 1, hour);
+      currentDateTime = tz.TZDateTime.utc(dt.year, dt.month, dt.day + 1, hour);
       // final String timeZoneName =
       //     await platform.invokeMethod('getTimeZoneName');
       // tz.setLocalLocation(tz.getLocation(timeZoneName));
@@ -112,7 +111,42 @@ class LocalNotifyManager {
     // var iosChannel = const IOSNotificationDetails();
     var platformChannel = NotificationDetails(android: androidChannel);
 
-    print("gen Id : ${_id}");
+    print("gen Id : $_id");
+
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        _id + 1000 + 1,
+        title,
+        description,
+        // currentDateTime,
+        dt.add(const Duration(seconds: 5)),
+        platformChannel,
+        payload: id,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.wallClockTime,
+        androidAllowWhileIdle: true);
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        _id += 1000 + 1,
+        title,
+        description,
+        // currentDateTime,
+        dt.add(const Duration(seconds: 5 + 1)),
+        platformChannel,
+        payload: id,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.wallClockTime,
+        androidAllowWhileIdle: true);
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        _id += 1000 + 1,
+        title,
+        description,
+        // currentDateTime,
+        dt.add(const Duration(seconds: 5 + 2)),
+        platformChannel,
+        payload: id,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.wallClockTime,
+        androidAllowWhileIdle: true);
+
     await flutterLocalNotificationsPlugin.zonedSchedule(
         _id,
         title,

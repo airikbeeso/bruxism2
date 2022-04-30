@@ -562,22 +562,36 @@ class _MyHomePageState extends State<MyHomePage> {
     print("hour: ${dt.hour} : ${dt.minute} : ${dt.second}");
 
     if (isActive) {
+      int _id = 0;
       if (dt.hour >= 21) {
         ///set next day for hours
 
         var nd9 = DateTime.utc(dt.year, dt.month, dt.day + 1, 9);
+        saveSchedule(nd9, 9, _id);
+        _id++;
 
         print("next day: ${nd9.toIso8601String()}");
         var nd12 = DateTime.utc(dt.year, dt.month, dt.day + 1, 12);
+        saveSchedule(nd12, 12, _id);
+        _id++;
+
         print("next day: ${nd12.toIso8601String()}");
         var nd15 = DateTime.utc(dt.year, dt.month, dt.day + 1, 15);
         print("next day: ${nd15.toIso8601String()}");
+        saveSchedule(nd15, 15, _id);
+        _id++;
+
         var nd18 = DateTime.utc(dt.year, dt.month, dt.day + 1, 18);
         print("next day: ${nd18.toIso8601String()}");
+        saveSchedule(nd18, 18, _id);
+        _id++;
+
         var nd21 = DateTime.utc(dt.year, dt.month, dt.day + 1, 21);
+        saveSchedule(nd21, 21, _id);
+        _id++;
+
         print("next day: ${nd21.toIso8601String()}");
       } else {
-        int _id = 0;
         if (dt.hour < 9) {
           var nd9 = DateTime.utc(dt.year, dt.month, dt.day, 9);
           saveSchedule(nd9, 9, _id);
