@@ -29,6 +29,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'LocalNotifyManager.dart';
 import 'package:intl/intl.dart';
 import 'dart:math';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -424,6 +425,7 @@ class _MyHomePageState extends State<MyHomePage> {
   // Future<DocumentReference>
 
   Future<void> saveSchedule(DateTime dt, int mode, int _id) async {
+    final _prefs = await SharedPreferences.getInstance();
     var now = DateTime.now();
     var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
     var inputDate = inputFormat.parse(
@@ -431,6 +433,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
     var genId =
         "${dt.year}-${dt.month}-${dt.day}-${mode.toString()}-${FirebaseAuth.instance.currentUser!.uid}";
+
+    var qa = _prefs.getString("questions");
+    print("questions: $qa");
 
     var packOfQuestions = [
       {
@@ -515,7 +520,6 @@ class _MyHomePageState extends State<MyHomePage> {
     var rng = Random();
     int rn = rng.nextInt(100);
     var chosenQuestion = rn % 2 == 0 ? packOfQuestions2 : packOfQuestions;
-
     var context = {
       "mode": mode,
       "ih": dt.hour,
@@ -565,7 +569,7 @@ class _MyHomePageState extends State<MyHomePage> {
       int _id = 0;
       // var ndT = DateTime.utc(dt.year, dt.month, dt.day, 14);
       // saveSchedule(ndT, 14, 8888);
-      
+
       if (dt.hour >= 21) {
         ///set next day for hours
 

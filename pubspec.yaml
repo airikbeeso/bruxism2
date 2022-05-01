@@ -47,6 +47,7 @@ dependencies:
   grouped_buttons_ns: ^1.0.0
   group_button: ^5.0.0
   word_break_text: ^0.1.0
+  shared_preferences: ^2.0.13
 
 
 dev_dependencies:
