@@ -84,26 +84,43 @@ class LocalNotifyManager {
     tz.setLocalLocation(tz.local);
     var dt = tz.TZDateTime.now(tz.local);
     var currentDateTime = tz.TZDateTime.utc(dt.year, dt.month, dt.day, hour);
-
-    if (dt.hour < hour) {
-      currentDateTime = tz.TZDateTime.utc(dt.year, dt.month, dt.day, hour);
+    var dtn = DateTime.now();
+    print("currentDateTime $currentDateTime $dtn");
+    var h = dtn.hour;
+    if (h > hour) {
+      var second = h - hour;
+      currentDateTime =
+          tz.TZDateTime.now(tz.local).add(Duration(seconds: (second * 3600)));
     } else {
-      currentDateTime = tz.TZDateTime.utc(dt.year, dt.month, dt.day + 1, hour);
-      // final String timeZoneName =
-      //     await platform.invokeMethod('getTimeZoneName');
-      // tz.setLocalLocation(tz.getLocation(timeZoneName));
-      // Duration offsetTime = tz.TZDateTime.now(tz.local).timeZoneOffset;
+      // var dtn2 =
+      //     DateTime(dt.year, dt.month, dt.day + 1, h, dtn.minute, dtn.second);
 
-      // var dt3 = tz.TZDateTime.now(tz.local);
-      // // var dt3 = DateTime.now();
-      // currentDateTime = tz.TZDateTime.utc(
-      //     dt3.year, dt3.month, dt3.day, dt3.hour, dt3.minute, dt3.second + 5);
-
-      // currentDateTime = dt.add(const Duration(seconds: 5));
-      // currentDateTime = tz.TZDateTime.utc(
-      //     dt3.year, dt3.month, dt3.day, dt3.hour, dt3.minute, dt3.second + 3);
-      // print("current Date Time ${tz.local} ${currentDateTime}");
+      var second = (h + 24) - hour;
+      currentDateTime =
+          tz.TZDateTime.now(tz.local).add(Duration(seconds: (second * 3600)));
     }
+
+    // if (dt.hour < hour) {
+    //   currentDateTime = tz.TZDateTime.utc(dt.year, dt.month, dt.day, hour);
+    // } else {
+    //   currentDateTime = tz.TZDateTime.utc(dt.year, dt.month, dt.day + 1, hour);
+
+    // }
+
+    // final String timeZoneName =
+    //     await platform.invokeMethod('getTimeZoneName');
+    // tz.setLocalLocation(tz.getLocation(timeZoneName));
+    // Duration offsetTime = tz.TZDateTime.now(tz.local).timeZoneOffset;
+
+    // var dt3 = tz.TZDateTime.now(tz.local);
+    // // var dt3 = DateTime.now();
+    // currentDateTime = tz.TZDateTime.utc(
+    //     dt3.year, dt3.month, dt3.day, dt3.hour, dt3.minute, dt3.second + 5);
+
+    // currentDateTime = dt.add(const Duration(seconds: 5));
+    // currentDateTime = tz.TZDateTime.utc(
+    //     dt3.year, dt3.month, dt3.day, dt3.hour, dt3.minute, dt3.second + 3);
+    // print("current Date Time ${tz.local} ${currentDateTime}");
 
     var androidChannel = const AndroidNotificationDetails(
         'CHANNEL_ID', 'CHANNEL_NAME',
