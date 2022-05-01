@@ -426,6 +426,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> saveSchedule(DateTime dt, int mode, int _id) async {
     final _prefs = await SharedPreferences.getInstance();
+    var list = [];
     var now = DateTime.now();
     var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
     var inputDate = inputFormat.parse(
@@ -535,6 +536,17 @@ class _MyHomePageState extends State<MyHomePage> {
       'userId': FirebaseAuth.instance.currentUser!.uid,
       'genId': genId
     };
+
+    if (null == qa) {
+      list.add(context);
+      var qad = json.encode(list);
+      _prefs.setString("questions", qad);
+    } else {
+      list = json.decode(qa);
+      list.add(context);
+      var qad = json.encode("list");
+      _prefs.setString("questions", qad);
+    }
     // FirebaseFirestore.instance
     //     .collection("alerts")
     //     .doc(genId)
