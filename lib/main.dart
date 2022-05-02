@@ -930,7 +930,6 @@ class _MyHomePageState extends State<MyHomePage> {
     List<String> ids = [];
     ids.add("m4uAoRv8LThXzXvu0qiU");
     ids.add("a8V1hiAJWdEbyqD4FGOB");
-    
 
     switch (_pageMode) {
       case 1:
@@ -1070,19 +1069,20 @@ class _MyHomePageState extends State<MyHomePage> {
                   //     // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
                   //     .set(context);
 
-                  Navigator.push(context, MaterialPageRoute(
-                    builder: (context) {
-                      return const ViewAlerts();
-                    },
-                  ));
+                  // Navigator.push(context, MaterialPageRoute(
+                  //   builder: (context) {
+                  //     return const ViewAlerts();
+                  //   },
+                  // ));
 
-                  // await LocalNotifyManager.init().dailyAtTimeNotification(
-                  //     0,
-                  //     mode,
-                  //     DateTime.now(),
-                  //     jsonEncode(context),
-                  //     "Bruxism Notificaiton",
-                  //     "Rate your pain 1-10");
+                  await LocalNotifyManager.init().dailyAtTimeNotification2(
+                      999,
+                      12,
+                      tz.TZDateTime.now(tz.local)
+                          .add(const Duration(seconds: 5)),
+                      jsonEncode(contextz),
+                      "Bruxism Notificaiton",
+                      "Rate your pain 1-10");
 
                   // await localNotifyManager.dailyAtTimeNotification(
                   //     1,
