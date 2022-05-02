@@ -92,8 +92,9 @@ class LocalNotifyManager {
 
     if (h > hour) {
       var second = (h - hour) * 3600;
-      second -= (m * 60);
-      second -= s;
+      second += ((60 - m) * 60);
+      second += (60 - s);
+      print("seconds $second");
 
       currentDateTime =
           tz.TZDateTime.now(tz.local).add(Duration(seconds: (second * 3600)));
@@ -102,8 +103,10 @@ class LocalNotifyManager {
       //     DateTime(dt.year, dt.month, dt.day + 1, h, dtn.minute, dtn.second);
 
       var second = (h + 24) - hour;
-      second -= (m * 60);
-      second -= s;
+      second += ((60 - m) * 60);
+      second += (60 - s);
+
+      print("seconds $second");
       currentDateTime =
           tz.TZDateTime.now(tz.local).add(Duration(seconds: (second * 3600)));
     }
