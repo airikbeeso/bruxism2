@@ -66,19 +66,24 @@ class _SecondScreenState extends State<SecondScreen> {
     var context2 = jsonDecode(widget.id);
     var list = [];
     if (null != storage.getItem("questions")) {
-      list = storage.getItem("questions");
+      if (storage.getItem("questions") is String) {
+        list = [];
+      } else {
+        list = json.decode(storage.getItem("questions"));
+      }
+
       if (list
           .where((element) => element["genId"] == context2["genId"])
           .isEmpty) {
         list.add(context2);
-        storage.setItem("questions", list);
+        storage.setItem("questions", json.encode(list));
       } else {
         list.add(context2);
-        storage.setItem("questions", list);
+        storage.setItem("questions", json.encode(list));
       }
     } else {
       list.add(context2);
-      storage.setItem("questions", list);
+      storage.setItem("questions", json.encode(list));
     }
 
     // print(context);
@@ -102,10 +107,17 @@ class _SecondScreenState extends State<SecondScreen> {
       Widget continueButton = TextButton(
         child: const Text("Continue"),
         onPressed: () {
-          var list = storage.getItem("questions");
+          try {
+            if (null != storage.getItem("questions")) {
+              var qa = storage.getItem("questions");
+            
+              List<dynamic> list =
+                  json.decode(qa);
+              list.removeWhere((element) => element.genId == context2.genId);
+              storage.setItem("questions", json.encode(list));
+            }
+          } catch (ex) {}
 
-          list.remove((element) => element.genId == context2.genId);
-          storage.setItem("questions", list);
           Navigator.pop(context);
         },
       );

@@ -131,10 +131,10 @@ class _ViewAlertsState extends State<ViewAlerts> {
   }
 
   Future<List> loadLocalStorage() async {
-    LocalStorage localStorage = LocalStorage("questions");
-    if (null != localStorage.getItem("questions")) {
-      print(localStorage.getItem("questions"));
-      ls = localStorage.getItem("questions"); //json.decode();
+    LocalStorage storage = LocalStorage("questions");
+    if (null != storage.getItem("questions")) {
+      print(storage.getItem("questions"));
+      ls = json.decode(storage.getItem("questions") as String); //json.decode();
       return ls;
     } else {
       return [];

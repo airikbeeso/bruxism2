@@ -1100,6 +1100,16 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 10,
             ),
+            TextButton(
+                onPressed: () {
+                  var storage = LocalStorage("questions");
+                  storage.clear();
+
+                },
+                child: const Text("CLEAR")),
+            const SizedBox(
+              height: 10,
+            ),
             BackButton(
               onPressed: () => _selectPage(0),
             )
