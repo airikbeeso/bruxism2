@@ -48,6 +48,7 @@ dependencies:
   group_button: ^5.0.0
   word_break_text: ^0.1.0
   shared_preferences: ^2.0.13
+  localstorage: ^4.0.0+1
 
 
 dev_dependencies:

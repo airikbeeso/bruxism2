@@ -31,6 +31,7 @@ import 'package:intl/intl.dart';
 import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'viewAlerts.dart';
+import 'package:localstorage/localstorage.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -428,7 +429,8 @@ class _MyHomePageState extends State<MyHomePage> {
   // Future<DocumentReference>
 
   Future<void> saveSchedule(DateTime dt, int mode, int _id) async {
-    final _prefs = await SharedPreferences.getInstance();
+    // LocalStorage storage = LocalStorage('questions');
+
     var list = [];
     var now = DateTime.now();
     var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
@@ -438,8 +440,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var genId =
         "${dt.year}-${dt.month}-${dt.day}-${mode.toString()}-${FirebaseAuth.instance.currentUser!.uid}";
 
-    var qa = _prefs.getString("questions");
-    print("questions: $qa");
+    // var qa = storage.getItem("questions");
 
     var packOfQuestions = [
       {
@@ -540,16 +541,6 @@ class _MyHomePageState extends State<MyHomePage> {
       'genId': genId
     };
 
-    if (null == qa) {
-      list.add(context);
-      var qad = json.encode(list);
-      _prefs.setString("questions", qad);
-    } else {
-      list = json.decode(qa);
-      list.add(context);
-      var qad = json.encode("list");
-      _prefs.setString("questions", qad);
-    }
     // FirebaseFirestore.instance
     //     .collection("alerts")
     //     .doc(genId)
@@ -770,6 +761,9 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     } else {
       localNotifyManager.cancelAllScheduled();
+      // LocalStorage storage = LocalStorage("questions");
+      // storage.clear();
+      // storage.dispose();
     }
   }
 
@@ -1091,6 +1085,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   //     'Rate your pain 1-10');
                 },
                 child: const Text("Notification")),
+            const SizedBox(
+              height: 10,
+            ),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return const ViewAlerts();
+                    },
+                  ));
+                },
+                child: const Text("View")),
             const SizedBox(
               height: 10,
             ),

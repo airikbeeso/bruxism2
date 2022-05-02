@@ -4,7 +4,7 @@ import 'package:bruxism2/ViewQuestion.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'main.dart';
+import 'package:localstorage/localstorage.dart';
 
 class SecondScreen extends StatefulWidget {
   final String title;
@@ -25,6 +25,7 @@ class SecondScreen extends StatefulWidget {
 class _SecondScreenState extends State<SecondScreen> {
   String name = "";
   String groupValue = "";
+  LocalStorage storage = LocalStorage("questions");
 
   @override
   initState() {
@@ -63,6 +64,23 @@ class _SecondScreenState extends State<SecondScreen> {
   @override
   Widget build(BuildContext context) {
     var context2 = jsonDecode(widget.id);
+    var list = [];
+    if (null != storage.getItem("questions")) {
+      list = storage.getItem("questions");
+      if (list
+          .where((element) => element["genId"] == context2["genId"])
+          .isEmpty) {
+        list.add(context2);
+        storage.setItem("questions", list);
+      } else {
+        list.add(context2);
+        storage.setItem("questions", list);
+      }
+    } else {
+      list.add(context2);
+      storage.setItem("questions", list);
+    }
+
     // print(context);
     print(context2["listQuestions"]);
 
@@ -71,11 +89,23 @@ class _SecondScreenState extends State<SecondScreen> {
       // set up the buttons
       Widget cancelButton = TextButton(
         child: const Text("Cancel"),
-        onPressed: () {},
+        onPressed: () {
+          // Navigator.push(context, MaterialPageRoute(
+          //   builder: (context) {
+          //     return const ViewAlerts();
+          //   },
+          // ));
+
+          Navigator.pop(context);
+        },
       );
       Widget continueButton = TextButton(
         child: const Text("Continue"),
         onPressed: () {
+          var list = storage.getItem("questions");
+
+          list.remove((element) => element.genId == context2.genId);
+          storage.setItem("questions", list);
           Navigator.pop(context);
         },
       );
