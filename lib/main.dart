@@ -30,6 +30,7 @@ import 'LocalNotifyManager.dart';
 import 'package:intl/intl.dart';
 import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'viewAlerts.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -141,6 +142,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    // Firebase.initializeApp();
+
     tz.initializeTimeZones();
     _totalNotifications = 0;
 
@@ -924,6 +927,11 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
 
+    List<String> ids = [];
+    ids.add("m4uAoRv8LThXzXvu0qiU");
+    ids.add("a8V1hiAJWdEbyqD4FGOB");
+    
+
     switch (_pageMode) {
       case 1:
         //readSettings().then((val) => isSwitched = val);
@@ -1041,7 +1049,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   var chosenQuestion =
                       rn % 2 == 0 ? packOfQuestions2 : packOfQuestions;
 
-                  var context = {
+                  var contextz = {
                     "mode": mode,
                     "ih": dt.hour,
                     "im": dt.minute,
@@ -1062,13 +1070,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   //     // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
                   //     .set(context);
 
-                  await LocalNotifyManager.init().dailyAtTimeNotification(
-                      0,
-                      mode,
-                      DateTime.now(),
-                      jsonEncode(context),
-                      "Bruxism Notificaiton",
-                      "Rate your pain 1-10");
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return const ViewAlerts();
+                    },
+                  ));
+
+                  // await LocalNotifyManager.init().dailyAtTimeNotification(
+                  //     0,
+                  //     mode,
+                  //     DateTime.now(),
+                  //     jsonEncode(context),
+                  //     "Bruxism Notificaiton",
+                  //     "Rate your pain 1-10");
 
                   // await localNotifyManager.dailyAtTimeNotification(
                   //     1,
