@@ -49,6 +49,7 @@ dependencies:
   word_break_text: ^0.1.0
   shared_preferences: ^2.0.13
   localstorage: ^4.0.0+1
+  path_provider: ^2.0.9
 
 
 dev_dependencies:

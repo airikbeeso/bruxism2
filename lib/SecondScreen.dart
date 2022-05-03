@@ -1,23 +1,63 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:bruxism2/ViewQuestion.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:path_provider/path_provider.dart';
+
+class CounterStorage {
+  Future<String> get _localPath async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    return directory.path;
+  }
+
+  Future<File> get _localFile async {
+    final path = await _localPath;
+    return File('$path/counter.txt');
+  }
+
+  Future<int> readCounter() async {
+    try {
+      final file = await _localFile;
+
+      // Read the file
+      final contents = await file.readAsString();
+
+      return int.parse(contents);
+    } catch (e) {
+      // If encountering an error, return 0
+      return 0;
+    }
+  }
+
+  Future<File> writeCounter(int counter) async {
+    final file = await _localFile;
+
+    // Write the file
+    return file.writeAsString('$counter');
+  }
+}
 
 class SecondScreen extends StatefulWidget {
   final String title;
   final String description;
   final String id;
   final Function selectPage;
+  final CounterStorage storage;
+
   const SecondScreen(
       {Key? key,
       required this.title,
       required this.description,
       required this.id,
-      required this.selectPage})
+      required this.selectPage,
+      required this.storage})
       : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _SecondScreenState();
 }
@@ -110,9 +150,8 @@ class _SecondScreenState extends State<SecondScreen> {
           try {
             if (null != storage.getItem("questions")) {
               var qa = storage.getItem("questions");
-            
-              List<dynamic> list =
-                  json.decode(qa);
+
+              List<dynamic> list = json.decode(qa);
               list.removeWhere((element) => element.genId == context2.genId);
               storage.setItem("questions", json.encode(list));
             }

@@ -200,6 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
           description: "",
           title: "Bruxism",
           selectPage: _selectPage,
+          storage: CounterStorage()
         );
       },
     ));
@@ -315,6 +316,7 @@ class _MyHomePageState extends State<MyHomePage> {
             description: "",
             title: "Bruxism",
             selectPage: _selectPage,
+            storage: CounterStorage()
           );
         },
       ));
