@@ -85,7 +85,7 @@ class LocalNotifyManager {
     var dt = tz.TZDateTime.now(tz.local);
     var currentDateTime = tz.TZDateTime.utc(dt.year, dt.month, dt.day, hour);
     var dtn = DateTime.now();
-    print("currentDateTime $currentDateTime $dtn");
+    // print("currentDateTime $currentDateTime $dtn");
     var h = dtn.hour;
     var m = dtn.minute;
     var s = dtn.second;
@@ -106,7 +106,7 @@ class LocalNotifyManager {
       second += ((60 - m) * 60);
       second += (60 - s);
 
-      print("seconds $second");
+      // print("seconds $second");
       currentDateTime =
           tz.TZDateTime.now(tz.local).add(Duration(seconds: (second * 3600)));
     }
@@ -139,7 +139,7 @@ class LocalNotifyManager {
     // var iosChannel = const IOSNotificationDetails();
     var platformChannel = NotificationDetails(android: androidChannel);
 
-    print("gen Id : $_id");
+    // print("gen Id : $_id");
 
     // await flutterLocalNotificationsPlugin.zonedSchedule(
     //     _id + 1000 + 1,

@@ -127,7 +127,7 @@ class _SecondScreenState extends State<SecondScreen> {
     }
 
     // print(context);
-    print(context2["listQuestions"]);
+    // print(context2["listQuestions"]);
 
     String selected = "";
     showAlertDialog() {

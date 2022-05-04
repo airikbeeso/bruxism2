@@ -35,29 +35,51 @@ class _ViewQuestionState extends State<ViewQuestion> {
             style:
                 const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
 
-        RadioButtonGroup(
-          labelStyle: const TextStyle(
-              leadingDistribution: TextLeadingDistribution.proportional),
-          labels: listOption,
-          onChange: (String label, int index) =>
-              print('label: $label index: $index'),
-          onSelected: (String label) {
-            data["answer"] = label;
-            print(data);
-          },
-          itemBuilder: (rd, txt, idx) {
-            return Row(
-              children: [
-                rd,
-                Flexible(
-                    child: Text(
-                  txt.data.toString(),
-                  style: const TextStyle(fontSize: 19.0),
-                ))
-              ],
-            );
-          },
-        )
+        if (data["form"] == "check")
+          CheckboxGroup(
+              labels: listOption,
+              onChange: (bool ch, String label, int index) {
+                print("GREAT ::::: $ch : $label : $index");
+              },
+              itemBuilder: (rd, txt, idx) {
+                return Row(
+                  children: [
+                    rd,
+                    Flexible(
+                        child: Text(
+                      txt.data.toString(),
+                      style: const TextStyle(fontSize: 19.0),
+                    ))
+                  ],
+                );
+              },
+              onSelected: (List<String> checked) =>
+                  data["answer"] = checked.toString()),
+
+        if (data["form"] == "radio")
+          RadioButtonGroup(
+            labelStyle: const TextStyle(
+                leadingDistribution: TextLeadingDistribution.proportional),
+            labels: listOption,
+            onChange: (String label, int index) =>
+                print('label: $label index: $index'),
+            onSelected: (String label) {
+              data["answer"] = label;
+              print(data);
+            },
+            itemBuilder: (rd, txt, idx) {
+              return Row(
+                children: [
+                  rd,
+                  Flexible(
+                      child: Text(
+                    txt.data.toString(),
+                    style: const TextStyle(fontSize: 19.0),
+                  ))
+                ],
+              );
+            },
+          )
 
         // Column(
         //   crossAxisAlignment: CrossAxisAlignment.start,

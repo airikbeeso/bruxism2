@@ -196,12 +196,11 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
         return SecondScreen(
-          id: payload as String,
-          description: "",
-          title: "Bruxism",
-          selectPage: _selectPage,
-          storage: CounterStorage()
-        );
+            id: payload as String,
+            description: "",
+            title: "Bruxism",
+            selectPage: _selectPage,
+            storage: CounterStorage());
       },
     ));
   }
@@ -312,12 +311,11 @@ class _MyHomePageState extends State<MyHomePage> {
       Navigator.push(context, MaterialPageRoute(
         builder: (context) {
           return SecondScreen(
-            id: country as String,
-            description: "",
-            title: "Bruxism",
-            selectPage: _selectPage,
-            storage: CounterStorage()
-          );
+              id: country as String,
+              description: "",
+              title: "Bruxism",
+              selectPage: _selectPage,
+              storage: CounterStorage());
         },
       ));
     }
@@ -506,14 +504,14 @@ class _MyHomePageState extends State<MyHomePage> {
         "option": ["Ya", "Tidak"],
         "answer": ""
       },
+      // {
+      //   "id": 3,
+      //   "question": "erasa gugup atau tegang",
+      //   "option": ["Ya", "Tidak"],
+      //   "answer": ""
+      // },
       {
         "id": 3,
-        "question": "erasa gugup atau tegang",
-        "option": ["Ya", "Tidak"],
-        "answer": ""
-      },
-      {
-        "id": 4,
         "question": "Kondisi anda hari ini",
         "option": [
           "Merasa gugup atau tegang",
@@ -549,8 +547,13 @@ class _MyHomePageState extends State<MyHomePage> {
     //     // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
     //     .set(context);
 
-    await LocalNotifyManager.init().dailyAtTimeNotification(_id, mode, dt,
-        jsonEncode(context), "Bruxism Notificaiton", "Rate your pain 1-10");
+    await LocalNotifyManager.init().dailyAtTimeNotification(
+        _id,
+        mode,
+        dt,
+        jsonEncode(context),
+        "Bruxism Notificaiton",
+        "Rate your pain, Jam $mode");
   }
 
   Future<void> startSessions(bool isActive, DateTime dt, bool repeat) async {
@@ -977,7 +980,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         "Berkontak ringan",
                         "Berkontak erat",
                         "Bergemeretak"
-                      ]
+                      ],
+                      "form": "radio"
                     },
                     {
                       "id": 1,
@@ -985,17 +989,20 @@ class _MyHomePageState extends State<MyHomePage> {
                       "option": [
                         "Rileks",
                         "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
-                      ]
+                      ],
+                      "form": "radio"
                     },
                     {
                       "id": 2,
                       "question": "Apakah anda merasakan nyeri di daerah wajah",
-                      "option": ["Ya", "Tidak"]
+                      "option": ["Ya", "Tidak"],
+                      "form": "radio"
                     },
                     {
                       "id": 3,
                       "question": "Apakah anda merasakan nyeri di daerah wajah",
-                      "option": ["Ya", "Tidak"]
+                      "option": ["Ya", "Tidak"],
+                      "form": "radio"
                     }
                   ];
 
@@ -1008,7 +1015,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         "Berkontak ringan",
                         "Berkontak erat",
                         "Bergemeretak"
-                      ]
+                      ],
+                      "form": "radio"
                     },
                     {
                       "id": 1,
@@ -1016,27 +1024,30 @@ class _MyHomePageState extends State<MyHomePage> {
                       "option": [
                         "Rileks",
                         "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
-                      ]
+                      ],
+                      "form": "radio"
                     },
                     {
                       "id": 2,
                       "question": "Apakah anda merasakan nyeri di daerah wajah",
-                      "option": ["Ya", "Tidak"]
+                      "option": ["Ya", "Tidak"],
+                      "form": "radio"
                     },
+                    // {
+                    //   "id": 3,
+                    //   "question": "erasa gugup atau tegang",
+                    //   "option": ["Ya", "Tidak"]
+                    // },
                     {
                       "id": 3,
-                      "question": "erasa gugup atau tegang",
-                      "option": ["Ya", "Tidak"]
-                    },
-                    {
-                      "id": 4,
                       "question": "Kondisi anda hari ini",
                       "option": [
                         "Merasa gugup atau tegang",
                         "Sulit mengontrol kawatir",
                         "Merasa sedih, depresi",
                         "Merasa malas melakukan sesuatu"
-                      ]
+                      ],
+                      "form": "check"
                     }
                   ];
                   var rng = Random();
@@ -1080,6 +1091,24 @@ class _MyHomePageState extends State<MyHomePage> {
                       "Bruxism Notificaiton",
                       "Rate your pain 1-10");
 
+                  await LocalNotifyManager.init().dailyAtTimeNotification2(
+                      998,
+                      12,
+                      tz.TZDateTime.now(tz.local)
+                          .add(const Duration(seconds: 5)),
+                      jsonEncode(contextz),
+                      "Bruxism Notificaiton",
+                      "Rate your pain 1-10");
+
+                  await LocalNotifyManager.init().dailyAtTimeNotification2(
+                      997,
+                      12,
+                      tz.TZDateTime.now(tz.local)
+                          .add(const Duration(seconds: 5)),
+                      jsonEncode(contextz),
+                      "Bruxism Notificaiton",
+                      "Rate your pain 1-10");
+
                   // await localNotifyManager.dailyAtTimeNotification(
                   //     1,
                   //     '2022-3-26-12-JWfkws6uSReUCvYVzmcSyY69esJ3',
@@ -1106,7 +1135,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   var storage = LocalStorage("questions");
                   storage.clear();
-
                 },
                 child: const Text("CLEAR")),
             const SizedBox(
