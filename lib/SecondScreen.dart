@@ -182,8 +182,8 @@ class _SecondScreenState extends State<SecondScreen> {
 
     Future<void> updateAnswer() async {
       await FirebaseFirestore.instance.collection("alerts").add(context2);
-      showAlertDialog().then((value) => Navigator.pop(context));
-      // Navigator.pop(context);
+      // showAlertDialog().then((value) => Navigator.pop(context));
+      Navigator.pop(context);
     }
 
     return Scaffold(

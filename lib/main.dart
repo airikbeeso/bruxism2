@@ -1091,23 +1091,23 @@ class _MyHomePageState extends State<MyHomePage> {
                       "Bruxism Notificaiton",
                       "Rate your pain 1-10");
 
-                  await LocalNotifyManager.init().dailyAtTimeNotification2(
-                      998,
-                      12,
-                      tz.TZDateTime.now(tz.local)
-                          .add(const Duration(seconds: 5)),
-                      jsonEncode(contextz),
-                      "Bruxism Notificaiton",
-                      "Rate your pain 1-10");
+                  // await LocalNotifyManager.init().dailyAtTimeNotification2(
+                  //     998,
+                  //     12,
+                  //     tz.TZDateTime.now(tz.local)
+                  //         .add(const Duration(seconds: 5)),
+                  //     jsonEncode(contextz),
+                  //     "Bruxism Notificaiton",
+                  //     "Rate your pain 1-10");
 
-                  await LocalNotifyManager.init().dailyAtTimeNotification2(
-                      997,
-                      12,
-                      tz.TZDateTime.now(tz.local)
-                          .add(const Duration(seconds: 5)),
-                      jsonEncode(contextz),
-                      "Bruxism Notificaiton",
-                      "Rate your pain 1-10");
+                  // await LocalNotifyManager.init().dailyAtTimeNotification2(
+                  //     997,
+                  //     12,
+                  //     tz.TZDateTime.now(tz.local)
+                  //         .add(const Duration(seconds: 5)),
+                  //     jsonEncode(contextz),
+                  //     "Bruxism Notificaiton",
+                  //     "Rate your pain 1-10");
 
                   // await localNotifyManager.dailyAtTimeNotification(
                   //     1,
