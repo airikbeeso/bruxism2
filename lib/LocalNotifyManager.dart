@@ -80,6 +80,8 @@ class LocalNotifyManager {
 
   Future<void> dailyAtTimeNotification(int _id, int hour, DateTime dt2,
       String id, String title, String description) async {
+    var now = DateTime.now();
+    var diff = dt2.difference(now);
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.local);
     var dt = tz.TZDateTime.now(tz.local);
@@ -90,26 +92,28 @@ class LocalNotifyManager {
     var m = dtn.minute;
     var s = dtn.second;
 
-    if (h > hour) {
-      var second = (h - hour) * 3600;
-      second += ((60 - m) * 60);
-      second += (60 - s);
-      print("seconds $second");
+    currentDateTime = tz.TZDateTime.now(tz.local)
+        .add(Duration(seconds: (diff.inSeconds * 3600)));
+    // if (h > hour) {
+    //   var second = (h - hour) * 3600;
+    //   second += ((60 - m) * 60);
+    //   second += (60 - s);
+    //   print("seconds $second");
 
-      currentDateTime =
-          tz.TZDateTime.now(tz.local).add(Duration(seconds: (second * 3600)));
-    } else {
-      // var dtn2 =
-      //     DateTime(dt.year, dt.month, dt.day + 1, h, dtn.minute, dtn.second);
+    //   currentDateTime =
+    //       tz.TZDateTime.now(tz.local).add(Duration(seconds: (second * 3600)));
+    // } else {
+    //   // var dtn2 =
+    //   //     DateTime(dt.year, dt.month, dt.day + 1, h, dtn.minute, dtn.second);
 
-      var second = (h + 24) - hour;
-      second += ((60 - m) * 60);
-      second += (60 - s);
+    //   var second = (h + 24) - hour;
+    //   second += ((60 - m) * 60);
+    //   second += (60 - s);
 
-      // print("seconds $second");
-      currentDateTime =
-          tz.TZDateTime.now(tz.local).add(Duration(seconds: (second * 3600)));
-    }
+    //   // print("seconds $second");
+    //   currentDateTime =
+    //       tz.TZDateTime.now(tz.local).add(Duration(seconds: (second * 3600)));
+    // }
 
     // if (dt.hour < hour) {
     //   currentDateTime = tz.TZDateTime.utc(dt.year, dt.month, dt.day, hour);
