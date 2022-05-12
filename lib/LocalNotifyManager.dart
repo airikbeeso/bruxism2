@@ -80,20 +80,21 @@ class LocalNotifyManager {
 
   Future<void> dailyAtTimeNotification(int _id, int hour, DateTime dt2,
       String id, String title, String description) async {
-    var now = DateTime.now();
-    var diff = dt2.difference(now);
+    // var now = DateTime.now();
+    // var diff = dt2.difference(now);
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.local);
     var dt = tz.TZDateTime.now(tz.local);
-    var currentDateTime = tz.TZDateTime.utc(dt.year, dt.month, dt.day, hour);
-    var dtn = DateTime.now();
+    
+    var currentDateTime = tz.TZDateTime.from(dt2, tz.local); //tz.TZDateTime.utc(dt2.year, dt2.month, dt2.day, dt2.hour, dt2.minute, dt2.second);
+    // var dtn = DateTime.now();
     // print("currentDateTime $currentDateTime $dtn");
-    var h = dtn.hour;
-    var m = dtn.minute;
-    var s = dtn.second;
+    var h = dt2.hour;
+    var m = dt2.minute;
+    var s = dt2.second;
 
-    currentDateTime = tz.TZDateTime.now(tz.local)
-        .add(Duration(seconds: (diff.inSeconds * 3600)));
+    // currentDateTime = tz.TZDateTime.now(tz.local)
+    //     .add(Duration(seconds: (diff.inSeconds * 3600)));
     // if (h > hour) {
     //   var second = (h - hour) * 3600;
     //   second += ((60 - m) * 60);
@@ -178,6 +179,7 @@ class LocalNotifyManager {
     //     uiLocalNotificationDateInterpretation:
     //         UILocalNotificationDateInterpretation.wallClockTime,
     //     androidAllowWhileIdle: true);
+
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
         _id,
