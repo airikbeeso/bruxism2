@@ -452,28 +452,28 @@ class _MyHomePageState extends State<MyHomePage> {
           "Berkontak erat",
           "Bergemeretak"
         ],
-        "answer": ""
+        "form": "radio"
       },
       {
         "id": 1,
         "question": "Kondisi otot wajah/rahang (?) anda saat ini",
         "option": [
           "Rileks",
-          "Otot wajah/rahang tegang dan rahang\nterasa kencang tanpa\nada gigi yang berkontak"
+          "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
         ],
-        "answer": ""
+        "form": "radio"
       },
       {
         "id": 2,
         "question": "Apakah anda merasakan nyeri di daerah wajah",
         "option": ["Ya", "Tidak"],
-        "answer": ""
+        "form": "radio"
       },
       {
         "id": 3,
         "question": "Apakah anda merasakan nyeri di daerah wajah",
         "option": ["Ya", "Tidak"],
-        "answer": ""
+        "form": "radio"
       }
     ];
 
@@ -487,28 +487,27 @@ class _MyHomePageState extends State<MyHomePage> {
           "Berkontak erat",
           "Bergemeretak"
         ],
-        "answer": ""
+        "form": "radio"
       },
       {
         "id": 1,
         "question": "Kondisi otot wajah/rahang (?) anda saat ini",
         "option": [
           "Rileks",
-          "Otot wajah/rahang tegang dan rahang\nterasa kencang tanpa\nada gigi yang berkontak"
+          "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
         ],
-        "answer": ""
+        "form": "radio"
       },
       {
         "id": 2,
         "question": "Apakah anda merasakan nyeri di daerah wajah",
         "option": ["Ya", "Tidak"],
-        "answer": ""
+        "form": "radio"
       },
       // {
       //   "id": 3,
       //   "question": "erasa gugup atau tegang",
-      //   "option": ["Ya", "Tidak"],
-      //   "answer": ""
+      //   "option": ["Ya", "Tidak"]
       // },
       {
         "id": 3,
@@ -519,7 +518,7 @@ class _MyHomePageState extends State<MyHomePage> {
           "Merasa sedih, depresi",
           "Merasa malas melakukan sesuatu"
         ],
-        "answer": ""
+        "form": "check"
       }
     ];
     var rng = Random();
@@ -1208,7 +1207,7 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 10,
             ),
-            const Text("EEEEE"),
+            const Text("version 7"),
             const SizedBox(
               height: 10,
             ),
