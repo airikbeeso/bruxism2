@@ -1023,6 +1023,10 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 10,
             ),
+            TextButton(child: const Text("check user"), onPressed: (){
+                print(FirebaseAuth.instance.currentUser?.email.toString());
+
+            },),
             TextButton(
                 onPressed: () async {
                   // await localNotifyManager.showNotification();
@@ -1135,7 +1139,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     "answer": "default answer",
                     "listQuestions": chosenQuestion,
                     'userId': FirebaseAuth.instance.currentUser!.uid,
-                    'genId': genId
+                    'genId': genId,
+                    'email': FirebaseAuth.instance.currentUser!.email,
+                    'name': FirebaseAuth.instance.currentUser!.displayName
+
                   };
                   // FirebaseFirestore.instance
                   //     .collection("alerts")
