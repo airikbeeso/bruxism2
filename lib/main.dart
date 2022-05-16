@@ -532,12 +532,15 @@ class _MyHomePageState extends State<MyHomePage> {
       "init": now.millisecondsSinceEpoch,
       "end": inputDate.millisecondsSinceEpoch,
       "date": dt.toIso8601String(),
+      "timestamp": dt.millisecondsSinceEpoch,
       "status": "onSchedule",
       "question": "default question",
       "answer": "default answer",
       "listQuestions": chosenQuestion,
       'userId': FirebaseAuth.instance.currentUser!.uid,
-      'genId': genId
+      'genId': genId,
+      'email': FirebaseAuth.instance.currentUser!.email,
+      'name': FirebaseAuth.instance.currentUser!.displayName
     };
 
     // FirebaseFirestore.instance
@@ -1023,10 +1026,12 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 10,
             ),
-            TextButton(child: const Text("check user"), onPressed: (){
+            TextButton(
+              child: const Text("check user"),
+              onPressed: () {
                 print(FirebaseAuth.instance.currentUser?.email.toString());
-
-            },),
+              },
+            ),
             TextButton(
                 onPressed: () async {
                   // await localNotifyManager.showNotification();
@@ -1134,6 +1139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     "init": now.millisecondsSinceEpoch,
                     "end": inputDate.millisecondsSinceEpoch,
                     "date": dt.toIso8601String(),
+                    "timestamp": dt.millisecondsSinceEpoch,
                     "status": "onSchedule",
                     "question": "default question",
                     "answer": "default answer",
@@ -1142,7 +1148,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     'genId': genId,
                     'email': FirebaseAuth.instance.currentUser!.email,
                     'name': FirebaseAuth.instance.currentUser!.displayName
-
                   };
                   // FirebaseFirestore.instance
                   //     .collection("alerts")
@@ -1595,56 +1600,62 @@ class _PasswordFormState extends State<PasswordForm> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Flex(
-                    direction: Axis.horizontal,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      // const SizedBox(width: 3),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(left: lsMargin),
-                      //   child: StyledButton(
-                      //     onPressed: () {},
-                      //     child: const Text('Register'),
-                      //   ),
-                      // ),
-                      // const SizedBox(width: 16),
-                      Padding(
-                          padding: const EdgeInsets.only(right: lsMargin),
-                          child: TextButton(
-                            onPressed: () {
-                              widget.selectPage(0);
-                            },
-                            child: const Text("Forgot password"),
-                          )),
-                      Padding(
-                        padding: const EdgeInsets.only(right: lsMargin),
-                        child: StyledButton(
-                          onPressed: () {
-                            widget.selectPage(4);
-                          },
-                          child: const Text('REGISTER'),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: lsMargin),
-                        child: StyledButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              widget.login(
-                                _emailController.text,
-                                _passwordController.text,
-                              );
-                            }
-                          },
-                          child: const Text('SIGN IN'),
-                        ),
-                      )
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flex(
+                          direction: Axis.horizontal,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            // const SizedBox(width: 3),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(left: lsMargin),
+                            //   child: StyledButton(
+                            //     onPressed: () {},
+                            //     child: const Text('Register'),
+                            //   ),
+                            // ),
+                            // const SizedBox(width: 16),
 
-                      // const SizedBox(width: 3),
-                    ],
-                  ),
-                ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: lsMargin),
+                              child: StyledButton(
+                                onPressed: () {
+                                  widget.selectPage(4);
+                                },
+                                child: const Text('REGISTER'),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: lsMargin),
+                              child: StyledButton(
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    widget.login(
+                                      _emailController.text,
+                                      _passwordController.text,
+                                    );
+                                  }
+                                },
+                                child: const Text('SIGN IN'),
+                              ),
+                            )
+
+                            // const SizedBox(width: 3),
+                          ],
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: TextButton(
+                              onPressed: () {
+                                widget.selectPage(0);
+                              },
+                              child: const Text("Forgot password"),
+                            )),
+                      ],
+                    )),
               ],
             ),
           ),
