@@ -471,9 +471,9 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       {
         "id": 3,
-        "question": "Apakah anda merasakan nyeri di daerah wajah",
-        "option": ["Ya", "Tidak"],
-        "form": "radio"
+        "question": "Bila nyeri, berapa skala nyeri anda?",
+        "option": [10],
+        "form": "scale"
       }
     ];
 
