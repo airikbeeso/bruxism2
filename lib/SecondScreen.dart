@@ -230,10 +230,10 @@ class _SecondScreenState extends State<SecondScreen> {
             answerFormat: const ScaleAnswerFormat(
               step: 1,
               minimumValue: 1,
-              maximumValue: 5,
-              defaultValue: 3,
+              maximumValue: 10,
+              defaultValue: 5,
               minimumValueDescription: '1',
-              maximumValueDescription: '5',
+              maximumValueDescription: '10',
             ),
           ),
           QuestionStep(
