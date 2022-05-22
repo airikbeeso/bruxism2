@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:bruxism2/ViewQuestion.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:survey_kit/survey_kit.dart';
+import 'package:survey_kit/src/steps/step.dart' as mm;
 
 class CounterStorage {
   Future<String> get _localPath async {
@@ -185,15 +187,77 @@ class _SecondScreenState extends State<SecondScreen> {
     }
 
     Future<void> updateAnswer() async {
+      context2["answerOn"] = DateTime.now().millisecondsSinceEpoch;
+
       await FirebaseFirestore.instance.collection("alerts").add(context2);
       // showAlertDialog().then((value) => Navigator.pop(context));
-      Navigator.pop(context);
+      // Navigator.pop(context);
     }
 
     Future<Task> getSampleTask() {
-      var task = NavigableTask(
-        id: TaskIdentifier(),
-        steps: [
+      var rng = Random();
+      int rn = rng.nextInt(100);
+      List<mm.Step> ls = [];
+
+      for (var i = 0; i < context2["listQuestions"].length; i++) {
+        var data = context2["listQuestions"][i];
+        switch (data["form"]) {
+          case "radio":
+            List<TextChoice> ls2 = [];
+            for (var i2 = 0; i2 < data["option"].length; i2++) {
+              String d = data["option"][i2];
+
+              ls2.add(TextChoice(text: d.toString(), value: d.toString()));
+            }
+            ls.add(QuestionStep(
+                title: data["question"],
+                answerFormat: SingleChoiceAnswerFormat(textChoices: ls2)));
+            break;
+          case "check":
+            List<TextChoice> ls2 = [];
+            for (var i2 = 0; i2 < data["option"].length; i2++) {
+              String d = data["option"][i2];
+
+              ls2.add(TextChoice(text: d.toString(), value: d.toString()));
+            }
+            ls.add(QuestionStep(
+                title: data["question"],
+                answerFormat: MultipleChoiceAnswerFormat(textChoices: ls2)));
+            break;
+          case "scale":
+            // List<TextChoice> ls2 = [];
+            // for (var i2 = 0; i2 < data.option.length; i++) {
+            //   var d = data!.option[i2] as String;
+
+            //   ls2.add(TextChoice(text: d.toString(), value: d.toString()));
+            // }
+            double v = double.tryParse(data["option"].toString())!;
+            ls.add(QuestionStep(
+                title: data["question"],
+                answerFormat: ScaleAnswerFormat(
+                  step: 1,
+                  minimumValue: 1,
+                  maximumValue: v,
+                  defaultValue: 5,
+                  minimumValueDescription: '1',
+                  maximumValueDescription: '10',
+                )));
+            break;
+          default:
+            break;
+        }
+      }
+
+      ls.add(CompletionStep(
+        stepIdentifier: StepIdentifier(id: '321'),
+        text: 'Thanks for taking the survey, we will contact you soon!',
+        title: 'Done!',
+        buttonText: 'Submit survey',
+      ));
+
+      var task = NavigableTask(id: TaskIdentifier(), steps: ls);
+      /*  
+        [
           InstructionStep(
             title: 'Welcome to the\nQuickBird Studios\nHealth Survey',
             text: 'Get ready for a bunch of super random questions!',
@@ -284,25 +348,28 @@ class _SecondScreenState extends State<SecondScreen> {
             title: 'Done!',
             buttonText: 'Submit survey',
           ),
-        ],
-      );
-      task.addNavigationRule(
-        forTriggerStepIdentifier: task.steps[6].stepIdentifier,
-        navigationRule: ConditionalNavigationRule(
-          resultToStepIdentifierMapper: (input) {
-            switch (input) {
-              case "Yes":
-                return task.steps[0].stepIdentifier;
-              case "No":
-                return task.steps[7].stepIdentifier;
-              default:
-                return null;
-            }
-          },
-        ),
-      );
+        ],*/
+      // );
+      // task.addNavigationRule(
+      //   forTriggerStepIdentifier: task.steps[6].stepIdentifier,
+      //   navigationRule: ConditionalNavigationRule(
+      //     resultToStepIdentifierMapper: (input) {
+      //       switch (input) {
+      //         case "Yes":
+      //           return task.steps[0].stepIdentifier;
+      //         case "No":
+      //           return task.steps[7].stepIdentifier;
+      //         default:
+      //           return null;
+      //       }
+      //     },
+      //   ),
+      // );
+      // Task.fromJson()
       return Future.value(task);
     }
+
+    var idx10 = 0;
 
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
@@ -319,6 +386,27 @@ class _SecondScreenState extends State<SecondScreen> {
                 task: task,
                 onResult: (SurveyResult result) {
                   print(result.finishReason);
+                  var finalResult = result.results[0].results;
+
+                  for (var i = 0; i < result.results.length; i++) {
+                    if (result.results[i].results[0].valueIdentifier !=
+                        "completion") {
+                      var update = context2["listQuestions"][i];
+                      update["answer"] =
+                          result.results[i].results[0].valueIdentifier;
+                    }
+                  }
+
+                  updateAnswer();
+                  // for (var i = 0; i < finalResult.length; i++) {
+
+                  //   var finalData = finalResult[i];
+
+                  //   print("save this");
+
+                  // }
+
+                  Navigator.pop(context);
                 },
                 showProgress: true,
                 localizations: const {'cancel': 'Cancel', 'next': 'Next'},

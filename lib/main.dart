@@ -472,7 +472,7 @@ class _MyHomePageState extends State<MyHomePage> {
       {
         "id": 3,
         "question": "Bila nyeri, berapa skala nyeri anda?",
-        "option": [10],
+        "option": 10,
         "form": "scale"
       }
     ];
@@ -523,7 +523,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
     var rng = Random();
     int rn = rng.nextInt(100);
-    var chosenQuestion = rn % 2 == 0 ? packOfQuestions2 : packOfQuestions;
+    var chosenQuestion = mode == 9 || mode == 21 ? rn % 2 == 0 ? packOfQuestions2 : packOfQuestions : packOfQuestions;
     var context = {
       "mode": mode,
       "ih": dt.hour,
@@ -540,7 +540,8 @@ class _MyHomePageState extends State<MyHomePage> {
       'userId': FirebaseAuth.instance.currentUser!.uid,
       'genId': genId,
       'email': FirebaseAuth.instance.currentUser!.email,
-      'name': FirebaseAuth.instance.currentUser!.displayName
+      'name': FirebaseAuth.instance.currentUser!.displayName,
+      'answerOn': 0
     };
 
     // FirebaseFirestore.instance
@@ -1076,9 +1077,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                     {
                       "id": 3,
-                      "question": "Apakah anda merasakan nyeri di daerah wajah",
-                      "option": ["Ya", "Tidak"],
-                      "form": "radio"
+                      "question": "Bila nyeri, berapa skala nyeri anda?",
+                      "option": 10,
+                      "form": "scale"
                     }
                   ];
 
@@ -1219,7 +1220,7 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 10,
             ),
-            const Text("version 8"),
+            const Text("version 9"),
             const SizedBox(
               height: 10,
             ),
