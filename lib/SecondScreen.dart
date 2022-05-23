@@ -373,8 +373,10 @@ class _SecondScreenState extends State<SecondScreen> {
 
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
+      
       body: Container(
         color: Colors.white,
+        padding: const EdgeInsets.all(10.0),
         child: FutureBuilder<Task>(
           future: getSampleTask(),
           builder: (context, snapshot) {
@@ -396,7 +398,6 @@ class _SecondScreenState extends State<SecondScreen> {
                           result.results[i].results[0].valueIdentifier;
                     }
                   }
-
                   updateAnswer();
                   // for (var i = 0; i < finalResult.length; i++) {
 
@@ -412,20 +413,22 @@ class _SecondScreenState extends State<SecondScreen> {
                 localizations: const {'cancel': 'Cancel', 'next': 'Next'},
                 themeData: Theme.of(context).copyWith(
                   colorScheme:
-                      ColorScheme.fromSwatch(primarySwatch: Colors.cyan)
+                      ColorScheme.fromSwatch(primarySwatch: Colors.cyan)                      
                           .copyWith(onPrimary: Colors.white),
+                  
                   primaryColor: Colors.cyan,
                   backgroundColor: Colors.white,
                   appBarTheme: const AppBarTheme(
                     color: Colors.white,
                     iconTheme: IconThemeData(color: Colors.cyan),
-                    titleTextStyle: TextStyle(color: Colors.cyan),
+                    titleTextStyle: TextStyle(color: Colors.cyan, fontFamily: 'neucha'),
                   ),
                   iconTheme: const IconThemeData(color: Colors.cyan),
                   textSelectionTheme: const TextSelectionThemeData(
-                      cursorColor: Colors.cyan,
-                      selectionColor: Colors.cyan,
-                      selectionHandleColor: Colors.cyan),
+                    cursorColor: Colors.cyan,
+                    selectionColor: Colors.cyan,
+                    selectionHandleColor: Colors.cyan,
+                  ),
                   cupertinoOverrideTheme:
                       const CupertinoThemeData(primaryColor: Colors.cyan),
                   outlinedButtonTheme: const OutlinedButtonThemeData(),
@@ -440,21 +443,21 @@ class _SecondScreenState extends State<SecondScreen> {
                   ),
                   textTheme: const TextTheme(
                     headline2: TextStyle(
-                      fontSize: 28.0,
-                      color: Colors.black,
-                    ),
+                        fontSize: 22.0,
+                        color: Colors.black,
+                        fontFamily: 'neucha'),
                     headline5: TextStyle(
-                      fontSize: 24.0,
-                      color: Colors.black,
-                    ),
+                        fontSize: 20.0,
+                        color: Colors.black,
+                        fontFamily: 'neucha'),
                     bodyText2: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.black,
-                    ),
+                        fontSize: 18.0,
+                        color: Colors.black,
+                        fontFamily: 'neucha'),
                     subtitle1: TextStyle(
-                      fontSize: 18.0,
-                      color: Colors.black,
-                    ),
+                        fontSize: 22.0,
+                        color: Colors.black,
+                        fontFamily: 'neucha'),
                   ),
                   inputDecorationTheme: const InputDecorationTheme(
                     labelStyle: TextStyle(
@@ -492,16 +495,20 @@ class _SecondScreenState extends State<SecondScreen> {
       //       },
       //       itemCount: context2["listQuestions"].length,
       //     )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // print("FACE...");
-          // print(context2);
-          updateAnswer();
-          widget.selectPage(0);
-        },
-        backgroundColor: Colors.green,
-        child: const Icon(Icons.send, semanticLabel: "Send"),
-      ),
+      
+      
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     // print("FACE...");
+      //     // print(context2);
+      //     updateAnswer();
+      //     widget.selectPage(0);
+      //   },
+      //   backgroundColor: Colors.green,
+      //   child: const Icon(Icons.send, semanticLabel: "Send"),
+      // ),
+
+
     );
     // return Scaffold(
     //   appBar: AppBar(title: Text(widget.title)),

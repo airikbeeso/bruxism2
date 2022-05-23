@@ -523,7 +523,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
     var rng = Random();
     int rn = rng.nextInt(100);
-    var chosenQuestion = mode == 9 || mode == 21 ? rn % 2 == 0 ? packOfQuestions2 : packOfQuestions : packOfQuestions;
+    var chosenQuestion = rn % 2 == 0 ? packOfQuestions2 : packOfQuestions;
     var context = {
       "mode": mode,
       "ih": dt.hour,
