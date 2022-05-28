@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:bruxism2/ViewQuestion.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,9 @@ import 'package:localstorage/localstorage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:survey_kit/survey_kit.dart';
 import 'package:survey_kit/src/steps/step.dart' as mm;
+import 'package:intl/intl.dart';
+
+import 'LocalNotifyManager.dart';
 
 class CounterStorage {
   Future<String> get _localPath async {
@@ -71,6 +75,336 @@ class _SecondScreenState extends State<SecondScreen> {
   String groupValue = "";
   LocalStorage storage = LocalStorage("questions");
 
+  Future<void> startSessions(bool isActive, DateTime dt, bool repeat) async {
+    // print("hour: ${dt.hour} : ${dt.minute} : ${dt.second}");
+
+    if (isActive) {
+      int _id = 0;
+      // var ndT = DateTime.utc(dt.year, dt.month, dt.day, 14);
+      // saveSchedule(ndT, 14, 8888);
+
+      if (dt.hour >= 21) {
+        ///set next day for hours
+
+        var nd9 = DateTime(dt.year, dt.month, dt.day + 1, 9, 0, 0);
+        saveSchedule(nd9, 9, _id);
+        _id++;
+
+        print("next day: ${nd9.toIso8601String()}");
+        var nd12 = DateTime(dt.year, dt.month, dt.day + 1, 12, 0, 0);
+        saveSchedule(nd12, 12, _id);
+        _id++;
+
+        print("next day: ${nd12.toIso8601String()}");
+        var nd15 = DateTime(dt.year, dt.month, dt.day + 1, 15, 0, 0);
+        print("next day: ${nd15.toIso8601String()}");
+        saveSchedule(nd15, 15, _id);
+        _id++;
+
+        var nd18 = DateTime(dt.year, dt.month, dt.day + 1, 18, 0, 0);
+        print("next day: ${nd18.toIso8601String()}");
+        saveSchedule(nd18, 18, _id);
+        _id++;
+
+        var nd21 = DateTime(dt.year, dt.month, dt.day + 1, 21, 0, 0);
+        saveSchedule(nd21, 21, _id);
+        _id++;
+
+        print("next day: ${nd21.toIso8601String()}");
+      } else {
+        if (dt.hour < 9) {
+          var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
+          saveSchedule(nd9, 9, _id);
+          _id++;
+          print("next day: ${nd9.toIso8601String()}");
+
+          var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
+          saveSchedule(nd12, 12, _id);
+          _id++;
+
+          print("next day: ${nd12.toIso8601String()}");
+
+          var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
+          saveSchedule(nd15, 15, _id);
+          _id++;
+
+          print("next day: ${nd15.toIso8601String()}");
+
+          var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
+          saveSchedule(nd18, 18, _id);
+          _id++;
+
+          print("next day: ${nd18.toIso8601String()}");
+
+          var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
+          saveSchedule(nd21, 21, _id);
+          _id++;
+
+          print("next day: ${nd21.toIso8601String()}");
+        } else if (dt.hour >= 9 && dt.hour < 12) {
+          var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
+          saveSchedule(nd12, 12, _id);
+          _id++;
+
+          print("next day: ${nd12.toIso8601String()}");
+
+          var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
+          saveSchedule(nd15, 15, _id);
+          _id++;
+
+          print("next day: ${nd15.toIso8601String()}");
+
+          var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
+          saveSchedule(nd18, 18, _id);
+          _id++;
+
+          print("next day: ${nd18.toIso8601String()}");
+
+          var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
+          saveSchedule(nd21, 21, _id);
+          _id++;
+
+          print("next day: ${nd21.toIso8601String()}");
+
+          ///schedule next day
+          dt = dt.add(const Duration(days: 1));
+          var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
+          saveSchedule(nd9, 9, _id);
+          _id++;
+
+          print("next day: ${nd9.toIso8601String()}");
+        } else if (dt.hour >= 12 && dt.hour < 15) {
+          var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
+          saveSchedule(nd15, 15, _id);
+          _id++;
+
+          print("next day: ${nd15.toIso8601String()}");
+
+          var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
+          saveSchedule(nd18, 18, _id);
+          _id++;
+
+          print("next day: ${nd18.toIso8601String()}");
+
+          var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
+          saveSchedule(nd21, 21, _id);
+          _id++;
+
+          print("next day: ${nd21.toIso8601String()}");
+
+          ///schedule next day
+          dt = dt.add(const Duration(days: 1));
+          var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
+          saveSchedule(nd9, 9, _id);
+          _id++;
+
+          print("next day: ${nd9.toIso8601String()}");
+          var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
+          saveSchedule(nd12, 12, _id);
+          _id++;
+
+          print("next day: ${nd12.toIso8601String()}");
+        } else if (dt.hour >= 15 && dt.hour < 18) {
+          var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
+          saveSchedule(nd18, 18, _id);
+          _id++;
+
+          print("next day: ${nd18.toIso8601String()}");
+
+          var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
+          saveSchedule(nd21, 21, _id);
+          _id++;
+
+          print("next day: ${nd21.toIso8601String()}");
+
+          ///schedule next day
+          dt = dt.add(const Duration(days: 1));
+          var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
+          saveSchedule(nd9, 9, _id);
+          _id++;
+
+          print("next day: ${nd9.toIso8601String()}");
+          var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
+          saveSchedule(nd12, 12, _id);
+          _id++;
+
+          print("next day: ${nd12.toIso8601String()}");
+          var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
+          saveSchedule(nd15, 15, _id);
+          _id++;
+
+          print("next day: ${nd15.toIso8601String()}");
+        } else if (dt.hour >= 18 && dt.hour < 21) {
+          var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
+          saveSchedule(nd21, 21, _id);
+          _id++;
+
+          print("next day: ${nd21.toIso8601String()}");
+
+          ///schedule next day
+          dt = dt.add(const Duration(days: 1));
+          var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
+          saveSchedule(nd9, 9, _id);
+          _id++;
+
+          print("next day: ${nd9.toIso8601String()}");
+          var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
+          saveSchedule(nd12, 12, _id);
+          _id++;
+
+          print("next day: ${nd12.toIso8601String()}");
+          var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
+          saveSchedule(nd15, 15, _id);
+          _id++;
+
+          print("next day: ${nd15.toIso8601String()}");
+
+          var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
+          saveSchedule(nd18, 18, _id);
+          _id++;
+
+          print("next day: ${nd18.toIso8601String()}");
+        }
+      }
+    } else {
+      localNotifyManager.cancelAllScheduled();
+      // LocalStorage storage = LocalStorage("questions");
+      // storage.clear();
+      // storage.dispose();
+    }
+  }
+
+  Future<void> saveSchedule(DateTime dt, int mode, int _id) async {
+    // LocalStorage storage = LocalStorage('questions');
+
+    var list = [];
+    var now = DateTime.now();
+    var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
+    var inputDate = inputFormat.parse(
+        '${dt.day}/${dt.month}/${dt.year} ${mode.toString()}:00'); // <-- dd/MM 24H format
+
+    var genId =
+        "${dt.year}-${dt.month}-${dt.day}-${mode.toString()}-${FirebaseAuth.instance.currentUser!.uid}";
+
+    // var qa = storage.getItem("questions");
+
+    var packOfQuestions = [
+      {
+        "id": 0,
+        "question": "Kondisi gigi geligi anda saat ini",
+        "option": [
+          "Terpisah",
+          "Berkontak ringan",
+          "Berkontak erat",
+          "Bergemeretak"
+        ],
+        "form": "radio"
+      },
+      {
+        "id": 1,
+        "question": "Kondisi otot wajah/rahang (?) anda saat ini",
+        "option": [
+          "Rileks",
+          "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
+        ],
+        "form": "radio"
+      },
+      {
+        "id": 2,
+        "question": "Apakah anda merasakan nyeri di daerah wajah",
+        "option": ["Ya", "Tidak"],
+        "form": "radio"
+      },
+      {
+        "id": 3,
+        "question": "Bila nyeri, berapa skala nyeri anda?",
+        "option": 10,
+        "form": "scale"
+      }
+    ];
+
+    var packOfQuestions2 = [
+      {
+        "id": 0,
+        "question": "Kondisi gigi geligi anda saat ini",
+        "option": [
+          "Terpisah",
+          "Berkontak ringan",
+          "Berkontak erat",
+          "Bergemeretak"
+        ],
+        "form": "radio"
+      },
+      {
+        "id": 1,
+        "question": "Kondisi otot wajah/rahang (?) anda saat ini",
+        "option": [
+          "Rileks",
+          "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
+        ],
+        "form": "radio"
+      },
+      {
+        "id": 2,
+        "question": "Apakah anda merasakan nyeri di daerah wajah",
+        "option": ["Ya", "Tidak"],
+        "form": "radio"
+      },
+      // {
+      //   "id": 3,
+      //   "question": "erasa gugup atau tegang",
+      //   "option": ["Ya", "Tidak"]
+      // },
+      {
+        "id": 3,
+        "question": "Kondisi anda hari ini",
+        "option": [
+          "Merasa gugup atau tegang",
+          "Sulit mengontrol kawatir",
+          "Merasa sedih, depresi",
+          "Merasa malas melakukan sesuatu"
+        ],
+        "form": "check"
+      }
+    ];
+    var rng = Random();
+    int rn = rng.nextInt(100);
+    var chosenQuestion = rn % 2 == 0 ? packOfQuestions2 : packOfQuestions;
+    var context = {
+      "mode": mode,
+      "ih": dt.hour,
+      "im": dt.minute,
+      "is": dt.second,
+      "init": now.millisecondsSinceEpoch,
+      "end": inputDate.millisecondsSinceEpoch,
+      "date": dt.toIso8601String(),
+      "timestamp": dt.millisecondsSinceEpoch,
+      "status": "onSchedule",
+      "question": "default question",
+      "answer": "default answer",
+      "listQuestions": chosenQuestion,
+      'userId': FirebaseAuth.instance.currentUser!.uid,
+      'genId': genId,
+      'email': FirebaseAuth.instance.currentUser!.email,
+      'name': FirebaseAuth.instance.currentUser!.displayName,
+      'answerOn': 0
+    };
+
+    // FirebaseFirestore.instance
+    //     .collection("alerts")
+    //     .doc(genId)
+    //     // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
+    //     .set(context);
+
+    await LocalNotifyManager.init().dailyAtTimeNotification(
+        _id,
+        mode,
+        dt,
+        jsonEncode(context),
+        "Bruxism Notificaiton",
+        "Rate your pain, Jam $mode");
+  }
+
   @override
   initState() {
     super.initState();
@@ -108,6 +442,12 @@ class _SecondScreenState extends State<SecondScreen> {
   @override
   Widget build(BuildContext context) {
     var context2 = jsonDecode(widget.id);
+
+    if (21 == context2.mode) {
+      var now = DateTime.now();
+      startSessions(true, now, false).then((value) => print("done"));
+    }
+
     var list = [];
     if (null != storage.getItem("questions")) {
       if (storage.getItem("questions") is String) {
@@ -373,7 +713,7 @@ class _SecondScreenState extends State<SecondScreen> {
 
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
-      
+
       body: Container(
         color: Colors.white,
         padding: const EdgeInsets.all(10.0),
@@ -413,15 +753,15 @@ class _SecondScreenState extends State<SecondScreen> {
                 localizations: const {'cancel': 'Cancel', 'next': 'Next'},
                 themeData: Theme.of(context).copyWith(
                   colorScheme:
-                      ColorScheme.fromSwatch(primarySwatch: Colors.cyan)                      
+                      ColorScheme.fromSwatch(primarySwatch: Colors.cyan)
                           .copyWith(onPrimary: Colors.white),
-                  
                   primaryColor: Colors.cyan,
                   backgroundColor: Colors.white,
                   appBarTheme: const AppBarTheme(
                     color: Colors.white,
                     iconTheme: IconThemeData(color: Colors.cyan),
-                    titleTextStyle: TextStyle(color: Colors.cyan, fontFamily: 'neucha'),
+                    titleTextStyle:
+                        TextStyle(color: Colors.cyan, fontFamily: 'neucha'),
                   ),
                   iconTheme: const IconThemeData(color: Colors.cyan),
                   textSelectionTheme: const TextSelectionThemeData(
@@ -495,8 +835,7 @@ class _SecondScreenState extends State<SecondScreen> {
       //       },
       //       itemCount: context2["listQuestions"].length,
       //     )),
-      
-      
+
       // floatingActionButton: FloatingActionButton(
       //   onPressed: () {
       //     // print("FACE...");
@@ -507,8 +846,6 @@ class _SecondScreenState extends State<SecondScreen> {
       //   backgroundColor: Colors.green,
       //   child: const Icon(Icons.send, semanticLabel: "Send"),
       // ),
-
-
     );
     // return Scaffold(
     //   appBar: AppBar(title: Text(widget.title)),

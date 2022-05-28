@@ -237,6 +237,21 @@ class _MyHomePageState extends State<MyHomePage> {
       var credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       await credential.user!.updateDisplayName(displayName);
+      var _user = credential.user;
+
+      var _super = {
+        "email": _user!.email,
+        "uid": _user.uid,
+        "photoUrl": "",
+        "role": "1",
+        "displayName": displayName,
+        "emailVerified": credential.user!.emailVerified
+      };
+
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(_user.uid)
+          .set(_super);
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }
