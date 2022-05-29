@@ -1473,11 +1473,24 @@ class SlideSchedule extends StatelessWidget {
     return FutureBuilder(
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Switch(
-              value: snapshot.data as bool,
-              onChanged: (value) {
-                setSwitch(value);
-              });
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+          
+            children: [
+              const Padding(
+                  padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: Text("OFF", style: TextStyle(fontSize: 12.0, fontFamily: 'roboto'),)),
+              Switch(
+                  value: snapshot.data as bool,
+                  onChanged: (value) {
+                    setSwitch(value);
+                  }),
+              const Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                  child: Text("ON", style: TextStyle(fontSize: 12.0, fontFamily: 'roboto'))),
+            ],
+          );
         } else {
           return const SizedBox(
             height: 10.0,
