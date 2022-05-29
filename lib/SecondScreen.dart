@@ -443,7 +443,7 @@ class _SecondScreenState extends State<SecondScreen> {
   Widget build(BuildContext context) {
     var context2 = jsonDecode(widget.id);
 
-    if (21 == context2.mode) {
+    if (21 == context2["mode"]) {
       var now = DateTime.now();
       startSessions(true, now, false).then((value) => print("done"));
     }

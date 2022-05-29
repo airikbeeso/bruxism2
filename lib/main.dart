@@ -1179,7 +1179,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   await LocalNotifyManager.init().dailyAtTimeNotification2(
                       999,
-                      12,
+                      21,
                       tz.TZDateTime.now(tz.local)
                           .add(const Duration(seconds: 5)),
                       jsonEncode(contextz),
