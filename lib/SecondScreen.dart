@@ -445,6 +445,8 @@ class _SecondScreenState extends State<SecondScreen> {
 
     if (21 == context2["mode"]) {
       var now = DateTime.now();
+      localNotifyManager.cancelAllScheduled();
+
       startSessions(true, now, false).then((value) => print("done"));
     }
 
