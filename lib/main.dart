@@ -1216,17 +1216,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: const Text("CLEAR")),
             ],
           ),
-          
-          
           persistentFooterButtons: [
-        
-          
-            BackButton(
-              onPressed: () => _selectPage(0),
-            
-            ),
-            const Padding(
-                padding: EdgeInsets.all(10.0), child: Text("version 9")),
+            Flex(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              direction: Axis.horizontal,
+              children: [
+                BackButton(
+                  onPressed: () => _selectPage(0),
+                ),
+                const Padding(
+                    padding: EdgeInsets.all(10.0), child: Text("version 9")),
+              ],
+            )
           ],
         );
       case 2:
