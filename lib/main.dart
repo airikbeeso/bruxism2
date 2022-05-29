@@ -1025,7 +1025,7 @@ class _MyHomePageState extends State<MyHomePage> {
           appBar: AppBar(title: const Text("Create Alert")),
           body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 // const Center(
                 //   child: Padding(
