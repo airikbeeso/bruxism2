@@ -85,8 +85,9 @@ class LocalNotifyManager {
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.local);
     var dt = tz.TZDateTime.now(tz.local);
-    
-    var currentDateTime = tz.TZDateTime.from(dt2, tz.local); //tz.TZDateTime.utc(dt2.year, dt2.month, dt2.day, dt2.hour, dt2.minute, dt2.second);
+
+    var currentDateTime = tz.TZDateTime.from(dt2,
+        tz.local); //tz.TZDateTime.utc(dt2.year, dt2.month, dt2.day, dt2.hour, dt2.minute, dt2.second);
     // var dtn = DateTime.now();
     // print("currentDateTime $currentDateTime $dtn");
     var h = dt2.hour;
@@ -179,7 +180,6 @@ class LocalNotifyManager {
     //     uiLocalNotificationDateInterpretation:
     //         UILocalNotificationDateInterpretation.wallClockTime,
     //     androidAllowWhileIdle: true);
-
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
         _id,

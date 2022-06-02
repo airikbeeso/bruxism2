@@ -193,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   onNotificationClick(String? payload) {
-    print('Payload $payload');
+    print('Payload xxx ::::: $payload');
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
         return SecondScreen(
@@ -573,6 +573,7 @@ class _MyHomePageState extends State<MyHomePage> {
         jsonEncode(context),
         "Bruxism Notificaiton",
         "Rate your pain, Jam $mode");
+
   }
 
   Future<void> startSessions_test(
@@ -1476,11 +1477,13 @@ class SlideSchedule extends StatelessWidget {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-          
             children: [
               const Padding(
                   padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                  child: Text("OFF", style: TextStyle(fontSize: 12.0, fontFamily: 'roboto'),)),
+                  child: Text(
+                    "OFF",
+                    style: TextStyle(fontSize: 12.0, fontFamily: 'roboto'),
+                  )),
               Switch(
                   value: snapshot.data as bool,
                   onChanged: (value) {
@@ -1488,7 +1491,8 @@ class SlideSchedule extends StatelessWidget {
                   }),
               const Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                  child: Text("ON", style: TextStyle(fontSize: 12.0, fontFamily: 'roboto'))),
+                  child: Text("ON",
+                      style: TextStyle(fontSize: 12.0, fontFamily: 'roboto'))),
             ],
           );
         } else {

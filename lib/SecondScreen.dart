@@ -167,8 +167,8 @@ class _SecondScreenState extends State<SecondScreen> {
           print("next day: ${nd21.toIso8601String()}");
 
           ///schedule next day
-          dt = dt.add(const Duration(days: 1));
-          var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
+          var dt2 = dt.add(const Duration(days: 1));
+          var nd9 = DateTime(dt2.year, dt2.month, dt2.day, 9, 0, 0);
           saveSchedule(nd9, 9, _id);
           _id++;
 
@@ -193,13 +193,13 @@ class _SecondScreenState extends State<SecondScreen> {
           print("next day: ${nd21.toIso8601String()}");
 
           ///schedule next day
-          dt = dt.add(const Duration(days: 1));
-          var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
+          var dt2 = dt.add(const Duration(days: 1));
+          var nd9 = DateTime(dt2.year, dt2.month, dt2.day, 9, 0, 0);
           saveSchedule(nd9, 9, _id);
           _id++;
 
           print("next day: ${nd9.toIso8601String()}");
-          var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
+          var nd12 = DateTime(dt2.year, dt2.month, dt2.day, 12, 0, 0);
           saveSchedule(nd12, 12, _id);
           _id++;
 
@@ -218,18 +218,18 @@ class _SecondScreenState extends State<SecondScreen> {
           print("next day: ${nd21.toIso8601String()}");
 
           ///schedule next day
-          dt = dt.add(const Duration(days: 1));
-          var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
+          var dt2 = dt.add(const Duration(days: 1));
+          var nd9 = DateTime(dt2.year, dt2.month, dt2.day, 9, 0, 0);
           saveSchedule(nd9, 9, _id);
           _id++;
 
           print("next day: ${nd9.toIso8601String()}");
-          var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
+          var nd12 = DateTime(dt2.year, dt2.month, dt2.day, 12, 0, 0);
           saveSchedule(nd12, 12, _id);
           _id++;
 
           print("next day: ${nd12.toIso8601String()}");
-          var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
+          var nd15 = DateTime(dt2.year, dt2.month, dt2.day, 15, 0, 0);
           saveSchedule(nd15, 15, _id);
           _id++;
 
@@ -242,24 +242,24 @@ class _SecondScreenState extends State<SecondScreen> {
           print("next day: ${nd21.toIso8601String()}");
 
           ///schedule next day
-          dt = dt.add(const Duration(days: 1));
-          var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
+          var dt2 = dt.add(const Duration(days: 1));
+          var nd9 = DateTime(dt2.year, dt2.month, dt2.day, 9, 0, 0);
           saveSchedule(nd9, 9, _id);
           _id++;
 
           print("next day: ${nd9.toIso8601String()}");
-          var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
+          var nd12 = DateTime(dt2.year, dt2.month, dt2.day, 12, 0, 0);
           saveSchedule(nd12, 12, _id);
           _id++;
 
           print("next day: ${nd12.toIso8601String()}");
-          var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
+          var nd15 = DateTime(dt2.year, dt2.month, dt2.day, 15, 0, 0);
           saveSchedule(nd15, 15, _id);
           _id++;
 
           print("next day: ${nd15.toIso8601String()}");
 
-          var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
+          var nd18 = DateTime(dt2.year, dt2.month, dt2.day, 18, 0, 0);
           saveSchedule(nd18, 18, _id);
           _id++;
 
@@ -268,9 +268,9 @@ class _SecondScreenState extends State<SecondScreen> {
       }
     } else {
       localNotifyManager.cancelAllScheduled();
-      // LocalStorage storage = LocalStorage("questions");
-      // storage.clear();
-      // storage.dispose();
+      LocalStorage storage = LocalStorage("questions");
+      storage.clear();
+      storage.dispose();
     }
   }
 
