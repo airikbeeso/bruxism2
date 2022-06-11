@@ -33,6 +33,7 @@ import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'viewAlerts.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:http/http.dart' as http;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -140,6 +141,8 @@ class _MyHomePageState extends State<MyHomePage> {
   late String? loginStatus;
   bool isSwitched = false;
   String? country;
+
+  String? _token;
 
   @override
   void initState() {
@@ -260,6 +263,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void initFB() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
+    // _token = await FirebaseMessaging.instance.getAPNSToken();
+    _token = await FirebaseMessaging.instance.getToken();
+
+    print("token....${_token.toString()}");
 
     NotificationSettings settings = await messaging.requestPermission(
       alert: true,
@@ -560,11 +567,16 @@ class _MyHomePageState extends State<MyHomePage> {
       'answerOn': 0
     };
 
-    // FirebaseFirestore.instance
-    //     .collection("alerts")
-    //     .doc(genId)
-    //     // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
-    //     .set(context);
+    FirebaseFirestore.instance
+        .collection("questions")
+        .doc(genId)
+        // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
+        .set(context);
+
+    // String? token = await FirebaseMessaging.instance.getAPNSToken();
+    // print("token: ${token.toString()}");
+
+    sendPushMessage("Please change", context);
 
     await LocalNotifyManager.init().dailyAtTimeNotification(
         _id,
@@ -573,7 +585,45 @@ class _MyHomePageState extends State<MyHomePage> {
         jsonEncode(context),
         "Bruxism Notificaiton",
         "Rate your pain, Jam $mode");
+  }
 
+  String constructFCMPayload(String? token, String msg, dynamic context) {
+    return jsonEncode({
+      'token': token,
+      'data': {
+      'via': 'FlutterFire Cloud Messaging!!!',
+      'count': "2",
+    },
+      'notification': {
+        'title': 'Firebase message',
+        'body': msg,
+      },
+    });
+  }
+
+  Future<void> sendPushMessage(String msg, dynamic context) async {
+    // String? token = await FirebaseMessaging.instance.getAPNSToken();
+    // _token = token;
+
+    _token = await FirebaseMessaging.instance.getToken();
+
+    if (_token == null) {
+      print('Unable to send FCM message, no token exists.');
+      return;
+    }
+
+    try {
+      await http.post(
+        Uri.parse('https://api.rnfirebase.io/messaging/send'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: constructFCMPayload(_token, msg, context),
+      );
+      print('FCM request for device sent!');
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> startSessions_test(
@@ -1174,6 +1224,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         jsonEncode(contextz),
                         "Bruxism Notificaiton",
                         "Rate your pain 1-10");
+
+
+
+                    sendPushMessage("Please change", contextz);
 
                     // await LocalNotifyManager.init().dailyAtTimeNotification2(
                     //     998,
