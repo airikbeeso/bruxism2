@@ -452,9 +452,10 @@ class _MyHomePageState extends State<MyHomePage> {
   // Future<DocumentReference>
 
   Future<void> saveSchedule(DateTime dt, int mode, int _id) async {
-    // LocalStorage storage = LocalStorage('questions');
+    LocalStorage storage = LocalStorage('questions');
+    final QitemList list = QitemList();
 
-    var list = [];
+    // var list = [];
     var now = DateTime.now();
     var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
     var inputDate = inputFormat.parse(
@@ -463,7 +464,18 @@ class _MyHomePageState extends State<MyHomePage> {
     var genId =
         "${dt.year}-${dt.month}-${dt.day}-${mode.toString()}-${FirebaseAuth.instance.currentUser!.uid}";
 
-    // var qa = storage.getItem("questions");
+    var qa = storage.getItem("questions");
+
+    _clearStorage() async {
+      await storage.clear();
+      setState(() {
+        list.items = storage.getItem('questions') ?? [];
+      });
+    }
+
+    _saveToStorage() {
+      storage.setItem('questions', list.toJSONEncodable());
+    }
 
     var packOfQuestions = [
       {
@@ -567,6 +579,28 @@ class _MyHomePageState extends State<MyHomePage> {
       'answerOn': 0
     };
 
+    Qitem context2 = {
+      "mode": mode,
+      "ih": dt.hour,
+      "im": dt.minute,
+      "isec": dt.second,
+      "init": now.millisecondsSinceEpoch,
+      "end": inputDate.millisecondsSinceEpoch,
+      "date": dt.toIso8601String(),
+      "timestamp": dt.millisecondsSinceEpoch,
+      "status": "onSchedule",
+      "question": "default question",
+      "answer": "default answer",
+      "listQuestions": chosenQuestion,
+      'userId': FirebaseAuth.instance.currentUser!.uid,
+      'genId': genId,
+      'email': FirebaseAuth.instance.currentUser!.email,
+      'name': FirebaseAuth.instance.currentUser!.displayName,
+      'answerOn': 0
+    } as Qitem;
+
+    list.items.add(context2);
+
     FirebaseFirestore.instance
         .collection("questions")
         .doc(genId)
@@ -591,9 +625,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return jsonEncode({
       'token': token,
       'data': {
-      'via': 'FlutterFire Cloud Messaging!!!',
-      'count': "2",
-    },
+        'via': 'FlutterFire Cloud Messaging!!!',
+        'count': "2",
+      },
       'notification': {
         'title': 'Firebase message',
         'body': msg,
@@ -1022,7 +1056,9 @@ class _MyHomePageState extends State<MyHomePage> {
       var now = DateTime.now();
       // var now2 = DateTime.utc(now.year, now.month, now.day, 15);
 
-      startSessions(isSwitched, now, false);
+      // startSessions(isSwitched, now, false);
+      print("WWWWWWW");
+      startSessions_test(isSwitched, now, false);
     });
   }
 
@@ -1224,8 +1260,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         jsonEncode(contextz),
                         "Bruxism Notificaiton",
                         "Rate your pain 1-10");
-
-
 
                     sendPushMessage("Please change", contextz);
 
@@ -1883,5 +1917,74 @@ class _RegisterFormState extends State<RegisterForm> {
         ),
       ],
     );
+  }
+}
+
+class Qitem {
+  String mode;
+  Int ih;
+  Int im;
+  Int isec;
+  Int init;
+  Int end;
+  Int date;
+  Int timestamp;
+  String status;
+  String question;
+  dynamic listQuestions;
+  String userId;
+  String genId;
+  String email;
+  String name;
+  Int answerOn;
+
+  Qitem(
+      {required this.mode,
+      required this.ih,
+      required this.im,
+      required this.isec,
+      required this.init,
+      required this.end,
+      required this.date,
+      required this.timestamp,
+      required this.status,
+      required this.question,
+      required this.listQuestions,
+      required this.userId,
+      required this.genId,
+      required this.email,
+      required this.name,
+      required this.answerOn});
+
+  toJSONEncodable() {
+    Map<String, dynamic> m = {};
+
+    m['mode'] = mode;
+    m['ih'] = ih;
+    m['im'] = im;
+    m['isec'] = isec;
+    m['init'] = init;
+    m['end'] = end;
+    m['date'] = date;
+    m['timestamp'] = timestamp;
+    m['status'] = status;
+    m['question'] = question;
+    m['listQuestions'] = listQuestions;
+    m['userId'] = userId;
+    m['genId'] = genId;
+    m['email'] = email;
+    m['name'] = name;
+    m['answerOn'] = answerOn;
+    return m;
+  }
+}
+
+class QitemList {
+  List<Qitem> items = [];
+
+  toJSONEncodable() {
+    return items.map((item) {
+      return item.toJSONEncodable();
+    }).toList();
   }
 }
