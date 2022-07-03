@@ -318,7 +318,7 @@ class _SecondScreenState extends State<SecondScreen> {
       {
         "id": 3,
         "question": "Bila nyeri, berapa skala nyeri anda?",
-        "option": 10,
+        "option": 5,
         "form": "scale"
       }
     ];
@@ -450,27 +450,27 @@ class _SecondScreenState extends State<SecondScreen> {
       startSessions(true, now, false).then((value) => print("done"));
     }
 
-    var list = [];
-    if (null != storage.getItem("questions")) {
-      if (storage.getItem("questions") is String) {
-        list = [];
-      } else {
-        list = json.decode(storage.getItem("questions"));
-      }
+    // var list = [];
+    // if (null != storage.getItem("questions")) {
+    //   if (storage.getItem("questions") is String) {
+    //     list = [];
+    //   } else {
+    //     list = json.decode(storage.getItem("questions"));
+    //   }
 
-      if (list
-          .where((element) => element["genId"] == context2["genId"])
-          .isEmpty) {
-        list.add(context2);
-        storage.setItem("questions", json.encode(list));
-      } else {
-        list.add(context2);
-        storage.setItem("questions", json.encode(list));
-      }
-    } else {
-      list.add(context2);
-      storage.setItem("questions", json.encode(list));
-    }
+    //   if (list
+    //       .where((element) => element["genId"] == context2["genId"])
+    //       .isEmpty) {
+    //     list.add(context2);
+    //     storage.setItem("questions", json.encode(list));
+    //   } else {
+    //     list.add(context2);
+    //     storage.setItem("questions", json.encode(list));
+    //   }
+    // } else {
+    //   list.add(context2);
+    //   storage.setItem("questions", json.encode(list));
+    // }
 
     // print(context);
     // print(context2["listQuestions"]);
@@ -580,9 +580,9 @@ class _SecondScreenState extends State<SecondScreen> {
                   step: 1,
                   minimumValue: 1,
                   maximumValue: v,
-                  defaultValue: 5,
+                  defaultValue: 3,
                   minimumValueDescription: '1',
-                  maximumValueDescription: '10',
+                  maximumValueDescription: '5',
                 )));
             break;
           default:

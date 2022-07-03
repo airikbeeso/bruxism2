@@ -507,7 +507,7 @@ class _MyHomePageState extends State<MyHomePage> {
       {
         "id": 3,
         "question": "Bila nyeri, berapa skala nyeri anda?",
-        "option": 10,
+        "option": 5,
         "form": "scale"
       }
     ];
@@ -579,27 +579,27 @@ class _MyHomePageState extends State<MyHomePage> {
       'answerOn': 0
     };
 
-    Qitem context2 = {
-      "mode": mode,
-      "ih": dt.hour,
-      "im": dt.minute,
-      "isec": dt.second,
-      "init": now.millisecondsSinceEpoch,
-      "end": inputDate.millisecondsSinceEpoch,
-      "date": dt.toIso8601String(),
-      "timestamp": dt.millisecondsSinceEpoch,
-      "status": "onSchedule",
-      "question": "default question",
-      "answer": "default answer",
-      "listQuestions": chosenQuestion,
-      'userId': FirebaseAuth.instance.currentUser!.uid,
-      'genId': genId,
-      'email': FirebaseAuth.instance.currentUser!.email,
-      'name': FirebaseAuth.instance.currentUser!.displayName,
-      'answerOn': 0
-    } as Qitem;
+    // Qitem context2 = {
+    //   "mode": mode,
+    //   "ih": dt.hour,
+    //   "im": dt.minute,
+    //   "isec": dt.second,
+    //   "init": now.millisecondsSinceEpoch,
+    //   "end": inputDate.millisecondsSinceEpoch,
+    //   "date": dt.toIso8601String(),
+    //   "timestamp": dt.millisecondsSinceEpoch,
+    //   "status": "onSchedule",
+    //   "question": "default question",
+    //   "answer": "default answer",
+    //   "listQuestions": chosenQuestion,
+    //   'userId': FirebaseAuth.instance.currentUser!.uid,
+    //   'genId': genId,
+    //   'email': FirebaseAuth.instance.currentUser!.email,
+    //   'name': FirebaseAuth.instance.currentUser!.displayName,
+    //   'answerOn': 0
+    // } as Qitem;
 
-    list.items.add(context2);
+    // list.items.add(context2);
 
     FirebaseFirestore.instance
         .collection("questions")
@@ -610,7 +610,10 @@ class _MyHomePageState extends State<MyHomePage> {
     // String? token = await FirebaseMessaging.instance.getAPNSToken();
     // print("token: ${token.toString()}");
 
-    sendPushMessage("Please change", context);
+///////////*Firebase message *//////////
+    // sendPushMessage("Please change", context);
+////////////////////////////////////////
+    // _saveToStorage();
 
     await LocalNotifyManager.init().dailyAtTimeNotification(
         _id,
@@ -662,6 +665,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> startSessions_test(
       bool isActive, DateTime dt, bool repeat) async {
+    LocalStorage storage = LocalStorage('questions');
+    storage.setItem("initial_date_time", DateTime.now().millisecondsSinceEpoch);
+
     if (loginStatus == "logout") {
       throw Exception('Must be logged in');
     } else {
@@ -1103,6 +1109,10 @@ class _MyHomePageState extends State<MyHomePage> {
     List<String> ids = [];
     ids.add("m4uAoRv8LThXzXvu0qiU");
     ids.add("a8V1hiAJWdEbyqD4FGOB");
+    var m = "init date";
+    bool initialized = false;
+
+    final LocalStorage storage = LocalStorage('questions');
 
     switch (_pageMode) {
       case 1:
@@ -1166,7 +1176,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       {
                         "id": 3,
                         "question": "Bila nyeri, berapa skala nyeri anda?",
-                        "option": 10,
+                        "option": 5,
                         "form": "scale"
                       }
                     ];
@@ -1303,6 +1313,28 @@ class _MyHomePageState extends State<MyHomePage> {
                     storage.clear();
                   },
                   child: const Text("CLEAR")),
+              Container(
+                padding: const EdgeInsets.all(10.0),
+                constraints: const BoxConstraints.expand(),
+                child: FutureBuilder(
+                    future: storage.ready,
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.data == null) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (!initialized) {
+                        var items = storage.getItem("initial_date_time");
+                        if (items != null) {
+                          return Text(DateFormat('MM/dd/yyyy hh:mm a').format(
+                              DateTime.fromMillisecondsSinceEpoch(items)));
+                        }
+                        initialized = true;
+                      }
+                      return const Text("Wwww");
+                    }),
+              )
             ],
           ),
           persistentFooterButtons: [
