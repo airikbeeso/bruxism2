@@ -1,20 +1,14 @@
 import 'dart:convert';
 import 'dart:ffi';
-import 'dart:io';
-import 'dart:io' show Platform;
 
-import 'dart:developer' as developer;
-import 'dart:isolate';
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:bruxism2/SecondScreen.dart';
+import 'package:bruxism2/ThirdScreen.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:group_button/group_button.dart';
-import 'firebase_options.dart';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -25,12 +19,9 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import 'notificationservice.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'LocalNotifyManager.dart';
 import 'package:intl/intl.dart';
-import 'dart:math';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'viewAlerts.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:http/http.dart' as http;
@@ -1118,240 +1109,287 @@ class _MyHomePageState extends State<MyHomePage> {
       case 1:
         //readSettings().then((val) => isSwitched = val);
 
-        return Scaffold(
-          appBar: AppBar(title: const Text("Create Alert")),
-          body: GridView.count(
-            primary: false,
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
-            crossAxisSpacing: 5,
-            mainAxisSpacing: 5,
-            crossAxisCount: 2,
-            children: [
-              SlideSchedule(
-                  getStatus: () => readSettings(), setSwitch: setSwitch),
-              TextButton(
-                  onPressed: () async {
-                    // await localNotifyManager.showNotification();
-                    // await localNotifyManager.repeatNotification();
+        return ClipRRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+            child: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: [
+                        Colors.white.withOpacity(0.4),
+                        Colors.white.withOpacity(0.8)
+                      ],
+                      begin: AlignmentDirectional.topStart,
+                      end: AlignmentDirectional.bottomEnd),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  border: Border.all(
+                      width: 1.5, color: Colors.white.withOpacity(0.2))),
+              child: Scaffold(
+                appBar: AppBar(title: const Text("Create Alert")),
+                backgroundColor: Colors.greenAccent,
+                body: GridView.count(
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  primary: false,
+                  padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
+                  crossAxisSpacing: 5,
+                  mainAxisSpacing: 5,
+                  crossAxisCount: 2,
+                  children: [
+                    SlideSchedule(
+                        getStatus: () => readSettings(), setSwitch: setSwitch),
+                    TextButton(
+                        onPressed: () async {
+                          // await localNotifyManager.showNotification();
+                          // await localNotifyManager.repeatNotification();
 
-                    var now = DateTime.now();
-                    var dt = DateTime.now();
-                    var mode = 9;
-                    var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
-                    var inputDate = inputFormat.parse(
-                        '${dt.day}/${dt.month}/${dt.year} ${mode.toString()}:00'); // <-- dd/MM 24H format
+                          var now = DateTime.now();
+                          var dt = DateTime.now();
+                          var mode = 9;
+                          var inputFormat = DateFormat('dd/MM/yyyy HH:mm');
+                          var inputDate = inputFormat.parse(
+                              '${dt.day}/${dt.month}/${dt.year} ${mode.toString()}:00'); // <-- dd/MM 24H format
 
-                    var genId =
-                        "${dt.year}-${dt.month}-${dt.day}-${mode.toString()}-${FirebaseAuth.instance.currentUser!.uid}";
+                          var genId =
+                              "${dt.year}-${dt.month}-${dt.day}-${mode.toString()}-${FirebaseAuth.instance.currentUser!.uid}";
 
-                    var packOfQuestions = [
-                      {
-                        "id": 0,
-                        "question": "Kondisi gigi geligi anda saat ini",
-                        "option": [
-                          "Terpisah",
-                          "Berkontak ringan",
-                          "Berkontak erat",
-                          "Bergemeretak"
-                        ],
-                        "form": "radio"
-                      },
-                      {
-                        "id": 1,
-                        "question":
-                            "Kondisi otot wajah/rahang (?) anda saat ini",
-                        "option": [
-                          "Rileks",
-                          "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
-                        ],
-                        "form": "radio"
-                      },
-                      {
-                        "id": 2,
-                        "question":
-                            "Apakah anda merasakan nyeri di daerah wajah",
-                        "option": ["Ya", "Tidak"],
-                        "form": "radio"
-                      },
-                      {
-                        "id": 3,
-                        "question": "Bila nyeri, berapa skala nyeri anda?",
-                        "option": 5,
-                        "form": "scale"
-                      }
-                    ];
+                          var packOfQuestions = [
+                            {
+                              "id": 0,
+                              "question": "Kondisi gigi geligi anda saat ini",
+                              "option": [
+                                "Terpisah",
+                                "Berkontak ringan",
+                                "Berkontak erat",
+                                "Bergemeretak"
+                              ],
+                              "form": "radio"
+                            },
+                            {
+                              "id": 1,
+                              "question":
+                                  "Kondisi otot wajah/rahang (?) anda saat ini",
+                              "option": [
+                                "Rileks",
+                                "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
+                              ],
+                              "form": "radio"
+                            },
+                            {
+                              "id": 2,
+                              "question":
+                                  "Apakah anda merasakan nyeri di daerah wajah",
+                              "option": ["Ya", "Tidak"],
+                              "form": "radio"
+                            },
+                            {
+                              "id": 3,
+                              "question":
+                                  "Bila nyeri, berapa skala nyeri anda?",
+                              "option": 5,
+                              "form": "scale"
+                            }
+                          ];
 
-                    var packOfQuestions2 = [
-                      {
-                        "id": 0,
-                        "question": "Kondisi gigi geligi anda saat ini",
-                        "option": [
-                          "Terpisah",
-                          "Berkontak ringan",
-                          "Berkontak erat",
-                          "Bergemeretak"
-                        ],
-                        "form": "radio"
-                      },
-                      {
-                        "id": 1,
-                        "question":
-                            "Kondisi otot wajah/rahang (?) anda saat ini",
-                        "option": [
-                          "Rileks",
-                          "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
-                        ],
-                        "form": "radio"
-                      },
-                      {
-                        "id": 2,
-                        "question":
-                            "Apakah anda merasakan nyeri di daerah wajah",
-                        "option": ["Ya", "Tidak"],
-                        "form": "radio"
-                      },
-                      // {
-                      //   "id": 3,
-                      //   "question": "erasa gugup atau tegang",
-                      //   "option": ["Ya", "Tidak"]
-                      // },
-                      {
-                        "id": 3,
-                        "question": "Kondisi anda hari ini",
-                        "option": [
-                          "Merasa gugup atau tegang",
-                          "Sulit mengontrol kawatir",
-                          "Merasa sedih, depresi",
-                          "Merasa malas melakukan sesuatu"
-                        ],
-                        "form": "check"
-                      }
-                    ];
-                    var rng = Random();
-                    int rn = rng.nextInt(100);
-                    var chosenQuestion =
-                        rn % 2 == 0 ? packOfQuestions2 : packOfQuestions;
+                          var packOfQuestions2 = [
+                            {
+                              "id": 0,
+                              "question": "Kondisi gigi geligi anda saat ini",
+                              "option": [
+                                "Terpisah",
+                                "Berkontak ringan",
+                                "Berkontak erat",
+                                "Bergemeretak"
+                              ],
+                              "form": "radio"
+                            },
+                            {
+                              "id": 1,
+                              "question":
+                                  "Kondisi otot wajah/rahang (?) anda saat ini",
+                              "option": [
+                                "Rileks",
+                                "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
+                              ],
+                              "form": "radio"
+                            },
+                            {
+                              "id": 2,
+                              "question":
+                                  "Apakah anda merasakan nyeri di daerah wajah",
+                              "option": ["Ya", "Tidak"],
+                              "form": "radio"
+                            },
+                            // {
+                            //   "id": 3,
+                            //   "question": "erasa gugup atau tegang",
+                            //   "option": ["Ya", "Tidak"]
+                            // },
+                            {
+                              "id": 3,
+                              "question": "Kondisi anda hari ini",
+                              "option": [
+                                "Merasa gugup atau tegang",
+                                "Sulit mengontrol kawatir",
+                                "Merasa sedih, depresi",
+                                "Merasa malas melakukan sesuatu"
+                              ],
+                              "form": "check"
+                            }
+                          ];
+                          var rng = Random();
+                          int rn = rng.nextInt(100);
+                          var chosenQuestion =
+                              rn % 2 == 0 ? packOfQuestions2 : packOfQuestions;
 
-                    var contextz = {
-                      "mode": mode,
-                      "ih": dt.hour,
-                      "im": dt.minute,
-                      "is": dt.second,
-                      "init": now.millisecondsSinceEpoch,
-                      "end": inputDate.millisecondsSinceEpoch,
-                      "date": dt.toIso8601String(),
-                      "timestamp": dt.millisecondsSinceEpoch,
-                      "status": "onSchedule",
-                      "question": "default question",
-                      "answer": "default answer",
-                      "listQuestions": chosenQuestion,
-                      'userId': FirebaseAuth.instance.currentUser!.uid,
-                      'genId': genId,
-                      'email': FirebaseAuth.instance.currentUser!.email,
-                      'name': FirebaseAuth.instance.currentUser!.displayName
-                    };
-                    // FirebaseFirestore.instance
-                    //     .collection("alerts")
-                    //     .doc(genId)
-                    //     // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
-                    //     .set(context);
+                          var contextz = {
+                            "mode": mode,
+                            "ih": dt.hour,
+                            "im": dt.minute,
+                            "is": dt.second,
+                            "init": now.millisecondsSinceEpoch,
+                            "end": inputDate.millisecondsSinceEpoch,
+                            "date": dt.toIso8601String(),
+                            "timestamp": dt.millisecondsSinceEpoch,
+                            "status": "onSchedule",
+                            "question": "default question",
+                            "answer": "default answer",
+                            "listQuestions": chosenQuestion,
+                            'userId': FirebaseAuth.instance.currentUser!.uid,
+                            'genId': genId,
+                            'email': FirebaseAuth.instance.currentUser!.email,
+                            'name':
+                                FirebaseAuth.instance.currentUser!.displayName
+                          };
+                          // FirebaseFirestore.instance
+                          //     .collection("alerts")
+                          //     .doc(genId)
+                          //     // .doc('settings/' + FirebaseAuth.instance.currentUser!.uid)
+                          //     .set(context);
 
-                    // Navigator.push(context, MaterialPageRoute(
-                    //   builder: (context) {
-                    //     return const ViewAlerts();
-                    //   },
-                    // ));
+                          // Navigator.push(context, MaterialPageRoute(
+                          //   builder: (context) {
+                          //     return const ViewAlerts();
+                          //   },
+                          // ));
 
-                    await LocalNotifyManager.init().dailyAtTimeNotification2(
-                        999,
-                        21,
-                        tz.TZDateTime.now(tz.local)
-                            .add(const Duration(seconds: 5)),
-                        jsonEncode(contextz),
-                        "Bruxism Notificaiton",
-                        "Rate your pain 1-10");
+                          await LocalNotifyManager.init()
+                              .dailyAtTimeNotification2(
+                                  999,
+                                  21,
+                                  tz.TZDateTime.now(tz.local)
+                                      .add(const Duration(seconds: 5)),
+                                  jsonEncode(contextz),
+                                  "Bruxism Notificaiton",
+                                  "Rate your pain 1-10");
 
-                    sendPushMessage("Please change", contextz);
+                          sendPushMessage("Please change", contextz);
 
-                    // await LocalNotifyManager.init().dailyAtTimeNotification2(
-                    //     998,
-                    //     12,
-                    //     tz.TZDateTime.now(tz.local)
-                    //         .add(const Duration(seconds: 5)),
-                    //     jsonEncode(contextz),
-                    //     "Bruxism Notificaiton",
-                    //     "Rate your pain 1-10");
+                          // await LocalNotifyManager.init().dailyAtTimeNotification2(
+                          //     998,
+                          //     12,
+                          //     tz.TZDateTime.now(tz.local)
+                          //         .add(const Duration(seconds: 5)),
+                          //     jsonEncode(contextz),
+                          //     "Bruxism Notificaiton",
+                          //     "Rate your pain 1-10");
 
-                    // await LocalNotifyManager.init().dailyAtTimeNotification2(
-                    //     997,
-                    //     12,
-                    //     tz.TZDateTime.now(tz.local)
-                    //         .add(const Duration(seconds: 5)),
-                    //     jsonEncode(contextz),
-                    //     "Bruxism Notificaiton",
-                    //     "Rate your pain 1-10");
+                          // await LocalNotifyManager.init().dailyAtTimeNotification2(
+                          //     997,
+                          //     12,
+                          //     tz.TZDateTime.now(tz.local)
+                          //         .add(const Duration(seconds: 5)),
+                          //     jsonEncode(contextz),
+                          //     "Bruxism Notificaiton",
+                          //     "Rate your pain 1-10");
 
-                    // await localNotifyManager.dailyAtTimeNotification(
-                    //     1,
-                    //     '2022-3-26-12-JWfkws6uSReUCvYVzmcSyY69esJ3',
-                    //     'Bruxism Notificaiton',
-                    //     'Rate your pain 1-10');
-                  },
-                  child: const Text("Notification")),
-              TextButton(
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const ViewAlerts();
-                      },
-                    ));
-                  },
-                  child: const Text("View")),
-              TextButton(
-                  onPressed: () {
-                    var storage = LocalStorage("questions");
-                    storage.clear();
-                  },
-                  child: const Text("CLEAR")),
-              Container(
-                padding: const EdgeInsets.all(10.0),
-                constraints: const BoxConstraints.expand(),
-                child: FutureBuilder(
-                    future: storage.ready,
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.data == null) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      if (!initialized) {
-                        var items = storage.getItem("initial_date_time");
-                        if (items != null) {
-                          return Text(DateFormat('MM/dd/yyyy hh:mm a').format(
-                              DateTime.fromMillisecondsSinceEpoch(items)));
-                        }
-                        initialized = true;
-                      }
-                      return const Text("Wwww");
-                    }),
-              )
-            ],
-          ),
-          persistentFooterButtons: [
-            Flex(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              direction: Axis.horizontal,
-              children: [
-                BackButton(
-                  onPressed: () => _selectPage(0),
+                          // await localNotifyManager.dailyAtTimeNotification(
+                          //     1,
+                          //     '2022-3-26-12-JWfkws6uSReUCvYVzmcSyY69esJ3',
+                          //     'Bruxism Notificaiton',
+                          //     'Rate your pain 1-10');
+                        },
+                        child: const Text("Notification")),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return const ViewAlerts();
+                            },
+                          ));
+                        },
+                        child: const Text("View")),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                        child: Container(
+                          height: 250,
+                          width: 350,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color: Colors.black45),
+                          child: TextButton(
+                              onPressed: () {
+                                var storage = LocalStorage("questions");
+                                storage.clear();
+                              },
+                              child: const Text("CLEAR")),
+                        ),
+                      ),
+                    ),
+                    // TextButton(
+                    //     onPressed: () {
+                    //       var storage = LocalStorage("questions");
+                    //       storage.clear();
+                    //     },
+                    //     child: const Text("CLEAR")),
+                    Container(
+                      padding: const EdgeInsets.all(10.0),
+                      constraints: const BoxConstraints.expand(),
+                      child: FutureBuilder(
+                          future: storage.ready,
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.data == null) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            if (!initialized) {
+                              var items = storage.getItem("initial_date_time");
+                              if (items != null) {
+                                return Text(DateFormat('MM/dd/yyyy hh:mm a')
+                                    .format(DateTime.fromMillisecondsSinceEpoch(
+                                        items)));
+                              }
+                              initialized = true;
+                            }
+                            return const Text("Wwww");
+                          }),
+                    )
+                  ],
                 ),
-                const Padding(
-                    padding: EdgeInsets.all(10.0), child: Text("version 10")),
-              ],
-            )
-          ],
+                persistentFooterButtons: [
+                  Flex(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    direction: Axis.horizontal,
+                    children: [
+                      BackButton(
+                        onPressed: () => _selectPage(0),
+                      ),
+                      const Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Text("version 10")),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
         );
+
       case 2:
         return Scaffold(
             appBar: AppBar(title: const Text("Nofication")),
@@ -1455,11 +1493,47 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisSpacing: 5,
               crossAxisCount: 2,
               children: <Widget>[
-                // Container(
-                //   padding: const EdgeInsets.only(top: 30, left: 0, right: 0),
-                //   child: Text(country ?? "booboe"),
-                //   color: Colors.teal[100],
-                // ),
+                Container(
+                  padding: const EdgeInsets.only(top: 30, left: 0, right: 0),
+                  child: InkWell(
+                    onTap: (() => Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return const ThirdScreen();
+                          },
+                        ))),
+                    child: Column(
+                      children: [
+                        Column(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                //_selectPage(1);
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return const ThirdScreen();
+                                  },
+                                ));
+                              },
+                              icon: const Icon(Icons.settings,
+                                  color: Colors.white, size: 45),
+                            ),
+                            const InkWell(
+                              child: Center(
+                                  child: Padding(
+                                padding: EdgeInsets.only(top: 30),
+                                child: Text(
+                                  "View Alert ",
+                                  style: TextStyle(fontSize: 26),
+                                ),
+                              )),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  color: Colors.teal[100],
+                ),
                 Container(
                   padding: const EdgeInsets.only(top: 30, left: 0, right: 0),
                   child: InkWell(
@@ -1484,7 +1558,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   style: TextStyle(fontSize: 26),
                                 ),
                               )),
-                            )
+                            ),
                           ],
                         )
                       ],

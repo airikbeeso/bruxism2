@@ -442,6 +442,8 @@ class _SecondScreenState extends State<SecondScreen> {
   @override
   Widget build(BuildContext context) {
     var context2 = jsonDecode(widget.id);
+    final LocalStorage storage = LocalStorage('questions');
+
 
     if (21 == context2["mode"]) {
       var now = DateTime.now();
@@ -712,6 +714,8 @@ class _SecondScreenState extends State<SecondScreen> {
     }
 
     var idx10 = 0;
+    var items = storage.getItem("initial_date_time");
+
 
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),

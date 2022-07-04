@@ -52,6 +52,8 @@ dependencies:
   path_provider: ^2.0.9
   survey_kit: ^0.1.0
   http: ^0.13.4
+  glassmorphism: ^3.0.0
+  glassmorphism_ui: ^0.3.0
 
 dev_dependencies:
   flutter_test:
