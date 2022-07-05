@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:bruxism2/LocalNotifyManager.dart';
@@ -10,7 +8,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:localstorage/localstorage.dart';
-import 'dart:developer';
 import 'package:intl/intl.dart';
 
 class ThirdScreen extends StatefulWidget {
@@ -192,13 +189,14 @@ class _ThirdScreenState extends State<ThirdScreen> {
                     child: CircularProgressIndicator(),
                   );
                 }
+                
                 if (!initialized) {
                   var items = storage.getItem("initial_date_time");
                   if (items != null) {
                     var current = DateTime(2022, 8, 5, 17, 0, 0);
                     var before = DateTime.fromMillisecondsSinceEpoch(items);
                     print("userId: $userId");
-                    var dayAdd = 0;
+                    var dayAdd = 1;
 
                     bool bb = false;
                     var b = before.add(Duration(days: dayAdd));
@@ -211,7 +209,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
                     var forth = DateTime(b.year, b.month, b.day, 18, 0, 0);
                     var fifth = DateTime(b.year, b.month, b.day, 21, 0, 0);
 
-                    if (b.millisecondsSinceEpoch <
+                    if (before.millisecondsSinceEpoch <
                             first.millisecondsSinceEpoch &&
                         first.millisecondsSinceEpoch <
                             current.millisecondsSinceEpoch) {
@@ -219,11 +217,22 @@ class _ThirdScreenState extends State<ThirdScreen> {
                           "_" +
                           first.millisecondsSinceEpoch.toString();
                       print("IKD $id");
-                      checkForAnswer(id)
-                          .then((value) => print("mmmmm 2 $value"));
+                      checkForAnswer(id).then((value) {
+                        print("mmmmm 2 ${value.data()}");
+                        print(value.data());
+                        if (null == value.data()) {
+                          return InkWell(
+                            onTap: () => print("WWWWWWW____"),
+                            child: const Text("WEELLL"),
+                          );
+                        } else {
+                          return Text(DateFormat('MM/dd/yyyy hh:mm a').format(
+                              DateTime.fromMillisecondsSinceEpoch(items)));
+                        }
+                      });
                     }
 
-                    if (b.millisecondsSinceEpoch <
+                    if (before.millisecondsSinceEpoch <
                             second.millisecondsSinceEpoch &&
                         second.millisecondsSinceEpoch <
                             current.millisecondsSinceEpoch) {
@@ -231,11 +240,21 @@ class _ThirdScreenState extends State<ThirdScreen> {
                           "_" +
                           second.millisecondsSinceEpoch.toString();
                       print("IKD $id");
-                      checkForAnswer(id)
-                          .then((value) => print("mmmmm 3 $value"));
+                      checkForAnswer(id).then((value) {
+                        print("mmmmm 3 $value");
+                        if (null == value.data()) {
+                          return InkWell(
+                            onTap: () => print("WWWWWWW____"),
+                            child: const Text("WEELLL"),
+                          );
+                        } else {
+                          return Text(DateFormat('MM/dd/yyyy hh:mm a').format(
+                              DateTime.fromMillisecondsSinceEpoch(items)));
+                        }
+                      });
                     }
 
-                    if (b.millisecondsSinceEpoch <
+                    if (before.millisecondsSinceEpoch <
                             third.millisecondsSinceEpoch &&
                         third.millisecondsSinceEpoch <
                             current.millisecondsSinceEpoch) {
@@ -243,11 +262,21 @@ class _ThirdScreenState extends State<ThirdScreen> {
                           "_" +
                           third.millisecondsSinceEpoch.toString();
                       print("IKD $id");
-                      checkForAnswer(id)
-                          .then((value) => print("mmmmm 4 $value"));
+                      checkForAnswer(id).then((value) {
+                        print("mmmmm 4 $value");
+                        if (null == value.data()) {
+                          return InkWell(
+                            onTap: () => print("WWWWWWW____"),
+                            child: const Text("WEELLL"),
+                          );
+                        } else {
+                          return Text(DateFormat('MM/dd/yyyy hh:mm a').format(
+                              DateTime.fromMillisecondsSinceEpoch(items)));
+                        }
+                      });
                     }
 
-                    if (b.millisecondsSinceEpoch <
+                    if (before.millisecondsSinceEpoch <
                             forth.millisecondsSinceEpoch &&
                         forth.millisecondsSinceEpoch <
                             current.millisecondsSinceEpoch) {
@@ -255,24 +284,52 @@ class _ThirdScreenState extends State<ThirdScreen> {
                           "_" +
                           forth.millisecondsSinceEpoch.toString();
                       print("IKD $id");
-                      checkForAnswer(id)
-                          .then((value) => print("mmmmm 5 $value"));
+                      checkForAnswer(id).then((value) {
+                        print("mmmmm 5 $value");
+                        if (null == value.data()) {
+                          return InkWell(
+                            onTap: () => print("WWWWWWW____"),
+                            child: const Text("WEELLL"),
+                          );
+                        } else {
+                          return Text(DateFormat('MM/dd/yyyy hh:mm a').format(
+                              DateTime.fromMillisecondsSinceEpoch(items)));
+                        }
+                      });
                     }
 
-                    if (b.millisecondsSinceEpoch <
+                    if (before.millisecondsSinceEpoch <
                             fifth.millisecondsSinceEpoch &&
                         fifth.millisecondsSinceEpoch <
                             current.millisecondsSinceEpoch) {
                       var id = userId +
                           "_" +
                           fifth.millisecondsSinceEpoch.toString();
-                      print("IKD $id");
-                      checkForAnswer(id)
-                          .then((value) => {if (null == value.data()) {}});
+                      print("IKD 10 $id");
+                      checkForAnswer(id).then((value) {
+                        print(value.data());
+                        if (null == value.data()) {
+                          return InkWell(
+                            onTap: () => print("WWWWWWW____"),
+                            child: const Text("WEELLL"),
+                          );
+                        } else {
+                          return Text(DateFormat('MM/dd/yyyy hh:mm a').format(
+                              DateTime.fromMillisecondsSinceEpoch(items)));
+                        }
+                      });
                     }
 
-                    return Text(DateFormat('MM/dd/yyyy hh:mm a')
-                        .format(DateTime.fromMillisecondsSinceEpoch(items)));
+                    // print("tukar......");
+
+                    // return InkWell(
+                    //     onTap: () => print("WWWWWWW____"),
+                    //     child: Text(
+                    //       DateFormat('MM/dd/yyyy hh:mm a').format(
+                    //           DateTime.fromMillisecondsSinceEpoch(items)),
+                    //     ));
+                    // return Text(DateFormat('MM/dd/yyyy hh:mm a')
+                    //     .format(DateTime.fromMillisecondsSinceEpoch(items)));
                   }
                   initialized = true;
                 }
