@@ -14,6 +14,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:glassmorphism/glassmorphism.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
@@ -1477,173 +1478,252 @@ class _MyHomePageState extends State<MyHomePage> {
 
       case 0:
         return Scaffold(
-          appBar: AppBar(
-            // Here we take the value from the MyHomePage object that was created by
-            // the App.build method, and use it to set our appbar title.
-            title: Text(widget.title),
-          ),
-          body: GridView.count(
-              primary: false,
-              padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 5,
-              crossAxisCount: 2,
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.only(top: 30, left: 0, right: 0),
-                  child: InkWell(
-                    onTap: (() => Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return const ThirdScreen();
-                          },
-                        ))),
-                    child: Column(
-                      children: [
-                        Column(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                //_selectPage(1);
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return const ThirdScreen();
-                                  },
-                                ));
-                              },
-                              icon: const Icon(Icons.settings,
-                                  color: Colors.white, size: 45),
-                            ),
-                            const InkWell(
-                              child: Center(
-                                  child: Padding(
-                                padding: EdgeInsets.only(top: 30),
-                                child: Text(
-                                  "View Alert ",
-                                  style: TextStyle(fontSize: 26),
-                                ),
-                              )),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  color: Colors.teal[100],
+            appBar: AppBar(
+              // Here we take the value from the MyHomePage object that was created by
+              // the App.build method, and use it to set our appbar title.
+              title: Text(widget.title),
+            ),
+            body: Center(
+              child: Container(
+                height: double.infinity,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: Image.asset("assets/bg.png").image,
+                      fit: BoxFit.cover),
                 ),
-                Container(
-                  padding: const EdgeInsets.only(top: 30, left: 0, right: 0),
-                  child: InkWell(
-                    onTap: (() => _selectPage(1)),
-                    child: Column(
-                      children: [
-                        Column(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                _selectPage(1);
-                              },
-                              icon: const Icon(Icons.settings,
-                                  color: Colors.white, size: 45),
-                            ),
-                            const InkWell(
-                              child: Center(
-                                  child: Padding(
-                                padding: EdgeInsets.only(top: 30),
-                                child: Text(
-                                  "Your Alert ",
-                                  style: TextStyle(fontSize: 26),
-                                ),
-                              )),
-                            ),
-                          ],
-                        )
+                child: GlassmorphicContainer(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.height * 0.9,
+                  borderRadius: 0,
+                  blur: 7,
+                  alignment: Alignment.bottomCenter,
+                  border: 0,
+                  linearGradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        const Color(0xFFF75035).withAlpha(55),
+                        const Color(0xFFffffff).withAlpha(45),
                       ],
-                    ),
-                  ),
-                  color: Colors.teal[100],
+                      stops: const [
+                        0.3,
+                        1
+                      ]),
+                  borderGradient: LinearGradient(
+                      begin: Alignment.bottomRight,
+                      end: Alignment.topLeft,
+                      colors: [
+                        const Color(0xFF4579C5).withAlpha(100),
+                        const Color(0xFFffffff).withAlpha(55),
+                        const Color(0xFFF75035).withAlpha(10),
+                      ],
+                      stops: const [
+                        0.06,
+                        0.95,
+                        1
+                      ]),
+                  child: Column(children: [
+                    Expanded(
+                        child: Stack(
+                      children: [
+                        Positioned(
+                          bottom: MediaQuery.of(context).size.height * 0.3 * 70,
+                          left: 40,
+                          child: Container(
+                            width: 100,
+                            height: 100.0,
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: LinearGradient(colors: [
+                                  Color(0xFFBC1642),
+                                  Color(0xFFCB5AC6),
+                                ])),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 50,
+                          left: 30,
+                          child: Container(
+                            width: 80,
+                            height: 40,
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                gradient: LinearGradient(colors: [
+                                  Color(0xFFFDFC47),
+                                  Color(0xFF24FE41),
+                                ])),
+                          ),
+                        ),
+                      ],
+                    ))
+                  ]),
                 ),
-                // Container(
-                //   padding: const EdgeInsets.only(top: 25.0),
-                //   child: Column(
-                //     children: [
-                //       Column(
-                //         children: [
-                //           IconButton(
-                //             onPressed: () {
-                //               _selectPage(2);
-                //             },
-                //             icon: const Icon(Icons.note_alt_outlined,
-                //                 color: Colors.white, size: 45),
-                //           ),
-                //           const InkWell(
-                //             child: Center(
-                //                 child: Padding(
-                //               padding: EdgeInsets.only(top: 35),
-                //               child: Text(
-                //                 "Heed not the rabble",
-                //                 textAlign: TextAlign.center,
-                //                 style: TextStyle(
-                //                   fontSize: 25,
-                //                 ),
-                //               ),
-                //             )),
-                //           )
-                //         ],
-                //       )
-                //     ],
-                //   ),
-                //   color: Colors.teal[200],
-                // ),
-                Container(
-                  // padding: const EdgeInsets.all(8),
-                  child: Padding(
-                      padding: const EdgeInsets.only(top: 15),
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 20.0,
-                          ),
-                          IconButton(
-                            icon: const Icon(
-                              Icons.wysiwyg,
-                              color: Colors.white,
-                              size: 45,
-                            ),
-                            onPressed: () => signOut(),
-                          ),
-                          const SizedBox(
-                            height: 20.0,
-                          ),
-                          const Text(
-                            "Sign Out",
-                            style: TextStyle(fontSize: 25.0),
-                          )
-                        ],
-                      )
+              ),
+            )
 
-                      // StyledButton(
-                      //     child: const Text("Sign Out"),
-                      //     onPressed: () => signOut()),
-                      ),
-                  color: Colors.grey,
-                ),
-                // Container(
-                //   padding: const EdgeInsets.all(8),
-                //   child: const Text('Who scream'),
-                //   color: Colors.teal[400],
-                // ),
-                // Container(
-                //   padding: const EdgeInsets.all(8),
-                //   child: const Text('Revolution is coming...'),
-                //   color: Colors.teal[500],
-                // ),
-                // Container(
-                //   padding: const EdgeInsets.all(8),
-                //   child: const Text('Revolution, they...'),
-                //   color: Colors.teal[600],
-                // ),
-              ]),
-        );
+            //  GridView.count(
+            //     primary: false,
+            //     padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
+            //     crossAxisSpacing: 5,
+            //     mainAxisSpacing: 5,
+            //     crossAxisCount: 2,
+            //     children: <Widget>[
+            //       Container(
+            //         padding: const EdgeInsets.only(top: 30, left: 0, right: 0),
+            //         child: InkWell(
+            //           onTap: (() => Navigator.push(context, MaterialPageRoute(
+            //                 builder: (context) {
+            //                   return const ThirdScreen();
+            //                 },
+            //               ))),
+            //           child: Column(
+            //             children: [
+            //               Column(
+            //                 children: [
+            //                   IconButton(
+            //                     onPressed: () {
+            //                       //_selectPage(1);
+            //                       Navigator.push(context, MaterialPageRoute(
+            //                         builder: (context) {
+            //                           return const ThirdScreen();
+            //                         },
+            //                       ));
+            //                     },
+            //                     icon: const Icon(Icons.settings,
+            //                         color: Colors.white, size: 45),
+            //                   ),
+            //                   const InkWell(
+            //                     child: Center(
+            //                         child: Padding(
+            //                       padding: EdgeInsets.only(top: 30),
+            //                       child: Text(
+            //                         "View Alert ",
+            //                         style: TextStyle(fontSize: 26),
+            //                       ),
+            //                     )),
+            //                   ),
+            //                 ],
+            //               )
+            //             ],
+            //           ),
+            //         ),
+            //         color: Colors.teal[100],
+            //       ),
+            //       Container(
+            //         padding: const EdgeInsets.only(top: 30, left: 0, right: 0),
+            //         child: InkWell(
+            //           onTap: (() => _selectPage(1)),
+            //           child: Column(
+            //             children: [
+            //               Column(
+            //                 children: [
+            //                   IconButton(
+            //                     onPressed: () {
+            //                       _selectPage(1);
+            //                     },
+            //                     icon: const Icon(Icons.settings,
+            //                         color: Colors.white, size: 45),
+            //                   ),
+            //                   const InkWell(
+            //                     child: Center(
+            //                         child: Padding(
+            //                       padding: EdgeInsets.only(top: 30),
+            //                       child: Text(
+            //                         "Your Alert ",
+            //                         style: TextStyle(fontSize: 26),
+            //                       ),
+            //                     )),
+            //                   ),
+            //                 ],
+            //               )
+            //             ],
+            //           ),
+            //         ),
+            //         color: Colors.teal[100],
+            //       ),
+            //       // Container(
+            //       //   padding: const EdgeInsets.only(top: 25.0),
+            //       //   child: Column(
+            //       //     children: [
+            //       //       Column(
+            //       //         children: [
+            //       //           IconButton(
+            //       //             onPressed: () {
+            //       //               _selectPage(2);
+            //       //             },
+            //       //             icon: const Icon(Icons.note_alt_outlined,
+            //       //                 color: Colors.white, size: 45),
+            //       //           ),
+            //       //           const InkWell(
+            //       //             child: Center(
+            //       //                 child: Padding(
+            //       //               padding: EdgeInsets.only(top: 35),
+            //       //               child: Text(
+            //       //                 "Heed not the rabble",
+            //       //                 textAlign: TextAlign.center,
+            //       //                 style: TextStyle(
+            //       //                   fontSize: 25,
+            //       //                 ),
+            //       //               ),
+            //       //             )),
+            //       //           )
+            //       //         ],
+            //       //       )
+            //       //     ],
+            //       //   ),
+            //       //   color: Colors.teal[200],
+            //       // ),
+            //       Container(
+            //         // padding: const EdgeInsets.all(8),
+            //         child: Padding(
+            //             padding: const EdgeInsets.only(top: 15),
+            //             child: Column(
+            //               children: [
+            //                 const SizedBox(
+            //                   height: 20.0,
+            //                 ),
+            //                 IconButton(
+            //                   icon: const Icon(
+            //                     Icons.wysiwyg,
+            //                     color: Colors.white,
+            //                     size: 45,
+            //                   ),
+            //                   onPressed: () => signOut(),
+            //                 ),
+            //                 const SizedBox(
+            //                   height: 20.0,
+            //                 ),
+            //                 const Text(
+            //                   "Sign Out",
+            //                   style: TextStyle(fontSize: 25.0),
+            //                 )
+            //               ],
+            //             )
+
+            //             // StyledButton(
+            //             //     child: const Text("Sign Out"),
+            //             //     onPressed: () => signOut()),
+            //             ),
+            //         color: Colors.grey,
+            //       ),
+            //       // Container(
+            //       //   padding: const EdgeInsets.all(8),
+            //       //   child: const Text('Who scream'),
+            //       //   color: Colors.teal[400],
+            //       // ),
+            //       // Container(
+            //       //   padding: const EdgeInsets.all(8),
+            //       //   child: const Text('Revolution is coming...'),
+            //       //   color: Colors.teal[500],
+            //       // ),
+            //       // Container(
+            //       //   padding: const EdgeInsets.all(8),
+            //       //   child: const Text('Revolution, they...'),
+            //       //   color: Colors.teal[600],
+            //       // ),
+            //     ]),
+            );
       default:
         return Scaffold(
           appBar: AppBar(title: const Text("Info")),
