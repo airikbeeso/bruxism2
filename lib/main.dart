@@ -476,8 +476,7 @@ class _MyHomePageState extends State<MyHomePage> {
           "Terpisah",
           "Berkontak ringan",
           "Berkontak erat",
-          "Bergemeretak",
-          "Lewatkan"
+          "Bergemeretak"
         ],
         "form": "radio"
       },
@@ -486,15 +485,14 @@ class _MyHomePageState extends State<MyHomePage> {
         "question": "Kondisi otot wajah/rahang (?) anda saat ini",
         "option": [
           "Rileks",
-          "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak",
-          "Lewatkan"
+          "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
         ],
         "form": "radio"
       },
       {
         "id": 2,
         "question": "Apakah anda merasakan nyeri di daerah wajah",
-        "option": ["Ya", "Tidak", "Lewatkan"],
+        "option": ["Ya", "Tidak"],
         "form": "radio"
       },
       {
@@ -513,8 +511,7 @@ class _MyHomePageState extends State<MyHomePage> {
           "Terpisah",
           "Berkontak ringan",
           "Berkontak erat",
-          "Bergemeretak",
-          "Lewatkan"
+          "Bergemeretak"
         ],
         "form": "radio"
       },
@@ -523,15 +520,14 @@ class _MyHomePageState extends State<MyHomePage> {
         "question": "Kondisi otot wajah/rahang (?) anda saat ini",
         "option": [
           "Rileks",
-          "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak",
-          "Lewatkan"
+          "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
         ],
         "form": "radio"
       },
       {
         "id": 2,
         "question": "Apakah anda merasakan nyeri di daerah wajah",
-        "option": ["Ya", "Tidak", "Lewatkan"],
+        "option": ["Ya", "Tidak"],
         "form": "radio"
       },
       {
