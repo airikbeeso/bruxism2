@@ -476,7 +476,8 @@ class _MyHomePageState extends State<MyHomePage> {
           "Terpisah",
           "Berkontak ringan",
           "Berkontak erat",
-          "Bergemeretak"
+          "Bergemeretak",
+          "Lewatkan"
         ],
         "form": "radio"
       },
@@ -485,14 +486,15 @@ class _MyHomePageState extends State<MyHomePage> {
         "question": "Kondisi otot wajah/rahang (?) anda saat ini",
         "option": [
           "Rileks",
-          "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
+          "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak",
+          "Lewatkan"
         ],
         "form": "radio"
       },
       {
         "id": 2,
         "question": "Apakah anda merasakan nyeri di daerah wajah",
-        "option": ["Ya", "Tidak"],
+        "option": ["Ya", "Tidak", "Lewatkan"],
         "form": "radio"
       },
       {
@@ -511,7 +513,8 @@ class _MyHomePageState extends State<MyHomePage> {
           "Terpisah",
           "Berkontak ringan",
           "Berkontak erat",
-          "Bergemeretak"
+          "Bergemeretak",
+          "Lewatkan"
         ],
         "form": "radio"
       },
@@ -520,21 +523,17 @@ class _MyHomePageState extends State<MyHomePage> {
         "question": "Kondisi otot wajah/rahang (?) anda saat ini",
         "option": [
           "Rileks",
-          "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
+          "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak",
+          "Lewatkan"
         ],
         "form": "radio"
       },
       {
         "id": 2,
         "question": "Apakah anda merasakan nyeri di daerah wajah",
-        "option": ["Ya", "Tidak"],
+        "option": ["Ya", "Tidak", "Lewatkan"],
         "form": "radio"
       },
-      // {
-      //   "id": 3,
-      //   "question": "erasa gugup atau tegang",
-      //   "option": ["Ya", "Tidak"]
-      // },
       {
         "id": 3,
         "question": "Kondisi anda hari ini",
@@ -542,7 +541,8 @@ class _MyHomePageState extends State<MyHomePage> {
           "Merasa gugup atau tegang",
           "Sulit mengontrol kawatir",
           "Merasa sedih, depresi",
-          "Merasa malas melakukan sesuatu"
+          "Merasa malas melakukan sesuatu",
+          "Lewatkan"
         ],
         "form": "check"
       }
