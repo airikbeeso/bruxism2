@@ -92,6 +92,7 @@ flutter:
     - assets/icon/icon.png
     - assets/images/Bruxmap.png
     - assets/images/Brux_core.png
+    - assets/images/bg.png
   
   fonts:
     - family: roboto
