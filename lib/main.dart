@@ -1107,9 +1107,9 @@ class _MyHomePageState extends State<MyHomePage> {
       var now = DateTime.now();
       // var now2 = DateTime.utc(now.year, now.month, now.day, 15);
 
-      // startSessions(isSwitched, now, false);
+      startSessions(isSwitched, now, false);
       // print("WWWWWWW");
-      startSessions_test(isSwitched, now, false);
+      // startSessions_test(isSwitched, now, false);
     });
   }
 
