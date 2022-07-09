@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'dart:math';
-import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:bruxism2/SecondScreen.dart';
 import 'package:bruxism2/ThirdScreen.dart';
@@ -18,17 +16,14 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 import 'notificationservice.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'LocalNotifyManager.dart';
 import 'package:intl/intl.dart';
-import 'viewAlerts.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:http/http.dart' as http;
-import 'package:image/image.dart' as image;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -1336,6 +1331,34 @@ class _MyHomePageState extends State<MyHomePage> {
                                         style: TextStyle(fontSize: 12),
                                       ))),
 
+                              // GlassContainer(
+                              //     height: 200,
+                              //     width: 200,
+                              //     blur: 4,
+                              //     color: Colors.white.withOpacity(0.7),
+                              //     gradient: LinearGradient(
+                              //       begin: Alignment.topLeft,
+                              //       end: Alignment.bottomRight,
+                              //       colors: [
+                              //         Colors.white.withOpacity(0.2),
+                              //         Colors.blue.withOpacity(0.3),
+                              //       ],
+                              //     ),
+                              //     //--code to remove border
+                              //     border: const Border.fromBorderSide(
+                              //         BorderSide.none),
+                              //     shadowStrength: 5,
+                              //     shape: BoxShape.rectangle,
+                              //     borderRadius: BorderRadius.circular(16),
+                              //     shadowColor: Colors.white.withOpacity(0.24),
+                              //     child: TextButton(
+                              //         onPressed:
+                              //             _startForegroundServiceWithBlueBackgroundNotification,
+                              //         child: const Text(
+                              //           "Active Notification",
+                              //           style: TextStyle(fontSize: 12),
+                              //         ))),
+
                               GlassContainer(
                                   height: 200,
                                   width: 200,
@@ -1356,13 +1379,30 @@ class _MyHomePageState extends State<MyHomePage> {
                                   shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(16),
                                   shadowColor: Colors.white.withOpacity(0.24),
-                                  child: TextButton(
-                                      onPressed:
-                                          _startForegroundServiceWithBlueBackgroundNotification,
-                                      child: const Text(
-                                        "Active Notification",
-                                        style: TextStyle(fontSize: 12),
-                                      ))),
+                                  child: Flex(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    direction: Axis.horizontal,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 35.0, left: 20.0),
+                                        child: BackButton(
+                                            color: Colors.white,
+                                            onPressed: () => _selectPage(0)),
+                                      ),
+                                      const Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 50.0, right: 20.0),
+                                          child: Text(
+                                            "version 11",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          )),
+                                    ],
+                                  )),
 
                               // TextButton(
                               //     onPressed: () async {
@@ -1571,8 +1611,9 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ));
 
-        break;
-      case 12:
+/*
+
+      case 44:
         //readSettings().then((val) => isSwitched = val);
 
         return ClipRRect(
@@ -1855,6 +1896,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         );
+        */
 
       case 2:
         return Scaffold(
@@ -2025,9 +2067,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                     Column(children: [
+                      SizedBox(
+                          height: 30, width: MediaQuery.of(context).size.width),
                       GlassmorphicContainer(
                         width: MediaQuery.of(context).size.width * 0.9 - 20,
-                        height: MediaQuery.of(context).size.height * 0.4 - 20,
+                        height: MediaQuery.of(context).size.height * 0.6 - 20,
                         borderRadius: 35,
                         margin: const EdgeInsets.all(10),
                         blur: 10,
@@ -2065,9 +2109,26 @@ class _MyHomePageState extends State<MyHomePage> {
                             mainAxisSpacing: 5,
                             crossAxisCount: 2,
                             children: <Widget>[
-                              Container(
-                                padding: const EdgeInsets.only(
-                                    top: 30, left: 0, right: 0),
+                              GlassContainer(
+                                height: 200,
+                                width: 200,
+                                blur: 4,
+                                color: Colors.white.withOpacity(0.7),
+                                gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Colors.white.withOpacity(0.2),
+                                    Colors.blue.withOpacity(0.3),
+                                  ],
+                                ),
+                                //--code to remove border
+                                border: const Border.fromBorderSide(
+                                    BorderSide.none),
+                                shadowStrength: 5,
+                                shape: BoxShape.rectangle,
+                                borderRadius: BorderRadius.circular(16),
+                                shadowColor: Colors.white.withOpacity(0.24),
                                 child: InkWell(
                                   onTap: (() =>
                                       Navigator.push(context, MaterialPageRoute(
@@ -2077,71 +2138,125 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ))),
                                   child: Column(
                                     children: [
-                                      Column(
-                                        children: [
-                                          IconButton(
-                                            onPressed: () {
-                                              //_selectPage(1);
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                builder: (context) {
-                                                  return const ThirdScreen();
-                                                },
-                                              ));
+                                      SizedBox(
+                                        height: 20,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          //_selectPage(1);
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                            builder: (context) {
+                                              return const ThirdScreen();
                                             },
-                                            icon: const Icon(Icons.settings,
-                                                color: Colors.white, size: 45),
+                                          ));
+                                        },
+                                        icon: const Icon(Icons.settings,
+                                            color: Colors.white, size: 45),
+                                      ),
+                                      const InkWell(
+                                        child: Center(
+                                            child: Padding(
+                                          padding: EdgeInsets.only(top: 30),
+                                          child: Text(
+                                            "View Alert ",
+                                            style: TextStyle(
+                                                fontSize: 26,
+                                                color: Colors.white24),
                                           ),
-                                          const InkWell(
-                                            child: Center(
-                                                child: Padding(
-                                              padding: EdgeInsets.only(top: 30),
-                                              child: Text(
-                                                "View Alert ",
-                                                style: TextStyle(fontSize: 26),
-                                              ),
-                                            )),
-                                          ),
-                                        ],
-                                      )
+                                        )),
+                                      ),
                                     ],
                                   ),
                                 ),
-                                color: Colors.teal[100],
                               ),
-                              Container(
-                                padding: const EdgeInsets.only(
-                                    top: 30, left: 0, right: 0),
+
+                              GlassContainer(
+                                height: 200,
+                                width: 200,
+                                blur: 4,
+                                color: Colors.white.withOpacity(0.7),
+                                gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Colors.white.withOpacity(0.2),
+                                    Colors.blue.withOpacity(0.3),
+                                  ],
+                                ),
+                                //--code to remove border
+                                border: const Border.fromBorderSide(
+                                    BorderSide.none),
+                                shadowStrength: 5,
+                                shape: BoxShape.rectangle,
+                                borderRadius: BorderRadius.circular(16),
+                                shadowColor: Colors.white.withOpacity(0.24),
                                 child: InkWell(
-                                  onTap: (() => _selectPage(1)),
-                                  child: Column(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          IconButton(
-                                            onPressed: () {
-                                              _selectPage(1);
-                                            },
-                                            icon: const Icon(Icons.settings,
-                                                color: Colors.white, size: 45),
-                                          ),
-                                          const InkWell(
-                                            child: Center(
-                                                child: Padding(
-                                              padding: EdgeInsets.only(top: 30),
-                                              child: Text(
-                                                "Your Alert ",
-                                                style: TextStyle(fontSize: 26),
-                                              ),
-                                            )),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                color: Colors.teal[100],
+                                    onTap: (() => _selectPage(1)),
+                                    child: Column(
+                                      children: [
+                                        SizedBox(
+                                          height: 20,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            _selectPage(1);
+                                          },
+                                          icon: const Icon(Icons.view_agenda,
+                                              color: Colors.white, size: 45),
+                                        ),
+                                        const InkWell(
+                                          child: Center(
+                                              child: Padding(
+                                            padding: EdgeInsets.only(top: 30),
+                                            child: Text(
+                                              "Your Alert ",
+                                              style: TextStyle(
+                                                  fontSize: 26,
+                                                  color: Colors.white30),
+                                            ),
+                                          )),
+                                        ),
+                                      ],
+                                    )),
                               ),
+                              // Container(
+                              //   padding: const EdgeInsets.only(
+                              //       top: 30, left: 0, right: 0),
+                              //   child: InkWell(
+                              //     onTap: (() => _selectPage(1)),
+                              //     child: Column(
+                              //       children: [
+                              //         Column(
+                              //           children: [
+                              //             IconButton(
+                              //               onPressed: () {
+                              //                 _selectPage(1);
+                              //               },
+                              //               icon: const Icon(Icons.settings,
+                              //                   color: Colors.white, size: 45),
+                              //             ),
+                              //             const InkWell(
+                              //               child: Center(
+                              //                   child: Padding(
+                              //                 padding: EdgeInsets.only(top: 30),
+                              //                 child: Text(
+                              //                   "Your Alert ",
+                              //                   style: TextStyle(fontSize: 26),
+                              //                 ),
+                              //               )),
+                              //             ),
+                              //           ],
+                              //         )
+                              //       ],
+                              //     ),
+                              //   ),
+                              //   color: Colors.teal[100],
+                              // ),
                               // Container(
                               //   padding: const EdgeInsets.only(top: 25.0),
                               //   child: Column(
@@ -2174,10 +2289,28 @@ class _MyHomePageState extends State<MyHomePage> {
                               //   ),
                               //   color: Colors.teal[200],
                               // ),
-                              Container(
-                                // padding: const EdgeInsets.all(8),
-                                child: Padding(
-                                    padding: const EdgeInsets.only(top: 15),
+                              GlassContainer(
+                                height: 200,
+                                width: 200,
+                                blur: 4,
+                                color: Colors.white.withOpacity(0.7),
+                                gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Colors.white.withOpacity(0.2),
+                                    Colors.blue.withOpacity(0.3),
+                                  ],
+                                ),
+                                //--code to remove border
+                                border: const Border.fromBorderSide(
+                                    BorderSide.none),
+                                shadowStrength: 5,
+                                shape: BoxShape.rectangle,
+                                borderRadius: BorderRadius.circular(16),
+                                shadowColor: Colors.white.withOpacity(0.24),
+                                child: InkWell(
+                                    onTap: (() => _selectPage(1)),
                                     child: Column(
                                       children: [
                                         const SizedBox(
@@ -2196,17 +2329,47 @@ class _MyHomePageState extends State<MyHomePage> {
                                         ),
                                         const Text(
                                           "Sign Out",
-                                          style: TextStyle(fontSize: 25.0),
+                                          style: TextStyle(
+                                              fontSize: 25.0,
+                                              color: Colors.white24),
                                         )
                                       ],
-                                    )
-
-                                    // StyledButton(
-                                    //     child: const Text("Sign Out"),
-                                    //     onPressed: () => signOut()),
-                                    ),
-                                color: Colors.grey,
+                                    )),
                               ),
+
+                              // Container(
+                              //   // padding: const EdgeInsets.all(8),
+                              //   child: Padding(
+                              //       padding: const EdgeInsets.only(top: 15),
+                              //       child: Column(
+                              //         children: [
+                              //           const SizedBox(
+                              //             height: 20.0,
+                              //           ),
+                              //           IconButton(
+                              //             icon: const Icon(
+                              //               Icons.wysiwyg,
+                              //               color: Colors.white,
+                              //               size: 45,
+                              //             ),
+                              //             onPressed: () => signOut(),
+                              //           ),
+                              //           const SizedBox(
+                              //             height: 20.0,
+                              //           ),
+                              //           const Text(
+                              //             "Sign Out",
+                              //             style: TextStyle(fontSize: 25.0),
+                              //           )
+                              //         ],
+                              //       )
+
+                              //       // StyledButton(
+                              //       //     child: const Text("Sign Out"),
+                              //       //     onPressed: () => signOut()),
+                              //       ),
+                              //   color: Colors.grey,
+                              // ),
                               // Container(
                               //   padding: const EdgeInsets.all(8),
                               //   child: const Text('Who scream'),
