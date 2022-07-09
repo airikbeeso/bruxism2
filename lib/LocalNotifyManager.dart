@@ -141,7 +141,11 @@ class LocalNotifyManager {
 
     var androidChannel = const AndroidNotificationDetails(
         'CHANNEL_ID', 'CHANNEL_NAME',
-        importance: Importance.max, priority: Priority.high, playSound: true);
+        icon: "ic_launcher_background",
+        importance: Importance.max,
+        priority: Priority.high,
+        channelShowBadge: true,
+        playSound: true);
     // var iosChannel = const IOSNotificationDetails();
     var platformChannel = NotificationDetails(android: androidChannel);
 
@@ -182,16 +186,17 @@ class LocalNotifyManager {
     //     androidAllowWhileIdle: true);
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        _id,
-        title,
-        description,
-        currentDateTime,
-        // dt.add(const Duration(seconds: 5)),
-        platformChannel,
-        payload: id,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.wallClockTime,
-        androidAllowWhileIdle: true);
+      _id,
+      title,
+      description,
+      currentDateTime,
+      // dt.add(const Duration(seconds: 5)),
+      platformChannel,
+      payload: id,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.wallClockTime,
+      androidAllowWhileIdle: true,
+    );
   }
 
   Future<void> dailyAtTimeNotification2(int _id, int hour, DateTime dt2,

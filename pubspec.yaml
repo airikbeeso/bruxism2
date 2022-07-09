@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_local_notifications: ^9.3.2
   rxdart: ^0.27.3
-  flutter_launcher_icons: ^0.9.2
+  flutter_launcher_icons: ^0.9.3
   firebase_messaging: ^11.2.6
   firebase_core: ^1.12.0
   overlay_support: ^1.2.1
@@ -54,6 +54,7 @@ dependencies:
   http: ^0.13.4
   glassmorphism: ^3.0.0
   glassmorphism_ui: ^0.3.0
+  image: ^3.2.0
 
 dev_dependencies:
   flutter_test:
@@ -72,12 +73,12 @@ dev_dependencies:
 # The following section is specific to Flutter.
 
 flutter_icons: 
-  image_path_android: "assets/icon/icon.png"
-  image_path_ios: "assets/icon/icon.png"
+  image_path_android: "assets/images/Brux_core.png"
+  image_path_ios: "assets/images/Brux_core.png"
   android: true # can specify file name here e.g. "ic_launcher"
   ios: true # can specify file name here e.g. "My-Launcher-Icon"
-  adaptive_icon_background: "assets/icon/icon.png" # only available for Android 8.0 devices and above
-  adaptive_icon_foreground: "assets/icon/icon.png" # only available for Android 8.0 devices and above
+  adaptive_icon_background: "assets/images/Brux_core.png" # only available for Android 8.0 devices and above
+  adaptive_icon_foreground: "assets/images/Brux_core.png" # only available for Android 8.0 devices and above
   
 flutter:
 

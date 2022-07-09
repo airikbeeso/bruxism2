@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'dart:math';
+import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:bruxism2/SecondScreen.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
@@ -26,6 +28,7 @@ import 'package:intl/intl.dart';
 import 'viewAlerts.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:http/http.dart' as http;
+import 'package:image/image.dart' as image;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -1042,6 +1045,65 @@ class _MyHomePageState extends State<MyHomePage> {
   // }
 
   // Future<QuerySnapshot<Map<String, dynamic>>>
+
+  Future<void> _checkPendingNotificationRequests() async {
+    final List<PendingNotificationRequest> pendingNotificationRequests =
+        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        content:
+            Text('${pendingNotificationRequests.length} pending notification '
+                'requests'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showOngoingNotification() async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails('your channel id', 'your channel name',
+            channelDescription: 'your channel description',
+            importance: Importance.max,
+            priority: Priority.high,
+            ongoing: true,
+            autoCancel: false);
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(0, 'ongoing notification title',
+        'ongoing notification body', platformChannelSpecifics);
+  }
+
+  Future<void> _startForegroundServiceWithBlueBackgroundNotification() async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'your channel id',
+      'your channel name',
+      channelDescription: 'color background channel description',
+      importance: Importance.max,
+      priority: Priority.high,
+      ticker: 'ticker',
+      color: Colors.blue,
+      colorized: true,
+    );
+
+    /// only using foreground service can color the background
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.startForegroundService(
+            1, 'colored background text title', 'colored background text body',
+            notificationDetails: androidPlatformChannelSpecifics,
+            payload: 'item x');
+  }
+
   int i = 0;
   void setSwitch(bool s) {
     setState(() {
@@ -1051,7 +1113,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // var now2 = DateTime.utc(now.year, now.month, now.day, 15);
 
       // startSessions(isSwitched, now, false);
-      print("WWWWWWW");
+      // print("WWWWWWW");
       startSessions_test(isSwitched, now, false);
     });
   }
@@ -1104,6 +1166,413 @@ class _MyHomePageState extends State<MyHomePage> {
 
     switch (_pageMode) {
       case 1:
+        return Scaffold(
+            body: Center(
+          child: Container(
+            height: double.infinity,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: Image.asset("assets/images/bg.png").image,
+                  fit: BoxFit.cover),
+            ),
+            child: GlassmorphicContainer(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.height * 0.9,
+              borderRadius: 0,
+              blur: 7,
+              alignment: Alignment.bottomCenter,
+              border: 0,
+              linearGradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    const Color(0xFFF75035).withAlpha(55),
+                    const Color(0xFFffffff).withAlpha(45),
+                  ],
+                  stops: const [
+                    0.3,
+                    1
+                  ]),
+              borderGradient: LinearGradient(
+                  begin: Alignment.bottomRight,
+                  end: Alignment.topLeft,
+                  colors: [
+                    const Color(0xFF4579C5).withAlpha(100),
+                    const Color(0xFFffffff).withAlpha(55),
+                    const Color(0xFFF75035).withAlpha(10),
+                  ],
+                  stops: const [
+                    0.06,
+                    0.95,
+                    1
+                  ]),
+              child: Column(children: [
+                Expanded(
+                    child: Stack(
+                  children: [
+                    Positioned(
+                      bottom: MediaQuery.of(context).size.height * 0.3 * 70,
+                      left: 40,
+                      child: Container(
+                        width: 100,
+                        height: 100.0,
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: LinearGradient(colors: [
+                              Color(0xFFBC1642),
+                              Color(0xFFCB5AC6),
+                            ])),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 50,
+                      left: 30,
+                      child: Container(
+                        width: 80,
+                        height: 40,
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            gradient: LinearGradient(colors: [
+                              Color(0xFFFDFC47),
+                              Color(0xFF24FE41),
+                            ])),
+                      ),
+                    ),
+                    Column(children: [
+                      SizedBox(
+                          height: 100,
+                          width: MediaQuery.of(context).size.width),
+                      GlassmorphicContainer(
+                        width: MediaQuery.of(context).size.width * 0.9 - 20,
+                        height: MediaQuery.of(context).size.height * 0.7 - 20,
+                        borderRadius: 35,
+                        margin: const EdgeInsets.all(10),
+                        blur: 10,
+                        alignment: Alignment.bottomCenter,
+                        border: 2,
+                        linearGradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              const Color(0xFFFFFFFF).withAlpha(0),
+                              const Color(0xFFFFFFFF).withAlpha(0),
+                            ],
+                            stops: const [
+                              0.3,
+                              1,
+                            ]),
+                        borderGradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              const Color(0xFFFFFFFF).withAlpha(01),
+                              const Color(0xFFFFFFFF).withAlpha(100),
+                              const Color(0xFFFFFFFF).withAlpha(01),
+                            ],
+                            stops: const [
+                              0.2,
+                              0.9,
+                              1
+                            ]),
+                        child: GridView.count(
+                            primary: false,
+                            padding: const EdgeInsets.only(
+                                left: 10, right: 10, top: 20),
+                            crossAxisSpacing: 5,
+                            mainAxisSpacing: 5,
+                            crossAxisCount: 2,
+                            children: <Widget>[
+                              GlassContainer(
+                                height: 200,
+                                width: 200,
+                                blur: 4,
+                                color: Colors.white.withOpacity(0.7),
+                                gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Colors.white.withOpacity(0.2),
+                                    Colors.blue.withOpacity(0.3),
+                                  ],
+                                ),
+                                //--code to remove border
+                                border: const Border.fromBorderSide(
+                                    BorderSide.none),
+                                shadowStrength: 5,
+                                shape: BoxShape.circle,
+                                borderRadius: BorderRadius.circular(16),
+                                shadowColor: Colors.white.withOpacity(0.24),
+                                child: SlideSchedule(
+                                    getStatus: () => readSettings(),
+                                    setSwitch: setSwitch),
+                              ),
+
+                              GlassContainer(
+                                  height: 200,
+                                  width: 200,
+                                  blur: 4,
+                                  color: Colors.white.withOpacity(0.7),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      Colors.white.withOpacity(0.2),
+                                      Colors.blue.withOpacity(0.3),
+                                    ],
+                                  ),
+                                  //--code to remove border
+                                  border: const Border.fromBorderSide(
+                                      BorderSide.none),
+                                  shadowStrength: 5,
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(16),
+                                  shadowColor: Colors.white.withOpacity(0.24),
+                                  child: TextButton(
+                                      onPressed:
+                                          _checkPendingNotificationRequests,
+                                      child: const Text(
+                                        "Pending Notification",
+                                        style: TextStyle(fontSize: 12),
+                                      ))),
+
+                              GlassContainer(
+                                  height: 200,
+                                  width: 200,
+                                  blur: 4,
+                                  color: Colors.white.withOpacity(0.7),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      Colors.white.withOpacity(0.2),
+                                      Colors.blue.withOpacity(0.3),
+                                    ],
+                                  ),
+                                  //--code to remove border
+                                  border: const Border.fromBorderSide(
+                                      BorderSide.none),
+                                  shadowStrength: 5,
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(16),
+                                  shadowColor: Colors.white.withOpacity(0.24),
+                                  child: TextButton(
+                                      onPressed:
+                                          _startForegroundServiceWithBlueBackgroundNotification,
+                                      child: const Text(
+                                        "Active Notification",
+                                        style: TextStyle(fontSize: 12),
+                                      ))),
+
+                              // TextButton(
+                              //     onPressed: () async {
+                              //       // await localNotifyManager.showNotification();
+                              //       // await localNotifyManager.repeatNotification();
+
+                              //       var now = DateTime.now();
+                              //       var dt = DateTime.now();
+                              //       var mode = 9;
+                              //       var inputFormat =
+                              //           DateFormat('dd/MM/yyyy HH:mm');
+                              //       var inputDate = inputFormat.parse(
+                              //           '${dt.day}/${dt.month}/${dt.year} ${mode.toString()}:00'); // <-- dd/MM 24H format
+
+                              //       var genId =
+                              //           "${dt.year}-${dt.month}-${dt.day}-${mode.toString()}-${FirebaseAuth.instance.currentUser!.uid}";
+
+                              //       var packOfQuestions = [
+                              //         {
+                              //           "id": 0,
+                              //           "question":
+                              //               "Kondisi gigi geligi anda saat ini",
+                              //           "option": [
+                              //             "Terpisah",
+                              //             "Berkontak ringan",
+                              //             "Berkontak erat",
+                              //             "Bergemeretak"
+                              //           ],
+                              //           "form": "radio"
+                              //         },
+                              //         {
+                              //           "id": 1,
+                              //           "question":
+                              //               "Kondisi otot wajah/rahang (?) anda saat ini",
+                              //           "option": [
+                              //             "Rileks",
+                              //             "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
+                              //           ],
+                              //           "form": "radio"
+                              //         },
+                              //         {
+                              //           "id": 2,
+                              //           "question":
+                              //               "Apakah anda merasakan nyeri di daerah wajah",
+                              //           "option": ["Ya", "Tidak"],
+                              //           "form": "radio"
+                              //         },
+                              //         {
+                              //           "id": 3,
+                              //           "question":
+                              //               "Bila nyeri, berapa skala nyeri anda?",
+                              //           "option": 5,
+                              //           "form": "scale"
+                              //         }
+                              //       ];
+
+                              //       var packOfQuestions2 = [
+                              //         {
+                              //           "id": 0,
+                              //           "question":
+                              //               "Kondisi gigi geligi anda saat ini",
+                              //           "option": [
+                              //             "Terpisah",
+                              //             "Berkontak ringan",
+                              //             "Berkontak erat",
+                              //             "Bergemeretak"
+                              //           ],
+                              //           "form": "radio"
+                              //         },
+                              //         {
+                              //           "id": 1,
+                              //           "question":
+                              //               "Kondisi otot wajah/rahang (?) anda saat ini",
+                              //           "option": [
+                              //             "Rileks",
+                              //             "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
+                              //           ],
+                              //           "form": "radio"
+                              //         },
+                              //         {
+                              //           "id": 2,
+                              //           "question":
+                              //               "Apakah anda merasakan nyeri di daerah wajah",
+                              //           "option": ["Ya", "Tidak"],
+                              //           "form": "radio"
+                              //         },
+                              //         {
+                              //           "id": 3,
+                              //           "question": "Kondisi anda hari ini",
+                              //           "option": [
+                              //             "Merasa gugup atau tegang",
+                              //             "Sulit mengontrol kawatir",
+                              //             "Merasa sedih, depresi",
+                              //             "Merasa malas melakukan sesuatu"
+                              //           ],
+                              //           "form": "check"
+                              //         }
+                              //       ];
+                              //       var rng = Random();
+                              //       int rn = rng.nextInt(100);
+                              //       var chosenQuestion = rn % 2 == 0
+                              //           ? packOfQuestions2
+                              //           : packOfQuestions;
+
+                              //       var contextz = {
+                              //         "mode": mode,
+                              //         "ih": dt.hour,
+                              //         "im": dt.minute,
+                              //         "is": dt.second,
+                              //         "init": now.millisecondsSinceEpoch,
+                              //         "end": inputDate.millisecondsSinceEpoch,
+                              //         "date": dt.toIso8601String(),
+                              //         "timestamp": dt.millisecondsSinceEpoch,
+                              //         "status": "onSchedule",
+                              //         "question": "default question",
+                              //         "answer": "default answer",
+                              //         "listQuestions": chosenQuestion,
+                              //         'userId': FirebaseAuth
+                              //             .instance.currentUser!.uid,
+                              //         'genId': genId,
+                              //         'email': FirebaseAuth
+                              //             .instance.currentUser!.email,
+                              //         'name': FirebaseAuth
+                              //             .instance.currentUser!.displayName
+                              //       };
+
+                              //       await LocalNotifyManager.init()
+                              //           .dailyAtTimeNotification2(
+                              //               999,
+                              //               21,
+                              //               tz.TZDateTime.now(tz.local).add(
+                              //                   const Duration(seconds: 5)),
+                              //               jsonEncode(contextz),
+                              //               "Bruxism Notificaiton",
+                              //               "Rate your pain 1-10");
+
+                              //       sendPushMessage("Please change", contextz);
+                              //     },
+                              //     child: const Text("Notification")),
+
+                              // TextButton(
+                              //     onPressed: () {
+                              //       Navigator.push(context, MaterialPageRoute(
+                              //         builder: (context) {
+                              //           return const ViewAlerts();
+                              //         },
+                              //       ));
+                              //     },
+                              //     child: const Text("View")),
+                              // ClipRRect(
+                              //   borderRadius: BorderRadius.circular(25),
+                              //   child: BackdropFilter(
+                              //     filter:
+                              //         ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                              //     child: Container(
+                              //       height: 250,
+                              //       width: 350,
+                              //       decoration: BoxDecoration(
+                              //           borderRadius: BorderRadius.circular(25),
+                              //           color: Colors.black45),
+                              //       child: TextButton(
+                              //           onPressed: () {
+                              //             var storage =
+                              //                 LocalStorage("questions");
+                              //             storage.clear();
+                              //           },
+                              //           child: const Text("CLEAR")),
+                              //     ),
+                              //   ),
+                              // ),
+
+                              // Container(
+                              //   padding: const EdgeInsets.all(10.0),
+                              //   constraints: const BoxConstraints.expand(),
+                              //   child: FutureBuilder(
+                              //       future: storage.ready,
+                              //       builder: (BuildContext context,
+                              //           AsyncSnapshot snapshot) {
+                              //         if (snapshot.data == null) {
+                              //           return const Center(
+                              //             child: CircularProgressIndicator(),
+                              //           );
+                              //         }
+                              //         if (!initialized) {
+                              //           var items = storage
+                              //               .getItem("initial_date_time");
+                              //           if (items != null) {
+                              //             return Text(DateFormat(
+                              //                     'MM/dd/yyyy hh:mm a')
+                              //                 .format(DateTime
+                              //                     .fromMillisecondsSinceEpoch(
+                              //                         items)));
+                              //           }
+                              //           initialized = true;
+                              //         }
+                              //         return const Text("Wwww");
+                              //       }),
+                              // )
+                            ]),
+                      )
+                    ]),
+                  ],
+                ))
+              ]),
+            ),
+          ),
+        ));
+
+        break;
+      case 12:
         //readSettings().then((val) => isSwitched = val);
 
         return ClipRRect(
@@ -1755,7 +2224,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               // ),
                             ]),
                       )
-                    ])
+                    ]),
                   ],
                 ))
               ]),
