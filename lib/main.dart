@@ -1161,7 +1161,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     switch (_pageMode) {
       case 1:
-        return Scaffold(
+        var ret = Scaffold(
             body: Center(
           child: Container(
             height: double.infinity,
@@ -1397,7 +1397,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           padding: EdgeInsets.only(
                                               top: 50.0, right: 20.0),
                                           child: Text(
-                                            "version 11",
+                                            "version 13",
                                             style:
                                                 TextStyle(color: Colors.white),
                                           )),
@@ -1897,6 +1897,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         );
         */
+        return ret;
 
       case 2:
         return Scaffold(

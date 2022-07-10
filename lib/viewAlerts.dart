@@ -104,7 +104,8 @@ class _ViewAlertsState extends State<ViewAlerts> {
           "Merasa gugup atau tegang",
           "Sulit mengontrol kawatir",
           "Merasa sedih, depresi",
-          "Merasa malas melakukan sesuatu"
+          "Merasa malas melakukan sesuatu",
+          "Lewatkan"
         ]
       }
     ];

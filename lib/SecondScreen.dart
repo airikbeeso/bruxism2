@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
-import 'package:bruxism2/ViewQuestion.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -362,7 +361,8 @@ class _SecondScreenState extends State<SecondScreen> {
           "Merasa gugup atau tegang",
           "Sulit mengontrol kawatir",
           "Merasa sedih, depresi",
-          "Merasa malas melakukan sesuatu"
+          "Merasa malas melakukan sesuatu",
+          "Lewatkan"
         ],
         "form": "check"
       }
@@ -444,13 +444,12 @@ class _SecondScreenState extends State<SecondScreen> {
     var context2 = jsonDecode(widget.id);
     final LocalStorage storage = LocalStorage('questions');
 
+    // if (21 == context2["mode"]) {
+    //   var now = DateTime.now();
+    //   localNotifyManager.cancelAllScheduled();
 
-    if (21 == context2["mode"]) {
-      var now = DateTime.now();
-      localNotifyManager.cancelAllScheduled();
-
-      startSessions(true, now, false).then((value) => print("done"));
-    }
+    //   startSessions(true, now, false).then((value) => print("done"));
+    // }
 
     // var list = [];
     // if (null != storage.getItem("questions")) {
@@ -715,7 +714,6 @@ class _SecondScreenState extends State<SecondScreen> {
 
     var idx10 = 0;
     var items = storage.getItem("initial_date_time");
-
 
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),

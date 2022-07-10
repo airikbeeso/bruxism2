@@ -106,7 +106,8 @@ class _ThirdScreenState extends State<ThirdScreen> {
           "Merasa gugup atau tegang",
           "Sulit mengontrol kawatir",
           "Merasa sedih, depresi",
-          "Merasa malas melakukan sesuatu"
+          "Merasa malas melakukan sesuatu",
+          "Lewatkan"
         ],
         "form": "check"
       }
@@ -189,7 +190,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
                     child: CircularProgressIndicator(),
                   );
                 }
-                
+
                 if (!initialized) {
                   var items = storage.getItem("initial_date_time");
                   if (items != null) {
