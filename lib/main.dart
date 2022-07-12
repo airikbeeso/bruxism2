@@ -531,6 +531,13 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       {
         "id": 3,
+        "question":
+            "Bila nyeri, berapa skala nyeri anda? 0 - tidak nyeri ;  10 - nyeri yang tidak tertahankan",
+        "option": 5,
+        "form": "scale"
+      },
+      {
+        "id": 4,
         "question": "Kondisi anda hari ini",
         "option": [
           "Merasa gugup atau tegang",
@@ -544,7 +551,8 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
     var rng = Random();
     int rn = rng.nextInt(100);
-    var chosenQuestion = rn % 2 == 0 ? packOfQuestions2 : packOfQuestions;
+    var chosenQuestion =
+        packOfQuestions2; // rn % 2 == 0 ? packOfQuestions2 : packOfQuestions;
     var context = {
       "mode": mode,
       "ih": dt.hour,
@@ -606,7 +614,7 @@ class _MyHomePageState extends State<MyHomePage> {
         mode,
         dt,
         jsonEncode(context),
-        "Bruxism Notificaiton",
+        "Bruxism Notification",
         "Rate your pain, Jam $mode");
   }
 
@@ -1536,7 +1544,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               //               tz.TZDateTime.now(tz.local).add(
                               //                   const Duration(seconds: 5)),
                               //               jsonEncode(contextz),
-                              //               "Bruxism Notificaiton",
+                              //               "Bruxism Notification",
                               //               "Rate your pain 1-10");
 
                               //       sendPushMessage("Please change", contextz);
@@ -1787,7 +1795,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   tz.TZDateTime.now(tz.local)
                                       .add(const Duration(seconds: 5)),
                                   jsonEncode(contextz),
-                                  "Bruxism Notificaiton",
+                                  "Bruxism Notification",
                                   "Rate your pain 1-10");
 
                           sendPushMessage("Please change", contextz);
@@ -1798,7 +1806,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           //     tz.TZDateTime.now(tz.local)
                           //         .add(const Duration(seconds: 5)),
                           //     jsonEncode(contextz),
-                          //     "Bruxism Notificaiton",
+                          //     "Bruxism Notification",
                           //     "Rate your pain 1-10");
 
                           // await LocalNotifyManager.init().dailyAtTimeNotification2(
@@ -1807,13 +1815,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           //     tz.TZDateTime.now(tz.local)
                           //         .add(const Duration(seconds: 5)),
                           //     jsonEncode(contextz),
-                          //     "Bruxism Notificaiton",
+                          //     "Bruxism Notification",
                           //     "Rate your pain 1-10");
 
                           // await localNotifyManager.dailyAtTimeNotification(
                           //     1,
                           //     '2022-3-26-12-JWfkws6uSReUCvYVzmcSyY69esJ3',
-                          //     'Bruxism Notificaiton',
+                          //     'Bruxism Notification',
                           //     'Rate your pain 1-10');
                         },
                         child: const Text("Notification")),

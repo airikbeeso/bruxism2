@@ -146,7 +146,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
         dt.hour,
         dt,
         jsonEncode(context),
-        "Bruxism Notificaiton",
+        "Bruxism Notification",
         "Rate your pain, Jam ${dt.hour}");
   }
 

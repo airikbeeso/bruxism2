@@ -401,7 +401,7 @@ class _SecondScreenState extends State<SecondScreen> {
         mode,
         dt,
         jsonEncode(context),
-        "Bruxism Notificaiton",
+        "Bruxism Notification",
         "Rate your pain, Jam $mode");
   }
 
@@ -579,11 +579,11 @@ class _SecondScreenState extends State<SecondScreen> {
                 title: data["question"],
                 answerFormat: ScaleAnswerFormat(
                   step: 1,
-                  minimumValue: 1,
+                  minimumValue: 0,
                   maximumValue: v,
-                  defaultValue: 3,
-                  minimumValueDescription: '1',
-                  maximumValueDescription: '5',
+                  defaultValue: 5,
+                  minimumValueDescription: '0',
+                  maximumValueDescription: '10',
                 )));
             break;
           default:
