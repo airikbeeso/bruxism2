@@ -593,7 +593,7 @@ class _SecondScreenState extends State<SecondScreen> {
 
       ls.add(CompletionStep(
         stepIdentifier: StepIdentifier(id: '321'),
-        text: 'Thanks for taking the survey, we will contact you soon!',
+        text: 'Terima kasih',
         title: 'Done!',
         buttonText: 'Submit survey',
       ));

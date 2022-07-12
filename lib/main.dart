@@ -1311,33 +1311,33 @@ class _MyHomePageState extends State<MyHomePage> {
                                     setSwitch: setSwitch),
                               ),
 
-                              GlassContainer(
-                                  height: 200,
-                                  width: 200,
-                                  blur: 4,
-                                  color: Colors.white.withOpacity(0.7),
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                    colors: [
-                                      Colors.white.withOpacity(0.2),
-                                      Colors.blue.withOpacity(0.3),
-                                    ],
-                                  ),
-                                  //--code to remove border
-                                  border: const Border.fromBorderSide(
-                                      BorderSide.none),
-                                  shadowStrength: 5,
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.circular(16),
-                                  shadowColor: Colors.white.withOpacity(0.24),
-                                  child: TextButton(
-                                      onPressed:
-                                          _checkPendingNotificationRequests,
-                                      child: const Text(
-                                        "Pending Notification",
-                                        style: TextStyle(fontSize: 12),
-                                      ))),
+                              // GlassContainer(
+                              //     height: 200,
+                              //     width: 200,
+                              //     blur: 4,
+                              //     color: Colors.white.withOpacity(0.7),
+                              //     gradient: LinearGradient(
+                              //       begin: Alignment.topLeft,
+                              //       end: Alignment.bottomRight,
+                              //       colors: [
+                              //         Colors.white.withOpacity(0.2),
+                              //         Colors.blue.withOpacity(0.3),
+                              //       ],
+                              //     ),
+                              //     //--code to remove border
+                              //     border: const Border.fromBorderSide(
+                              //         BorderSide.none),
+                              //     shadowStrength: 5,
+                              //     shape: BoxShape.rectangle,
+                              //     borderRadius: BorderRadius.circular(16),
+                              //     shadowColor: Colors.white.withOpacity(0.24),
+                              //     child: TextButton(
+                              //         onPressed:
+                              //             _checkPendingNotificationRequests,
+                              //         child: const Text(
+                              //           "Pending Notification",
+                              //           style: TextStyle(fontSize: 12),
+                              //         ))),
 
                               // GlassContainer(
                               //     height: 200,
@@ -1923,56 +1923,65 @@ class _MyHomePageState extends State<MyHomePage> {
             ));
       case 3:
         return Scaffold(
-            appBar: AppBar(
-              title: const Text("Login"),
-            ),
-            body: Column(
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                PasswordForm(
-                  email: "",
-                  login: (email, password) {
-                    signInWithEmailAndPassword2(
-                        email,
-                        password,
-                        (e) =>
-                            _showErrorDialog(context, 'Failed to sign in', e));
-                  },
-                  selectPage: _selectPage,
-                ),
-                // const Divider(
-                //   height: 10,
-                //   thickness: 2,
-                //   indent: 20,
-                //   endIndent: 0,
-                //   color: Colors.grey,
-                // ),
-                // const SizedBox(
-                //   height: 30,
-                // ),
+            // appBar: AppBar(
+            //   title: const Text("Login"),
+            // ),
+            body: Center(
+                child: Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: Image.asset("assets/images/bg.png").image,
+                          fit: BoxFit.cover),
+                    ),
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        PasswordForm(
+                          email: "",
+                          login: (email, password) {
+                            signInWithEmailAndPassword2(
+                                email,
+                                password,
+                                (e) => _showErrorDialog(
+                                    context, 'Failed to sign in', e));
+                          },
+                          selectPage: _selectPage,
+                        ),
+                        // const Divider(
+                        //   height: 10,
+                        //   thickness: 2,
+                        //   indent: 20,
+                        //   endIndent: 0,
+                        //   color: Colors.grey,
+                        // ),
+                        // const SizedBox(
+                        //   height: 30,
+                        // ),
 
-                // RegisterForm(
-                //   email: "",
-                //   cancel: () {
-                //     cancelRegistration();
-                //   },
-                //   registerAccount: (
-                //     email,
-                //     displayName,
-                //     password,
-                //   ) {
-                //     registerAccount(
-                //         email,
-                //         displayName,
-                //         password,
-                //         (e) => _showErrorDialog(
-                //             context, 'Failed to create account', e));
-                //   },
-                // ),
-              ],
-            ));
+                        // RegisterForm(
+                        //   email: "",
+                        //   cancel: () {
+                        //     cancelRegistration();
+                        //   },
+                        //   registerAccount: (
+                        //     email,
+                        //     displayName,
+                        //     password,
+                        //   ) {
+                        //     registerAccount(
+                        //         email,
+                        //         displayName,
+                        //         password,
+                        //         (e) => _showErrorDialog(
+                        //             context, 'Failed to create account', e));
+                        //   },
+                        // ),
+                      ],
+                    ))));
       case 4:
         return Scaffold(
           appBar: AppBar(title: const Text("Register")),
@@ -2527,110 +2536,131 @@ class _PasswordFormState extends State<PasswordForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Header('Sign in'),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: TextFormField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your email',
+    return GlassContainer(
+        height: MediaQuery.of(context).size.height * 0.8,
+        width: MediaQuery.of(context).size.width,
+        blur: 4,
+        color: Colors.white.withOpacity(0.7),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Colors.white.withOpacity(0.2),
+            Colors.blue.withOpacity(0.3),
+          ],
+        ),
+        //--code to remove border
+        border: const Border.fromBorderSide(BorderSide.none),
+        shadowStrength: 5,
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.circular(16),
+        shadowColor: Colors.white.withOpacity(0.24),
+        child: Column(
+          children: [
+            const Header('Sign in'),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: TextFormField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter your email',
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Enter your email address to continue';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Enter your email address to continue';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: TextFormField(
-                    controller: _passwordController,
-                    decoration: const InputDecoration(
-                      hintText: 'Password',
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: TextFormField(
+                        controller: _passwordController,
+                        decoration: const InputDecoration(
+                          hintText: 'Password',
+                        ),
+                        obscureText: true,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Enter your password';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Enter your password';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Flex(
-                          direction: Axis.horizontal,
+                    Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // const SizedBox(width: 3),
-                            // Padding(
-                            //   padding: const EdgeInsets.only(left: lsMargin),
-                            //   child: StyledButton(
-                            //     onPressed: () {},
-                            //     child: const Text('Register'),
-                            //   ),
-                            // ),
-                            // const SizedBox(width: 16),
+                            Flex(
+                              direction: Axis.horizontal,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                // const SizedBox(width: 3),
+                                // Padding(
+                                //   padding: const EdgeInsets.only(left: lsMargin),
+                                //   child: StyledButton(
+                                //     onPressed: () {},
+                                //     child: const Text('Register'),
+                                //   ),
+                                // ),
+                                // const SizedBox(width: 16),
 
-                            Padding(
-                              padding: const EdgeInsets.only(right: lsMargin),
-                              child: StyledButton(
-                                onPressed: () {
-                                  widget.selectPage(4);
-                                },
-                                child: const Text('REGISTER'),
-                              ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(right: lsMargin),
+                                  child: StyledButton(
+                                    onPressed: () {
+                                      widget.selectPage(4);
+                                    },
+                                    child: const Text('REGISTER'),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(right: lsMargin),
+                                  child: StyledButton(
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        widget.login(
+                                          _emailController.text,
+                                          _passwordController.text,
+                                        );
+                                      }
+                                    },
+                                    child: const Text('SIGN IN'),
+                                  ),
+                                )
+
+                                // const SizedBox(width: 3),
+                              ],
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(right: lsMargin),
-                              child: StyledButton(
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    widget.login(
-                                      _emailController.text,
-                                      _passwordController.text,
-                                    );
-                                  }
-                                },
-                                child: const Text('SIGN IN'),
-                              ),
-                            )
-
-                            // const SizedBox(width: 3),
+                                padding: const EdgeInsets.all(10.0),
+                                child: TextButton(
+                                  onPressed: () {
+                                    widget.selectPage(0);
+                                  },
+                                  child: const Text("Forgot password"),
+                                )),
                           ],
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: TextButton(
-                              onPressed: () {
-                                widget.selectPage(0);
-                              },
-                              child: const Text("Forgot password"),
-                            )),
-                      ],
-                    )),
-              ],
+                        )),
+                  ],
+                ),
+              ),
             ),
-          ),
-        ),
-      ],
-    );
+          ],
+        ));
   }
 }
 
@@ -2657,7 +2687,8 @@ class Header extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Text(
           heading,
-          style: const TextStyle(fontSize: 24),
+          style: const TextStyle(
+              fontSize: 24, color: Colors.white, fontFamily: 'roboto'),
         ),
       );
 }
