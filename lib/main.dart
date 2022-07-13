@@ -2557,7 +2557,26 @@ class _PasswordFormState extends State<PasswordForm> {
         shadowColor: Colors.white.withOpacity(0.24),
         child: Column(
           children: [
-            const Header('Sign in'),
+            GlassContainer(
+                height: 100,
+                width: 100,
+                blur: 4,
+                color: Colors.white.withOpacity(0.7),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.white.withOpacity(0.2),
+                    Colors.blue.withOpacity(0.3),
+                  ],
+                ),
+                //--code to remove border
+                border: const Border.fromBorderSide(BorderSide.none),
+                shadowStrength: 5,
+                shape: BoxShape.circle,
+                borderRadius: BorderRadius.circular(16),
+                shadowColor: Colors.white.withOpacity(0.24),
+                child: const Header('Sign in')),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Form(
@@ -2570,8 +2589,8 @@ class _PasswordFormState extends State<PasswordForm> {
                       child: TextFormField(
                         controller: _emailController,
                         decoration: const InputDecoration(
-                          hintText: 'Enter your email',
-                        ),
+                            hintText: 'Enter your email',
+                            hintStyle: TextStyle(color: Colors.white)),
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Enter your email address to continue';
@@ -2585,8 +2604,8 @@ class _PasswordFormState extends State<PasswordForm> {
                       child: TextFormField(
                         controller: _passwordController,
                         decoration: const InputDecoration(
-                          hintText: 'Password',
-                        ),
+                            hintText: 'Password',
+                            hintStyle: TextStyle(color: Colors.white)),
                         obscureText: true,
                         validator: (value) {
                           if (value!.isEmpty) {
