@@ -1983,27 +1983,53 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ))));
       case 4:
-        return Scaffold(
-          appBar: AppBar(title: const Text("Register")),
-          body: RegisterForm(
-            email: "",
-            cancel: () {
-              cancelRegistration();
-            },
-            registerAccount: (
-              email,
-              displayName,
-              password,
-            ) {
-              registerAccount(
+        return GlassContainer(
+            height: MediaQuery.of(context).size.height * 0.8,
+            width: MediaQuery.of(context).size.width,
+            blur: 4,
+            color: Colors.white.withOpacity(0.7),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.white.withOpacity(0.2),
+                Colors.blue.withOpacity(0.3),
+              ],
+            ),
+            //--code to remove border
+            border: const Border.fromBorderSide(BorderSide.none),
+            shadowStrength: 5,
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(16),
+            shadowColor: Colors.white.withOpacity(0.24),
+            child: Scaffold(
+                body: Container(
+              height: double.infinity,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: Image.asset("assets/images/bg.png").image,
+                    fit: BoxFit.cover),
+              ),
+              child: RegisterForm(
+                email: "",
+                cancel: () {
+                  cancelRegistration();
+                },
+                registerAccount: (
                   email,
                   displayName,
                   password,
-                  (e) =>
-                      _showErrorDialog(context, 'Failed to create account', e));
-            },
-          ),
-        );
+                ) {
+                  registerAccount(
+                      email,
+                      displayName,
+                      password,
+                      (e) => _showErrorDialog(
+                          context, 'Failed to create account', e));
+                },
+              ),
+            )));
 
       case 0:
         return Scaffold(
@@ -2536,150 +2562,166 @@ class _PasswordFormState extends State<PasswordForm> {
 
   @override
   Widget build(BuildContext context) {
-    return GlassContainer(
-        height: MediaQuery.of(context).size.height * 0.8,
-        width: MediaQuery.of(context).size.width,
-        blur: 4,
-        color: Colors.white.withOpacity(0.7),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.white.withOpacity(0.2),
-            Colors.blue.withOpacity(0.3),
-          ],
-        ),
-        //--code to remove border
-        border: const Border.fromBorderSide(BorderSide.none),
-        shadowStrength: 5,
-        shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.circular(16),
-        shadowColor: Colors.white.withOpacity(0.24),
-        child: Column(
-          children: [
-            GlassContainer(
-                height: 100,
-                width: 100,
-                blur: 4,
-                color: Colors.white.withOpacity(0.7),
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.white.withOpacity(0.2),
-                    Colors.blue.withOpacity(0.3),
-                  ],
+    return Expanded(
+        child: GlassContainer(
+            height: MediaQuery.of(context).size.height * 0.8,
+            width: MediaQuery.of(context).size.width,
+            blur: 4,
+            color: Colors.white.withOpacity(0.7),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.white.withOpacity(0.2),
+                Colors.blue.withOpacity(0.3),
+              ],
+            ),
+            //--code to remove border
+            border: const Border.fromBorderSide(BorderSide.none),
+            shadowStrength: 5,
+            shape: BoxShape.rectangle,
+            borderRadius: BorderRadius.circular(16),
+            shadowColor: Colors.white.withOpacity(0.24),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 20,
                 ),
-                //--code to remove border
-                border: const Border.fromBorderSide(BorderSide.none),
-                shadowStrength: 5,
-                shape: BoxShape.circle,
-                borderRadius: BorderRadius.circular(16),
-                shadowColor: Colors.white.withOpacity(0.24),
-                child: const Header('Sign in')),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: TextFormField(
-                        controller: _emailController,
-                        decoration: const InputDecoration(
-                            hintText: 'Enter your email',
-                            hintStyle: TextStyle(color: Colors.white)),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Enter your email address to continue';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: TextFormField(
-                        controller: _passwordController,
-                        decoration: const InputDecoration(
-                            hintText: 'Password',
-                            hintStyle: TextStyle(color: Colors.white)),
-                        obscureText: true,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Enter your password';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Flex(
-                              direction: Axis.horizontal,
+                GlassContainer(
+                  height: 120,
+                  width: 120,
+                  blur: 4,
+                  color: Colors.white.withOpacity(0.7),
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colors.white.withOpacity(0.2),
+                      Colors.blue.withOpacity(0.3),
+                    ],
+                  ),
+                  //--code to remove border
+                  border: const Border.fromBorderSide(BorderSide.none),
+                  shadowStrength: 5,
+                  shape: BoxShape.circle,
+                  borderRadius: BorderRadius.circular(16),
+                  shadowColor: Colors.white.withOpacity(0.24),
+                  child: const Padding(
+                      padding: EdgeInsets.only(top: 35, left: 15),
+                      child: Header('Sign in')),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: TextFormField(
+                            style: const TextStyle(color: Colors.white),
+                            controller: _emailController,
+                            decoration: const InputDecoration(
+                                hintText: 'Enter your email',
+                                hintStyle: TextStyle(color: Colors.white)),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Enter your email address to continue';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: TextFormField(
+                            style: const TextStyle(color: Colors.white),
+                            controller: _passwordController,
+                            decoration: const InputDecoration(
+                                hintText: 'Password',
+                                hintStyle: TextStyle(color: Colors.white)),
+                            obscureText: true,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Enter your password';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                // const SizedBox(width: 3),
-                                // Padding(
-                                //   padding: const EdgeInsets.only(left: lsMargin),
-                                //   child: StyledButton(
-                                //     onPressed: () {},
-                                //     child: const Text('Register'),
-                                //   ),
-                                // ),
-                                // const SizedBox(width: 16),
+                                Flex(
+                                  direction: Axis.horizontal,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    // const SizedBox(width: 3),
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(left: lsMargin),
+                                    //   child: StyledButton(
+                                    //     onPressed: () {},
+                                    //     child: const Text('Register'),
+                                    //   ),
+                                    // ),
+                                    // const SizedBox(width: 16),
 
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(right: lsMargin),
-                                  child: StyledButton(
-                                    onPressed: () {
-                                      widget.selectPage(4);
-                                    },
-                                    child: const Text('REGISTER'),
-                                  ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: lsMargin, left: lsMargin),
+                                      child: StyledButton(
+                                        onPressed: () {
+                                          widget.selectPage(4);
+                                        },
+                                        child: const Text(
+                                          'REGISTER',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: lsMargin),
+                                      child: StyledButton(
+                                        onPressed: () {
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            widget.login(
+                                              _emailController.text,
+                                              _passwordController.text,
+                                            );
+                                          }
+                                        },
+                                        child: const Text(
+                                          'SIGN IN',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    )
+
+                                    // const SizedBox(width: 3),
+                                  ],
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.only(right: lsMargin),
-                                  child: StyledButton(
-                                    onPressed: () {
-                                      if (_formKey.currentState!.validate()) {
-                                        widget.login(
-                                          _emailController.text,
-                                          _passwordController.text,
-                                        );
-                                      }
-                                    },
-                                    child: const Text('SIGN IN'),
-                                  ),
-                                )
-
-                                // const SizedBox(width: 3),
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: TextButton(
+                                      onPressed: () {
+                                        widget.selectPage(0);
+                                      },
+                                      child: const Text("Forgot password"),
+                                    )),
                               ],
-                            ),
-                            Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: TextButton(
-                                  onPressed: () {
-                                    widget.selectPage(0);
-                                  },
-                                  child: const Text("Forgot password"),
-                                )),
-                          ],
-                        )),
-                  ],
+                            )),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ],
-        ));
+              ],
+            )));
   }
 }
 
@@ -2740,23 +2782,24 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Header('Create account'),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Form(
+    return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                const SizedBox(
+                  height: 50,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: TextFormField(
+                    style: const TextStyle(color: Colors.white),
                     controller: _emailController,
                     decoration: const InputDecoration(
-                      hintText: 'Enter your email',
-                    ),
+                        hintText: 'Enter your email',
+                        hintStyle: TextStyle(color: Colors.white)),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Enter your email address to continue';
@@ -2768,10 +2811,11 @@ class _RegisterFormState extends State<RegisterForm> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: TextFormField(
+                    style: const TextStyle(color: Colors.white),
                     controller: _displayNameController,
                     decoration: const InputDecoration(
-                      hintText: 'First & last name',
-                    ),
+                        hintText: 'First & last name',
+                        hintStyle: TextStyle(color: Colors.white)),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Enter your account name';
@@ -2783,10 +2827,11 @@ class _RegisterFormState extends State<RegisterForm> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: TextFormField(
+                    style: const TextStyle(color: Colors.white),
                     controller: _passwordController,
                     decoration: const InputDecoration(
-                      hintText: 'Password',
-                    ),
+                        hintText: 'Password',
+                        hintStyle: TextStyle(color: Colors.white)),
                     obscureText: true,
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -2823,11 +2868,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   ),
                 ),
               ],
-            ),
-          ),
-        ),
-      ],
-    );
+            )));
   }
 }
 
