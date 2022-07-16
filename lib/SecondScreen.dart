@@ -577,10 +577,10 @@ class _SecondScreenState extends State<SecondScreen> {
             double v = double.tryParse(data["option"].toString())!;
             ls.add(QuestionStep(
                 title: data["question"],
-                answerFormat: ScaleAnswerFormat(
+                answerFormat: const ScaleAnswerFormat(
                   step: 1,
                   minimumValue: 0,
-                  maximumValue: v,
+                  maximumValue: 10,
                   defaultValue: 5,
                   minimumValueDescription: '0',
                   maximumValueDescription: '10',

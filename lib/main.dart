@@ -4,7 +4,6 @@ import 'dart:ffi';
 import 'dart:math';
 
 import 'package:bruxism2/SecondScreen.dart';
-import 'package:bruxism2/ThirdScreen.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -17,6 +16,7 @@ import 'package:glassmorphism/glassmorphism.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'forgotPassword.dart';
 import 'notificationservice.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -497,7 +497,7 @@ class _MyHomePageState extends State<MyHomePage> {
       {
         "id": 3,
         "question": "Bila nyeri, berapa skala nyeri anda?",
-        "option": 5,
+        "option": 10,
         "form": "scale"
       }
     ];
@@ -1115,9 +1115,9 @@ class _MyHomePageState extends State<MyHomePage> {
       var now = DateTime.now();
       // var now2 = DateTime.utc(now.year, now.month, now.day, 15);
 
-      startSessions(isSwitched, now, false);
+      // startSessions(isSwitched, now, false);
       // print("WWWWWWW");
-      // startSessions_test(isSwitched, now, false);
+      startSessions_test(isSwitched, now, false);
     });
   }
 
@@ -1376,7 +1376,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     child: Padding(
                                         padding: EdgeInsets.only(left: 30),
                                         child: Text(
-                                          "Ver. 14",
+                                          "Ver. 15",
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 30),
@@ -2455,6 +2455,14 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ));
+
+      case 5:
+        return StreamBuilder<Object>(
+          stream: null,
+          builder: (context, snapshot) {
+            return Center(child: ForgotPassword());
+          }
+        );
       default:
         return Scaffold(
           appBar: AppBar(title: const Text("Info")),
@@ -2733,7 +2741,7 @@ class _PasswordFormState extends State<PasswordForm> {
                                     padding: const EdgeInsets.all(10.0),
                                     child: TextButton(
                                       onPressed: () {
-                                        widget.selectPage(0);
+                                        widget.selectPage(5);
                                       },
                                       child: const Text("Forgot password"),
                                     )),
