@@ -553,6 +553,7 @@ class _SecondScreenState extends State<SecondScreen> {
               ls2.add(TextChoice(text: d.toString(), value: d.toString()));
             }
             ls.add(QuestionStep(
+                isOptional: "yes" == data["isOptional"] ? true : false,
                 title: data["question"],
                 answerFormat: SingleChoiceAnswerFormat(textChoices: ls2)));
             break;
@@ -565,6 +566,7 @@ class _SecondScreenState extends State<SecondScreen> {
             }
             ls.add(QuestionStep(
                 title: data["question"],
+                isOptional: "yes" == data["isOptional"] ? true : false,
                 answerFormat: MultipleChoiceAnswerFormat(textChoices: ls2)));
             break;
           case "scale":
@@ -576,6 +578,7 @@ class _SecondScreenState extends State<SecondScreen> {
             // }
             double v = double.tryParse(data["option"].toString())!;
             ls.add(QuestionStep(
+                isOptional: "yes" == data["isOptional"] ? true : false,
                 title: data["question"],
                 answerFormat: const ScaleAnswerFormat(
                   step: 1,

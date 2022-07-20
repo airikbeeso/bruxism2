@@ -512,7 +512,8 @@ class _MyHomePageState extends State<MyHomePage> {
           "Berkontak erat",
           "Bergemeretak"
         ],
-        "form": "radio"
+        "form": "radio",
+        "isOptional": "false"
       },
       {
         "id": 1,
@@ -521,20 +522,23 @@ class _MyHomePageState extends State<MyHomePage> {
           "Rileks",
           "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
         ],
-        "form": "radio"
+        "form": "radio",
+        "isOptional": "false"
       },
       {
         "id": 2,
         "question": "Apakah anda merasakan nyeri di daerah wajah",
         "option": ["Ya", "Tidak"],
-        "form": "radio"
+        "form": "radio",
+        "isOptional": "false"
       },
       {
         "id": 3,
         "question":
             "Bila nyeri, berapa skala nyeri anda? 0 - tidak nyeri ;  10 - nyeri yang tidak tertahankan",
         "option": 5,
-        "form": "scale"
+        "form": "scale",
+        "isOptional": "false"
       },
       {
         "id": 4,
@@ -543,10 +547,10 @@ class _MyHomePageState extends State<MyHomePage> {
           "Merasa gugup atau tegang",
           "Sulit mengontrol kawatir",
           "Merasa sedih, depresi",
-          "Merasa malas melakukan sesuatu",
-          "Lewatkan"
+          "Merasa malas melakukan sesuatu"
         ],
-        "form": "check"
+        "form": "check",
+        "isOptional": "yes"
       }
     ];
     var rng = Random();
@@ -1115,9 +1119,9 @@ class _MyHomePageState extends State<MyHomePage> {
       var now = DateTime.now();
       // var now2 = DateTime.utc(now.year, now.month, now.day, 15);
 
-      startSessions(isSwitched, now, false);
+      // startSessions(isSwitched, now, false);
       // print("WWWWWWW");
-      // startSessions_test(isSwitched, now, false);
+      startSessions_test(isSwitched, now, false);
     });
   }
 
@@ -1216,421 +1220,438 @@ class _MyHomePageState extends State<MyHomePage> {
                       ]),
                   child: Column(children: [
                     Expanded(
+                        flex: 1,
                         child: Stack(
-                      children: [
-                        Positioned(
-                          bottom: MediaQuery.of(context).size.height * 0.3 * 70,
-                          left: 40,
-                          child: Container(
-                            width: 100,
-                            height: 100.0,
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                gradient: LinearGradient(colors: [
-                                  Color(0xFFBC1642),
-                                  Color(0xFFCB5AC6),
-                                ])),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 50,
-                          left: 30,
-                          child: Container(
-                            width: 80,
-                            height: 40,
-                            decoration: const BoxDecoration(
-                                shape: BoxShape.rectangle,
-                                gradient: LinearGradient(colors: [
-                                  Color(0xFFFDFC47),
-                                  Color(0xFF24FE41),
-                                ])),
-                          ),
-                        ),
-                        Column(children: [
-                          SizedBox(
-                              height: 100,
-                              width: MediaQuery.of(context).size.width),
-                          GlassmorphicContainer(
-                            width: MediaQuery.of(context).size.width * 0.9 - 20,
-                            height:
-                                MediaQuery.of(context).size.height * 0.7 - 20,
-                            borderRadius: 35,
-                            margin: const EdgeInsets.all(10),
-                            blur: 10,
-                            alignment: Alignment.bottomCenter,
-                            border: 2,
-                            linearGradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  const Color(0xFFFFFFFF).withAlpha(0),
-                                  const Color(0xFFFFFFFF).withAlpha(0),
-                                ],
-                                stops: const [
-                                  0.3,
-                                  1,
-                                ]),
-                            borderGradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  const Color(0xFFFFFFFF).withAlpha(01),
-                                  const Color(0xFFFFFFFF).withAlpha(100),
-                                  const Color(0xFFFFFFFF).withAlpha(01),
-                                ],
-                                stops: const [
-                                  0.2,
-                                  0.9,
-                                  1
-                                ]),
-                            child: GridView.count(
-                                primary: false,
-                                padding: const EdgeInsets.only(
-                                    left: 10, right: 10, top: 20),
-                                crossAxisSpacing: 5,
-                                mainAxisSpacing: 5,
-                                crossAxisCount: 1,
-                                children: <Widget>[
-                                  GlassContainer(
-                                    height: 200,
-                                    width: 200,
-                                    blur: 4,
-                                    color: Colors.white.withOpacity(0.7),
-                                    gradient: LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                      colors: [
-                                        Colors.white.withOpacity(0.2),
-                                        Colors.blue.withOpacity(0.3),
-                                      ],
-                                    ),
-                                    //--code to remove border
-                                    border: const Border.fromBorderSide(
-                                        BorderSide.none),
-                                    shadowStrength: 5,
+                          fit: StackFit.expand,
+                          children: [
+                            Positioned(
+                              bottom:
+                                  MediaQuery.of(context).size.height * 0.3 * 70,
+                              left: 40,
+                              child: Container(
+                                width: 100,
+                                height: 100.0,
+                                decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
-                                    borderRadius: BorderRadius.circular(16),
-                                    shadowColor: Colors.white.withOpacity(0.24),
-                                    child: SlideSchedule(
-                                        getStatus: () => readSettings(),
-                                        setSwitch: setSwitch),
-                                  ),
+                                    gradient: LinearGradient(colors: [
+                                      Color(0xFFBC1642),
+                                      Color(0xFFCB5AC6),
+                                    ])),
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 50,
+                              left: 30,
+                              child: Container(
+                                width: 80,
+                                height: 40,
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    gradient: LinearGradient(colors: [
+                                      Color(0xFFFDFC47),
+                                      Color(0xFF24FE41),
+                                    ])),
+                              ),
+                            ),
+                            Column(children: [
+                              SizedBox(
+                                  height: 100,
+                                  width: MediaQuery.of(context).size.width),
+                              GlassmorphicContainer(
+                                width: MediaQuery.of(context).size.width * 0.9 -
+                                    20,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.7 -
+                                        20,
+                                borderRadius: 35,
+                                margin: const EdgeInsets.all(10),
+                                blur: 10,
+                                alignment: Alignment.bottomCenter,
+                                border: 2,
+                                linearGradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      const Color(0xFFFFFFFF).withAlpha(0),
+                                      const Color(0xFFFFFFFF).withAlpha(0),
+                                    ],
+                                    stops: const [
+                                      0.3,
+                                      1,
+                                    ]),
+                                borderGradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      const Color(0xFFFFFFFF).withAlpha(01),
+                                      const Color(0xFFFFFFFF).withAlpha(100),
+                                      const Color(0xFFFFFFFF).withAlpha(01),
+                                    ],
+                                    stops: const [
+                                      0.2,
+                                      0.9,
+                                      1
+                                    ]),
+                                child: GridView.count(
+                                    primary: false,
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10, top: 10),
+                                    crossAxisSpacing: 3,
+                                    mainAxisSpacing: 3,
+                                    crossAxisCount: 1,
+                                    children: <Widget>[
+                                      GlassContainer(
+                                        height: 200,
+                                        width: 200,
+                                        blur: 4,
+                                        color: Colors.white.withOpacity(0.7),
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                          colors: [
+                                            Colors.white.withOpacity(0.2),
+                                            Colors.blue.withOpacity(0.3),
+                                          ],
+                                        ),
+                                        //--code to remove border
+                                        border: const Border.fromBorderSide(
+                                            BorderSide.none),
+                                        shadowStrength: 5,
+                                        shape: BoxShape.circle,
+                                        borderRadius: BorderRadius.circular(16),
+                                        shadowColor:
+                                            Colors.white.withOpacity(0.24),
+                                        child: SlideSchedule(
+                                            getStatus: () => readSettings(),
+                                            setSwitch: setSwitch),
+                                      ),
 
-                                  // GlassContainer(
-                                  //     height: 200,
-                                  //     width: 200,
-                                  //     blur: 4,
-                                  //     color: Colors.white.withOpacity(0.7),
-                                  //     gradient: LinearGradient(
-                                  //       begin: Alignment.topLeft,
-                                  //       end: Alignment.bottomRight,
-                                  //       colors: [
-                                  //         Colors.white.withOpacity(0.2),
-                                  //         Colors.blue.withOpacity(0.3),
-                                  //       ],
-                                  //     ),
-                                  //     //--code to remove border
-                                  //     border: const Border.fromBorderSide(
-                                  //         BorderSide.none),
-                                  //     shadowStrength: 5,
-                                  //     shape: BoxShape.rectangle,
-                                  //     borderRadius: BorderRadius.circular(16),
-                                  //     shadowColor: Colors.white.withOpacity(0.24),
-                                  //     child: TextButton(
-                                  //         onPressed:
-                                  //             _checkPendingNotificationRequests,
-                                  //         child: const Text(
-                                  //           "Pending Notification",
-                                  //           style: TextStyle(fontSize: 12),
-                                  //         ))),
+                                      // GlassContainer(
+                                      //     height: 200,
+                                      //     width: 200,
+                                      //     blur: 4,
+                                      //     color: Colors.white.withOpacity(0.7),
+                                      //     gradient: LinearGradient(
+                                      //       begin: Alignment.topLeft,
+                                      //       end: Alignment.bottomRight,
+                                      //       colors: [
+                                      //         Colors.white.withOpacity(0.2),
+                                      //         Colors.blue.withOpacity(0.3),
+                                      //       ],
+                                      //     ),
+                                      //     //--code to remove border
+                                      //     border: const Border.fromBorderSide(
+                                      //         BorderSide.none),
+                                      //     shadowStrength: 5,
+                                      //     shape: BoxShape.rectangle,
+                                      //     borderRadius: BorderRadius.circular(16),
+                                      //     shadowColor: Colors.white.withOpacity(0.24),
+                                      //     child: TextButton(
+                                      //         onPressed:
+                                      //             _checkPendingNotificationRequests,
+                                      //         child: const Text(
+                                      //           "Pending Notification",
+                                      //           style: TextStyle(fontSize: 12),
+                                      //         ))),
 
-                                  // GlassContainer(
-                                  //     height: 200,
-                                  //     width: 200,
-                                  //     blur: 4,
-                                  //     color: Colors.white.withOpacity(0.7),
-                                  //     gradient: LinearGradient(
-                                  //       begin: Alignment.topLeft,
-                                  //       end: Alignment.bottomRight,
-                                  //       colors: [
-                                  //         Colors.white.withOpacity(0.2),
-                                  //         Colors.blue.withOpacity(0.3),
-                                  //       ],
-                                  //     ),
-                                  //     //--code to remove border
-                                  //     border: const Border.fromBorderSide(
-                                  //         BorderSide.none),
-                                  //     shadowStrength: 5,
-                                  //     shape: BoxShape.rectangle,
-                                  //     borderRadius: BorderRadius.circular(16),
-                                  //     shadowColor: Colors.white.withOpacity(0.24),
-                                  //     child: TextButton(
-                                  //         onPressed:
-                                  //             _startForegroundServiceWithBlueBackgroundNotification,
-                                  //         child: const Text(
-                                  //           "Active Notification",
-                                  //           style: TextStyle(fontSize: 12),
-                                  //         ))),
+                                      // GlassContainer(
+                                      //     height: 200,
+                                      //     width: 200,
+                                      //     blur: 4,
+                                      //     color: Colors.white.withOpacity(0.7),
+                                      //     gradient: LinearGradient(
+                                      //       begin: Alignment.topLeft,
+                                      //       end: Alignment.bottomRight,
+                                      //       colors: [
+                                      //         Colors.white.withOpacity(0.2),
+                                      //         Colors.blue.withOpacity(0.3),
+                                      //       ],
+                                      //     ),
+                                      //     //--code to remove border
+                                      //     border: const Border.fromBorderSide(
+                                      //         BorderSide.none),
+                                      //     shadowStrength: 5,
+                                      //     shape: BoxShape.rectangle,
+                                      //     borderRadius: BorderRadius.circular(16),
+                                      //     shadowColor: Colors.white.withOpacity(0.24),
+                                      //     child: TextButton(
+                                      //         onPressed:
+                                      //             _startForegroundServiceWithBlueBackgroundNotification,
+                                      //         child: const Text(
+                                      //           "Active Notification",
+                                      //           style: TextStyle(fontSize: 12),
+                                      //         ))),
+                                      const Padding(
+                                          padding: EdgeInsets.all(3),
+                                          child: Text(
+                                            "Ver. 17\n\nNote:\n\nTurn the slider On will get\nnotification",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20,
+                                                fontFamily: 'roboto'),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 6,
+                                          )),
 
-                                  const Center(
-                                    child: Padding(
-                                        padding: EdgeInsets.only(left: 30),
-                                        child: Text(
-                                          "Ver. 16",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 30),
-                                        )),
-                                  ),
+                                      // const Center(
+                                      //   child: Padding(
+                                      //       padding: EdgeInsets.only(left: 30),
+                                      //       child: Text(
+                                      //         "Ver. 17",
+                                      //         style: TextStyle(
+                                      //             color: Colors.white,
+                                      //             fontSize: 30),
+                                      //       )),
+                                      // ),
 
-                                  // GlassContainer(
-                                  //     height: 200,
-                                  //     width: 200,
-                                  //     blur: 4,
-                                  //     color: Colors.white.withOpacity(0.7),
-                                  //     gradient: LinearGradient(
-                                  //       begin: Alignment.topLeft,
-                                  //       end: Alignment.bottomRight,
-                                  //       colors: [
-                                  //         Colors.white.withOpacity(0.2),
-                                  //         Colors.blue.withOpacity(0.3),
-                                  //       ],
-                                  //     ),
-                                  //     //--code to remove border
-                                  //     border: const Border.fromBorderSide(
-                                  //         BorderSide.none),
-                                  //     shadowStrength: 5,
-                                  //     shape: BoxShape.rectangle,
-                                  //     borderRadius: BorderRadius.circular(16),
-                                  //     shadowColor: Colors.white.withOpacity(0.24),
-                                  //     child: Flex(
-                                  //       crossAxisAlignment:
-                                  //           CrossAxisAlignment.start,
-                                  //       mainAxisAlignment:
-                                  //           MainAxisAlignment.spaceBetween,
-                                  //       direction: Axis.horizontal,
-                                  //       children: const [
-                                  //         // Padding(
-                                  //         //   padding: const EdgeInsets.only(
-                                  //         //       top: 35.0, left: 20.0),
-                                  //         //   child: BackButton(
-                                  //         //       color: Colors.white,
-                                  //         //       onPressed: () => _selectPage(0)),
-                                  //         // ),
-                                  //         Center(
-                                  //           child: Padding(
-                                  //               padding: EdgeInsets.only(left: 30),
-                                  //               child: Text(
-                                  //                 "version 14",
-                                  //                 style: TextStyle(
-                                  //                     color: Colors.white),
-                                  //               )),
-                                  //         ),
-                                  //       ],
-                                  //     )),
+                                      // GlassContainer(
+                                      //     height: 200,
+                                      //     width: 200,
+                                      //     blur: 4,
+                                      //     color: Colors.white.withOpacity(0.7),
+                                      //     gradient: LinearGradient(
+                                      //       begin: Alignment.topLeft,
+                                      //       end: Alignment.bottomRight,
+                                      //       colors: [
+                                      //         Colors.white.withOpacity(0.2),
+                                      //         Colors.blue.withOpacity(0.3),
+                                      //       ],
+                                      //     ),
+                                      //     //--code to remove border
+                                      //     border: const Border.fromBorderSide(
+                                      //         BorderSide.none),
+                                      //     shadowStrength: 5,
+                                      //     shape: BoxShape.rectangle,
+                                      //     borderRadius: BorderRadius.circular(16),
+                                      //     shadowColor: Colors.white.withOpacity(0.24),
+                                      //     child: Flex(
+                                      //       crossAxisAlignment:
+                                      //           CrossAxisAlignment.start,
+                                      //       mainAxisAlignment:
+                                      //           MainAxisAlignment.spaceBetween,
+                                      //       direction: Axis.horizontal,
+                                      //       children: const [
+                                      //         // Padding(
+                                      //         //   padding: const EdgeInsets.only(
+                                      //         //       top: 35.0, left: 20.0),
+                                      //         //   child: BackButton(
+                                      //         //       color: Colors.white,
+                                      //         //       onPressed: () => _selectPage(0)),
+                                      //         // ),
+                                      //         Center(
+                                      //           child: Padding(
+                                      //               padding: EdgeInsets.only(left: 30),
+                                      //               child: Text(
+                                      //                 "version 14",
+                                      //                 style: TextStyle(
+                                      //                     color: Colors.white),
+                                      //               )),
+                                      //         ),
+                                      //       ],
+                                      //     )),
 
-                                  // TextButton(
-                                  //     onPressed: () async {
-                                  //       // await localNotifyManager.showNotification();
-                                  //       // await localNotifyManager.repeatNotification();
+                                      // TextButton(
+                                      //     onPressed: () async {
+                                      //       // await localNotifyManager.showNotification();
+                                      //       // await localNotifyManager.repeatNotification();
 
-                                  //       var now = DateTime.now();
-                                  //       var dt = DateTime.now();
-                                  //       var mode = 9;
-                                  //       var inputFormat =
-                                  //           DateFormat('dd/MM/yyyy HH:mm');
-                                  //       var inputDate = inputFormat.parse(
-                                  //           '${dt.day}/${dt.month}/${dt.year} ${mode.toString()}:00'); // <-- dd/MM 24H format
+                                      //       var now = DateTime.now();
+                                      //       var dt = DateTime.now();
+                                      //       var mode = 9;
+                                      //       var inputFormat =
+                                      //           DateFormat('dd/MM/yyyy HH:mm');
+                                      //       var inputDate = inputFormat.parse(
+                                      //           '${dt.day}/${dt.month}/${dt.year} ${mode.toString()}:00'); // <-- dd/MM 24H format
 
-                                  //       var genId =
-                                  //           "${dt.year}-${dt.month}-${dt.day}-${mode.toString()}-${FirebaseAuth.instance.currentUser!.uid}";
+                                      //       var genId =
+                                      //           "${dt.year}-${dt.month}-${dt.day}-${mode.toString()}-${FirebaseAuth.instance.currentUser!.uid}";
 
-                                  //       var packOfQuestions = [
-                                  //         {
-                                  //           "id": 0,
-                                  //           "question":
-                                  //               "Kondisi gigi geligi anda saat ini",
-                                  //           "option": [
-                                  //             "Terpisah",
-                                  //             "Berkontak ringan",
-                                  //             "Berkontak erat",
-                                  //             "Bergemeretak"
-                                  //           ],
-                                  //           "form": "radio"
-                                  //         },
-                                  //         {
-                                  //           "id": 1,
-                                  //           "question":
-                                  //               "Kondisi otot wajah/rahang (?) anda saat ini",
-                                  //           "option": [
-                                  //             "Rileks",
-                                  //             "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
-                                  //           ],
-                                  //           "form": "radio"
-                                  //         },
-                                  //         {
-                                  //           "id": 2,
-                                  //           "question":
-                                  //               "Apakah anda merasakan nyeri di daerah wajah",
-                                  //           "option": ["Ya", "Tidak"],
-                                  //           "form": "radio"
-                                  //         },
-                                  //         {
-                                  //           "id": 3,
-                                  //           "question":
-                                  //               "Bila nyeri, berapa skala nyeri anda?",
-                                  //           "option": 5,
-                                  //           "form": "scale"
-                                  //         }
-                                  //       ];
+                                      //       var packOfQuestions = [
+                                      //         {
+                                      //           "id": 0,
+                                      //           "question":
+                                      //               "Kondisi gigi geligi anda saat ini",
+                                      //           "option": [
+                                      //             "Terpisah",
+                                      //             "Berkontak ringan",
+                                      //             "Berkontak erat",
+                                      //             "Bergemeretak"
+                                      //           ],
+                                      //           "form": "radio"
+                                      //         },
+                                      //         {
+                                      //           "id": 1,
+                                      //           "question":
+                                      //               "Kondisi otot wajah/rahang (?) anda saat ini",
+                                      //           "option": [
+                                      //             "Rileks",
+                                      //             "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
+                                      //           ],
+                                      //           "form": "radio"
+                                      //         },
+                                      //         {
+                                      //           "id": 2,
+                                      //           "question":
+                                      //               "Apakah anda merasakan nyeri di daerah wajah",
+                                      //           "option": ["Ya", "Tidak"],
+                                      //           "form": "radio"
+                                      //         },
+                                      //         {
+                                      //           "id": 3,
+                                      //           "question":
+                                      //               "Bila nyeri, berapa skala nyeri anda?",
+                                      //           "option": 5,
+                                      //           "form": "scale"
+                                      //         }
+                                      //       ];
 
-                                  //       var packOfQuestions2 = [
-                                  //         {
-                                  //           "id": 0,
-                                  //           "question":
-                                  //               "Kondisi gigi geligi anda saat ini",
-                                  //           "option": [
-                                  //             "Terpisah",
-                                  //             "Berkontak ringan",
-                                  //             "Berkontak erat",
-                                  //             "Bergemeretak"
-                                  //           ],
-                                  //           "form": "radio"
-                                  //         },
-                                  //         {
-                                  //           "id": 1,
-                                  //           "question":
-                                  //               "Kondisi otot wajah/rahang (?) anda saat ini",
-                                  //           "option": [
-                                  //             "Rileks",
-                                  //             "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
-                                  //           ],
-                                  //           "form": "radio"
-                                  //         },
-                                  //         {
-                                  //           "id": 2,
-                                  //           "question":
-                                  //               "Apakah anda merasakan nyeri di daerah wajah",
-                                  //           "option": ["Ya", "Tidak"],
-                                  //           "form": "radio"
-                                  //         },
-                                  //         {
-                                  //           "id": 3,
-                                  //           "question": "Kondisi anda hari ini",
-                                  //           "option": [
-                                  //             "Merasa gugup atau tegang",
-                                  //             "Sulit mengontrol kawatir",
-                                  //             "Merasa sedih, depresi",
-                                  //             "Merasa malas melakukan sesuatu"
-                                  //           ],
-                                  //           "form": "check"
-                                  //         }
-                                  //       ];
-                                  //       var rng = Random();
-                                  //       int rn = rng.nextInt(100);
-                                  //       var chosenQuestion = rn % 2 == 0
-                                  //           ? packOfQuestions2
-                                  //           : packOfQuestions;
+                                      //       var packOfQuestions2 = [
+                                      //         {
+                                      //           "id": 0,
+                                      //           "question":
+                                      //               "Kondisi gigi geligi anda saat ini",
+                                      //           "option": [
+                                      //             "Terpisah",
+                                      //             "Berkontak ringan",
+                                      //             "Berkontak erat",
+                                      //             "Bergemeretak"
+                                      //           ],
+                                      //           "form": "radio"
+                                      //         },
+                                      //         {
+                                      //           "id": 1,
+                                      //           "question":
+                                      //               "Kondisi otot wajah/rahang (?) anda saat ini",
+                                      //           "option": [
+                                      //             "Rileks",
+                                      //             "Otot wajah/rahang tegang dan rahang terasa kencang tanpa ada gigi yang berkontak"
+                                      //           ],
+                                      //           "form": "radio"
+                                      //         },
+                                      //         {
+                                      //           "id": 2,
+                                      //           "question":
+                                      //               "Apakah anda merasakan nyeri di daerah wajah",
+                                      //           "option": ["Ya", "Tidak"],
+                                      //           "form": "radio"
+                                      //         },
+                                      //         {
+                                      //           "id": 3,
+                                      //           "question": "Kondisi anda hari ini",
+                                      //           "option": [
+                                      //             "Merasa gugup atau tegang",
+                                      //             "Sulit mengontrol kawatir",
+                                      //             "Merasa sedih, depresi",
+                                      //             "Merasa malas melakukan sesuatu"
+                                      //           ],
+                                      //           "form": "check"
+                                      //         }
+                                      //       ];
+                                      //       var rng = Random();
+                                      //       int rn = rng.nextInt(100);
+                                      //       var chosenQuestion = rn % 2 == 0
+                                      //           ? packOfQuestions2
+                                      //           : packOfQuestions;
 
-                                  //       var contextz = {
-                                  //         "mode": mode,
-                                  //         "ih": dt.hour,
-                                  //         "im": dt.minute,
-                                  //         "is": dt.second,
-                                  //         "init": now.millisecondsSinceEpoch,
-                                  //         "end": inputDate.millisecondsSinceEpoch,
-                                  //         "date": dt.toIso8601String(),
-                                  //         "timestamp": dt.millisecondsSinceEpoch,
-                                  //         "status": "onSchedule",
-                                  //         "question": "default question",
-                                  //         "answer": "default answer",
-                                  //         "listQuestions": chosenQuestion,
-                                  //         'userId': FirebaseAuth
-                                  //             .instance.currentUser!.uid,
-                                  //         'genId': genId,
-                                  //         'email': FirebaseAuth
-                                  //             .instance.currentUser!.email,
-                                  //         'name': FirebaseAuth
-                                  //             .instance.currentUser!.displayName
-                                  //       };
+                                      //       var contextz = {
+                                      //         "mode": mode,
+                                      //         "ih": dt.hour,
+                                      //         "im": dt.minute,
+                                      //         "is": dt.second,
+                                      //         "init": now.millisecondsSinceEpoch,
+                                      //         "end": inputDate.millisecondsSinceEpoch,
+                                      //         "date": dt.toIso8601String(),
+                                      //         "timestamp": dt.millisecondsSinceEpoch,
+                                      //         "status": "onSchedule",
+                                      //         "question": "default question",
+                                      //         "answer": "default answer",
+                                      //         "listQuestions": chosenQuestion,
+                                      //         'userId': FirebaseAuth
+                                      //             .instance.currentUser!.uid,
+                                      //         'genId': genId,
+                                      //         'email': FirebaseAuth
+                                      //             .instance.currentUser!.email,
+                                      //         'name': FirebaseAuth
+                                      //             .instance.currentUser!.displayName
+                                      //       };
 
-                                  //       await LocalNotifyManager.init()
-                                  //           .dailyAtTimeNotification2(
-                                  //               999,
-                                  //               21,
-                                  //               tz.TZDateTime.now(tz.local).add(
-                                  //                   const Duration(seconds: 5)),
-                                  //               jsonEncode(contextz),
-                                  //               "Bruxism Notification",
-                                  //               "Rate your pain 1-10");
+                                      //       await LocalNotifyManager.init()
+                                      //           .dailyAtTimeNotification2(
+                                      //               999,
+                                      //               21,
+                                      //               tz.TZDateTime.now(tz.local).add(
+                                      //                   const Duration(seconds: 5)),
+                                      //               jsonEncode(contextz),
+                                      //               "Bruxism Notification",
+                                      //               "Rate your pain 1-10");
 
-                                  //       sendPushMessage("Please change", contextz);
-                                  //     },
-                                  //     child: const Text("Notification")),
+                                      //       sendPushMessage("Please change", contextz);
+                                      //     },
+                                      //     child: const Text("Notification")),
 
-                                  // TextButton(
-                                  //     onPressed: () {
-                                  //       Navigator.push(context, MaterialPageRoute(
-                                  //         builder: (context) {
-                                  //           return const ViewAlerts();
-                                  //         },
-                                  //       ));
-                                  //     },
-                                  //     child: const Text("View")),
-                                  // ClipRRect(
-                                  //   borderRadius: BorderRadius.circular(25),
-                                  //   child: BackdropFilter(
-                                  //     filter:
-                                  //         ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-                                  //     child: Container(
-                                  //       height: 250,
-                                  //       width: 350,
-                                  //       decoration: BoxDecoration(
-                                  //           borderRadius: BorderRadius.circular(25),
-                                  //           color: Colors.black45),
-                                  //       child: TextButton(
-                                  //           onPressed: () {
-                                  //             var storage =
-                                  //                 LocalStorage("questions");
-                                  //             storage.clear();
-                                  //           },
-                                  //           child: const Text("CLEAR")),
-                                  //     ),
-                                  //   ),
-                                  // ),
+                                      // TextButton(
+                                      //     onPressed: () {
+                                      //       Navigator.push(context, MaterialPageRoute(
+                                      //         builder: (context) {
+                                      //           return const ViewAlerts();
+                                      //         },
+                                      //       ));
+                                      //     },
+                                      //     child: const Text("View")),
+                                      // ClipRRect(
+                                      //   borderRadius: BorderRadius.circular(25),
+                                      //   child: BackdropFilter(
+                                      //     filter:
+                                      //         ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                                      //     child: Container(
+                                      //       height: 250,
+                                      //       width: 350,
+                                      //       decoration: BoxDecoration(
+                                      //           borderRadius: BorderRadius.circular(25),
+                                      //           color: Colors.black45),
+                                      //       child: TextButton(
+                                      //           onPressed: () {
+                                      //             var storage =
+                                      //                 LocalStorage("questions");
+                                      //             storage.clear();
+                                      //           },
+                                      //           child: const Text("CLEAR")),
+                                      //     ),
+                                      //   ),
+                                      // ),
 
-                                  // Container(
-                                  //   padding: const EdgeInsets.all(10.0),
-                                  //   constraints: const BoxConstraints.expand(),
-                                  //   child: FutureBuilder(
-                                  //       future: storage.ready,
-                                  //       builder: (BuildContext context,
-                                  //           AsyncSnapshot snapshot) {
-                                  //         if (snapshot.data == null) {
-                                  //           return const Center(
-                                  //             child: CircularProgressIndicator(),
-                                  //           );
-                                  //         }
-                                  //         if (!initialized) {
-                                  //           var items = storage
-                                  //               .getItem("initial_date_time");
-                                  //           if (items != null) {
-                                  //             return Text(DateFormat(
-                                  //                     'MM/dd/yyyy hh:mm a')
-                                  //                 .format(DateTime
-                                  //                     .fromMillisecondsSinceEpoch(
-                                  //                         items)));
-                                  //           }
-                                  //           initialized = true;
-                                  //         }
-                                  //         return const Text("Wwww");
-                                  //       }),
-                                  // )
-                                ]),
-                          )
-                        ]),
-                      ],
-                    ))
+                                      // Container(
+                                      //   padding: const EdgeInsets.all(10.0),
+                                      //   constraints: const BoxConstraints.expand(),
+                                      //   child: FutureBuilder(
+                                      //       future: storage.ready,
+                                      //       builder: (BuildContext context,
+                                      //           AsyncSnapshot snapshot) {
+                                      //         if (snapshot.data == null) {
+                                      //           return const Center(
+                                      //             child: CircularProgressIndicator(),
+                                      //           );
+                                      //         }
+                                      //         if (!initialized) {
+                                      //           var items = storage
+                                      //               .getItem("initial_date_time");
+                                      //           if (items != null) {
+                                      //             return Text(DateFormat(
+                                      //                     'MM/dd/yyyy hh:mm a')
+                                      //                 .format(DateTime
+                                      //                     .fromMillisecondsSinceEpoch(
+                                      //                         items)));
+                                      //           }
+                                      //           initialized = true;
+                                      //         }
+                                      //         return const Text("Wwww");
+                                      //       }),
+                                      // )
+                                    ]),
+                              )
+                            ]),
+                          ],
+                        ))
                   ]),
                 ),
               ),
@@ -2458,11 +2479,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
       case 5:
         return StreamBuilder<Object>(
-          stream: null,
-          builder: (context, snapshot) {
-            return Center(child: ForgotPassword());
-          }
-        );
+            stream: null,
+            builder: (context, snapshot) {
+              return Center(child: ForgotPassword());
+            });
       default:
         return Scaffold(
           appBar: AppBar(title: const Text("Info")),
