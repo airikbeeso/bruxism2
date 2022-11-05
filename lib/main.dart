@@ -608,9 +608,9 @@ class _MyHomePageState extends State<MyHomePage> {
     // String? token = await FirebaseMessaging.instance.getAPNSToken();
     // print("token: ${token.toString()}");
 
-///////////*Firebase message *//////////
-    // sendPushMessage("Please change", context);
-////////////////////////////////////////
+    ///////////*Firebase message *//////////
+        // sendPushMessage("Please change", context);
+    ////////////////////////////////////////
     // _saveToStorage();
 
     await LocalNotifyManager.init().dailyAtTimeNotification(
