@@ -1572,7 +1572,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       const Padding(
                                           padding: EdgeInsets.all(3),
                                           child: Text(
-                                            "Ver. 18\n\nNote:\n\nTurn the slider On will get\nnotification",
+                                            "Ver. 19\n\nNote:\n\nTurn the slider On will get\nnotification",
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 20,
