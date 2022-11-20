@@ -1242,6 +1242,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // Future<QuerySnapshot<Map<String, dynamic>>>
 
+  Future<int> checkOnPendingNotification() async {
+    final List<PendingNotificationRequest> pendingNotificationRequests =
+        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+    return pendingNotificationRequests.length;
+  }
+
   Future<void> _checkPendingNotificationRequests() async {
     final List<PendingNotificationRequest> pendingNotificationRequests =
         await flutterLocalNotificationsPlugin.pendingNotificationRequests();
@@ -1369,6 +1375,16 @@ class _MyHomePageState extends State<MyHomePage> {
       height: 120,
       width: 120,
     );
+
+    // checkOnPendingNotification().then((value) {
+    //   if (value == 0) {
+    //     var now = DateTime.now();
+    //     // var now2 = DateTime.utc(now.year, now.month, now.day, 15);
+
+    //     startSessions(true, now, false);
+    //   }
+    // });
+
     switch (_pageMode) {
       case 0:
         var ret = Scaffold(
@@ -1524,6 +1540,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                     borderRadius: BorderRadius.circular(16),
                                     shadowColor: Colors.white.withOpacity(0.24),
                                     child: SlideSchedule(
+                                        startSessions: startSessions,
+                                        checkPending:
+                                            checkOnPendingNotification,
                                         getStatus: () => readSettings(),
                                         setSwitch: setSwitch),
                                   ),
@@ -2517,10 +2536,17 @@ class BruxUser extends StatelessWidget {
 }
 
 class SlideSchedule extends StatelessWidget {
-  SlideSchedule({Key? key, required this.getStatus, required this.setSwitch})
+  SlideSchedule(
+      {Key? key,
+      required this.getStatus,
+      required this.setSwitch,
+      required this.checkPending,
+      required this.startSessions})
       : super(key: key);
   late Function getStatus;
   late Function(bool a) setSwitch;
+  late Function checkPending;
+  late Function startSessions;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -2543,6 +2569,16 @@ class SlideSchedule extends StatelessWidget {
                   value: snapshot.data as bool,
                   onChanged: (value) {
                     setSwitch(value);
+                    if (value) {
+                      checkPending().then((value) {
+                        if (value == 0) {
+                          var now = DateTime.now();
+                          // var now2 = DateTime.utc(now.year, now.month, now.day, 15);
+
+                          startSessions(true, now, false);
+                        }
+                      });
+                    }
                   }),
               const Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
