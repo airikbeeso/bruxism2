@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:bruxism2/SecondScreen.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -609,7 +610,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // print("token: ${token.toString()}");
 
     ///////////*Firebase message *//////////
-        // sendPushMessage("Please change", context);
+    // sendPushMessage("Please change", context);
     ////////////////////////////////////////
     // _saveToStorage();
 
@@ -1313,6 +1314,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Future getBruxUser() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    return auth.currentUser;
+  }
+
   Future<bool> readSettings() async {
     String id = FirebaseAuth.instance.currentUser!.uid;
     var e = await FirebaseFirestore.instance
@@ -1362,10 +1368,15 @@ class _MyHomePageState extends State<MyHomePage> {
     switch (_pageMode) {
       case 0:
         var ret = Scaffold(
-            persistentFooterButtons: <Widget>[
-              IconButton(
-                  icon: const Icon(Icons.logout), onPressed: () => signOut()),
-            ],
+            bottomNavigationBar: BruxismBottomNavigation(
+              selectPage: _selectPage,
+              idx: 0,
+            ),
+
+            // persistentFooterButtons: <Widget>[
+            //   IconButton(
+            //       icon: const Icon(Icons.logout), onPressed: () => signOut()),
+            // ],
             body: Center(
               child: Container(
                 height: double.infinity,
@@ -1569,17 +1580,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                       //           "Active Notification",
                                       //           style: TextStyle(fontSize: 12),
                                       //         ))),
-                                      const Padding(
-                                          padding: EdgeInsets.all(3),
-                                          child: Text(
-                                            "Ver. 19\n\nNote:\n\nTurn the slider On will get\nnotification",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20,
-                                                fontFamily: 'roboto'),
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 6,
-                                          )),
 
                                       // const Center(
                                       //   child: Padding(
@@ -2135,16 +2135,31 @@ class _MyHomePageState extends State<MyHomePage> {
 
       case 2:
         return Scaffold(
+            bottomNavigationBar: BruxismBottomNavigation(
+              selectPage: _selectPage,
+              idx: 2,
+            ),
             appBar: AppBar(title: const Text("Nofication")),
             body: Column(
-              children: [
-                InkWell(
-                    child: IconButton(
-                  onPressed: () {
-                    _sendNotification(context);
-                  },
-                  icon: const Icon(Icons.access_alarms_outlined, size: 60),
-                ))
+              children: const [
+                // InkWell(
+                //     child: IconButton(
+                //   onPressed: () {
+                //     _sendNotification(context);
+                //   },
+                //   icon: const Icon(Icons.access_alarms_outlined, size: 60),
+                // )),
+                Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      "Ver. 19\n\nNote:\n\nTurn the slider On will get\nnotification",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontFamily: 'roboto'),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 6,
+                    )),
               ],
             ));
       case 3:
@@ -2258,412 +2273,192 @@ class _MyHomePageState extends State<MyHomePage> {
             )));
 
       case 1:
+        const double gheight = 180;
         return Scaffold(
+            bottomNavigationBar: BruxismBottomNavigation(
+              selectPage: _selectPage,
+              idx: 1,
+            ),
             // appBar: AppBar(
             //   // Here we take the value from the MyHomePage object that was created by
             //   // the App.build method, and use it to set our appbar title.
             //   title: Text(widget.title),
             // ),
             body: Center(
-          child: Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: Image.asset("assets/images/bg.png").image,
-                  fit: BoxFit.cover),
-            ),
-            child: GlassmorphicContainer(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.9,
-              borderRadius: 0,
-              blur: 7,
-              alignment: Alignment.bottomCenter,
-              border: 0,
-              linearGradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    const Color(0xFFF75035).withAlpha(55),
-                    const Color(0xFFffffff).withAlpha(45),
-                  ],
-                  stops: const [
-                    0.3,
-                    1
-                  ]),
-              borderGradient: LinearGradient(
-                  begin: Alignment.bottomRight,
-                  end: Alignment.topLeft,
-                  colors: [
-                    const Color(0xFF4579C5).withAlpha(100),
-                    const Color(0xFFffffff).withAlpha(55),
-                    const Color(0xFFF75035).withAlpha(10),
-                  ],
-                  stops: const [
-                    0.06,
-                    0.95,
-                    1
-                  ]),
-              child: Column(children: [
-                Expanded(
-                    child: Stack(
-                  children: [
-                    Positioned(
-                      bottom: MediaQuery.of(context).size.height * 0.3 * 70,
-                      left: 40,
-                      child: Container(
-                        width: 100,
-                        height: 100.0,
-                        decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: LinearGradient(colors: [
-                              Color(0xFFBC1642),
-                              Color(0xFFCB5AC6),
-                            ])),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 50,
-                      left: 30,
-                      child: Container(
-                        width: 80,
-                        height: 40,
-                        decoration: const BoxDecoration(
+              child: Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: Image.asset("assets/images/bg.png").image,
+                        fit: BoxFit.cover),
+                  ),
+                  child: GlassmorphicContainer(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: MediaQuery.of(context).size.height * 0.9,
+                      borderRadius: 0,
+                      margin: const EdgeInsets.fromLTRB(10, 50, 10, 10),
+                      blur: 7,
+                      alignment: Alignment.bottomCenter,
+                      border: 0,
+                      linearGradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            const Color(0xFFF75035).withAlpha(55),
+                            const Color(0xFFffffff).withAlpha(45),
+                          ],
+                          stops: const [
+                            0.3,
+                            1
+                          ]),
+                      borderGradient: LinearGradient(
+                          begin: Alignment.bottomRight,
+                          end: Alignment.topLeft,
+                          colors: [
+                            const Color(0xFF4579C5).withAlpha(100),
+                            const Color(0xFFffffff).withAlpha(55),
+                            const Color(0xFFF75035).withAlpha(10),
+                          ],
+                          stops: const [
+                            0.06,
+                            0.95,
+                            1
+                          ]),
+                      child: GridView(
+                        controller: ScrollController(),
+                        physics: const ScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        padding: const EdgeInsets.all(24.0),
+                        gridDelegate:
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 400.0,
+                          mainAxisExtent: 140.0,
+                          mainAxisSpacing: 20,
+                          crossAxisSpacing: 20,
+                        ),
+                        children: [
+                          GlassContainer(
+                              height: gheight,
+                              width: MediaQuery.of(context).size.width,
+                              blur: 4,
+                              color: Colors.white.withOpacity(0.7),
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Colors.white.withOpacity(0.2),
+                                  Colors.blue.withOpacity(0.3),
+                                ],
+                              ),
+                              //--code to remove border
+                              border:
+                                  const Border.fromBorderSide(BorderSide.none),
+                              shadowStrength: 5,
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(16),
+                              shadowColor: Colors.white.withOpacity(0.24),
+                              child: BruxUser(getUser: getBruxUser)),
+                          GlassContainer(
+                            height: gheight,
+                            width: MediaQuery.of(context).size.width,
+                            blur: 4,
+                            color: Colors.white.withOpacity(0.7),
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Colors.white.withOpacity(0.2),
+                                Colors.blue.withOpacity(0.3),
+                              ],
+                            ),
+                            //--code to remove border
+                            border:
+                                const Border.fromBorderSide(BorderSide.none),
+                            shadowStrength: 5,
                             shape: BoxShape.rectangle,
-                            gradient: LinearGradient(colors: [
-                              Color(0xFFFDFC47),
-                              Color(0xFF24FE41),
-                            ])),
-                      ),
-                    ),
-                    Column(children: [
-                      SizedBox(
-                          height: 30, width: MediaQuery.of(context).size.width),
-                      GlassmorphicContainer(
-                        width: MediaQuery.of(context).size.width * 0.9 - 20,
-                        height: MediaQuery.of(context).size.height * 0.6 - 20,
-                        borderRadius: 35,
-                        margin: const EdgeInsets.all(10),
-                        blur: 10,
-                        alignment: Alignment.bottomCenter,
-                        border: 2,
-                        linearGradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              const Color(0xFFFFFFFF).withAlpha(0),
-                              const Color(0xFFFFFFFF).withAlpha(0),
-                            ],
-                            stops: const [
-                              0.3,
-                              1,
-                            ]),
-                        borderGradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              const Color(0xFFFFFFFF).withAlpha(01),
-                              const Color(0xFFFFFFFF).withAlpha(100),
-                              const Color(0xFFFFFFFF).withAlpha(01),
-                            ],
-                            stops: const [
-                              0.2,
-                              0.9,
-                              1
-                            ]),
-                        child: GridView.count(
-                            primary: false,
-                            padding: const EdgeInsets.only(
-                                left: 10, right: 10, top: 20),
-                            crossAxisSpacing: 5,
-                            mainAxisSpacing: 5,
-                            crossAxisCount: 2,
-                            children: <Widget>[
-                              // GlassContainer(
-                              //   height: 200,
-                              //   width: 200,
-                              //   blur: 4,
-                              //   color: Colors.white.withOpacity(0.7),
-                              //   gradient: LinearGradient(
-                              //     begin: Alignment.topLeft,
-                              //     end: Alignment.bottomRight,
-                              //     colors: [
-                              //       Colors.white.withOpacity(0.2),
-                              //       Colors.blue.withOpacity(0.3),
-                              //     ],
-                              //   ),
-                              //   //--code to remove border
-                              //   border: const Border.fromBorderSide(
-                              //       BorderSide.none),
-                              //   shadowStrength: 5,
-                              //   shape: BoxShape.rectangle,
-                              //   borderRadius: BorderRadius.circular(16),
-                              //   shadowColor: Colors.white.withOpacity(0.24),
-                              //   child: InkWell(
-                              //     onTap: (() =>
-                              //         Navigator.push(context, MaterialPageRoute(
-                              //           builder: (context) {
-                              //             return const ThirdScreen();
-                              //           },
-                              //         ))),
-                              //     child: Column(
-                              //       children: [
-                              //         SizedBox(
-                              //           height: 20,
-                              //           width:
-                              //               MediaQuery.of(context).size.width,
-                              //         ),
-                              //         IconButton(
-                              //           onPressed: () {
-                              //             //_selectPage(1);
-                              //             Navigator.push(context,
-                              //                 MaterialPageRoute(
-                              //               builder: (context) {
-                              //                 return const ThirdScreen();
-                              //               },
-                              //             ));
-                              //           },
-                              //           icon: const Icon(Icons.settings,
-                              //               color: Colors.white, size: 45),
-                              //         ),
-                              //         const InkWell(
-                              //           child: Center(
-                              //               child: Padding(
-                              //             padding: EdgeInsets.only(top: 30),
-                              //             child: Text(
-                              //               "View Alert ",
-                              //               style: TextStyle(
-                              //                   fontSize: 26,
-                              //                   color: Colors.white24),
-                              //             ),
-                              //           )),
-                              //         ),
-                              //       ],
-                              //     ),
-                              //   ),
-                              // ),
-
-                              GlassContainer(
-                                height: 200,
-                                width: 200,
-                                blur: 4,
-                                color: Colors.white.withOpacity(0.7),
-                                gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    Colors.white.withOpacity(0.2),
-                                    Colors.blue.withOpacity(0.3),
-                                  ],
-                                ),
-                                //--code to remove border
-                                border: const Border.fromBorderSide(
-                                    BorderSide.none),
-                                shadowStrength: 5,
-                                shape: BoxShape.rectangle,
-                                borderRadius: BorderRadius.circular(16),
-                                shadowColor: Colors.white.withOpacity(0.24),
-                                child: InkWell(
-                                    onTap: (() => _selectPage(1)),
-                                    child: Column(
-                                      children: [
-                                        SizedBox(
-                                          height: 20,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                        ),
-                                        IconButton(
-                                          onPressed: () {
-                                            _selectPage(1);
-                                          },
-                                          icon: const Icon(Icons.view_agenda,
-                                              color: Colors.white, size: 45),
-                                        ),
-                                        const InkWell(
-                                          child: Center(
-                                              child: Padding(
-                                            padding: EdgeInsets.only(top: 30),
-                                            child: Text(
-                                              "Your Alert ",
-                                              style: TextStyle(
-                                                  fontSize: 26,
-                                                  color: Colors.white30),
-                                            ),
-                                          )),
-                                        ),
-                                      ],
-                                    )),
-                              ),
-                              // Container(
-                              //   padding: const EdgeInsets.only(
-                              //       top: 30, left: 0, right: 0),
-                              //   child: InkWell(
-                              //     onTap: (() => _selectPage(1)),
-                              //     child: Column(
-                              //       children: [
-                              //         Column(
-                              //           children: [
-                              //             IconButton(
-                              //               onPressed: () {
-                              //                 _selectPage(1);
-                              //               },
-                              //               icon: const Icon(Icons.settings,
-                              //                   color: Colors.white, size: 45),
-                              //             ),
-                              //             const InkWell(
-                              //               child: Center(
-                              //                   child: Padding(
-                              //                 padding: EdgeInsets.only(top: 30),
-                              //                 child: Text(
-                              //                   "Your Alert ",
-                              //                   style: TextStyle(fontSize: 26),
-                              //                 ),
-                              //               )),
-                              //             ),
-                              //           ],
-                              //         )
-                              //       ],
-                              //     ),
-                              //   ),
-                              //   color: Colors.teal[100],
-                              // ),
-                              // Container(
-                              //   padding: const EdgeInsets.only(top: 25.0),
-                              //   child: Column(
-                              //     children: [
-                              //       Column(
-                              //         children: [
-                              //           IconButton(
-                              //             onPressed: () {
-                              //               _selectPage(2);
-                              //             },
-                              //             icon: const Icon(Icons.note_alt_outlined,
-                              //                 color: Colors.white, size: 45),
-                              //           ),
-                              //           const InkWell(
-                              //             child: Center(
-                              //                 child: Padding(
-                              //               padding: EdgeInsets.only(top: 35),
-                              //               child: Text(
-                              //                 "Heed not the rabble",
-                              //                 textAlign: TextAlign.center,
-                              //                 style: TextStyle(
-                              //                   fontSize: 25,
-                              //                 ),
-                              //               ),
-                              //             )),
-                              //           )
-                              //         ],
-                              //       )
-                              //     ],
-                              //   ),
-                              //   color: Colors.teal[200],
-                              // ),
-                              GlassContainer(
-                                height: 200,
-                                width: 200,
-                                blur: 4,
-                                color: Colors.white.withOpacity(0.7),
-                                gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    Colors.white.withOpacity(0.2),
-                                    Colors.blue.withOpacity(0.3),
-                                  ],
-                                ),
-                                //--code to remove border
-                                border: const Border.fromBorderSide(
-                                    BorderSide.none),
-                                shadowStrength: 5,
-                                shape: BoxShape.rectangle,
-                                borderRadius: BorderRadius.circular(16),
-                                shadowColor: Colors.white.withOpacity(0.24),
-                                child: InkWell(
-                                    onTap: (() => _selectPage(1)),
-                                    child: Column(
-                                      children: [
-                                        const SizedBox(
-                                          height: 20.0,
-                                        ),
-                                        IconButton(
-                                          icon: const Icon(
-                                            Icons.wysiwyg,
-                                            color: Colors.white,
-                                            size: 45,
-                                          ),
-                                          onPressed: () => signOut(),
-                                        ),
-                                        const SizedBox(
-                                          height: 20.0,
-                                        ),
-                                        const Text(
-                                          "Sign Out",
+                            borderRadius: BorderRadius.circular(16),
+                            shadowColor: Colors.white.withOpacity(0.24),
+                            child: InkWell(
+                                onTap: (() =>
+                                    _checkPendingNotificationRequests()),
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 20,
+                                      width: MediaQuery.of(context).size.width,
+                                    ),
+                                    IconButton(
+                                      onPressed: () =>
+                                          _checkPendingNotificationRequests(),
+                                      icon: const Icon(Icons.notifications,
+                                          color: Colors.white, size: 45),
+                                    ),
+                                    const InkWell(
+                                      child: Center(
+                                          child: Padding(
+                                        padding: EdgeInsets.only(top: 30),
+                                        child: Text(
+                                          "Pending Notifications",
                                           style: TextStyle(
-                                              fontSize: 25.0,
-                                              color: Colors.white24),
-                                        )
-                                      ],
-                                    )),
-                              ),
-
-                              // Container(
-                              //   // padding: const EdgeInsets.all(8),
-                              //   child: Padding(
-                              //       padding: const EdgeInsets.only(top: 15),
-                              //       child: Column(
-                              //         children: [
-                              //           const SizedBox(
-                              //             height: 20.0,
-                              //           ),
-                              //           IconButton(
-                              //             icon: const Icon(
-                              //               Icons.wysiwyg,
-                              //               color: Colors.white,
-                              //               size: 45,
-                              //             ),
-                              //             onPressed: () => signOut(),
-                              //           ),
-                              //           const SizedBox(
-                              //             height: 20.0,
-                              //           ),
-                              //           const Text(
-                              //             "Sign Out",
-                              //             style: TextStyle(fontSize: 25.0),
-                              //           )
-                              //         ],
-                              //       )
-
-                              //       // StyledButton(
-                              //       //     child: const Text("Sign Out"),
-                              //       //     onPressed: () => signOut()),
-                              //       ),
-                              //   color: Colors.grey,
-                              // ),
-                              // Container(
-                              //   padding: const EdgeInsets.all(8),
-                              //   child: const Text('Who scream'),
-                              //   color: Colors.teal[400],
-                              // ),
-                              // Container(
-                              //   padding: const EdgeInsets.all(8),
-                              //   child: const Text('Revolution is coming...'),
-                              //   color: Colors.teal[500],
-                              // ),
-                              // Container(
-                              //   padding: const EdgeInsets.all(8),
-                              //   child: const Text('Revolution, they...'),
-                              //   color: Colors.teal[600],
-                              // ),
-                            ]),
-                      )
-                    ]),
-                  ],
-                ))
-              ]),
-            ),
-          ),
-        ));
+                                              fontSize: 26,
+                                              color: Colors.white30),
+                                        ),
+                                      )),
+                                    ),
+                                  ],
+                                )),
+                          ),
+                          GlassContainer(
+                            height: gheight,
+                            width: MediaQuery.of(context).size.width,
+                            blur: 4,
+                            color: Colors.white.withOpacity(0.7),
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Colors.white.withOpacity(0.2),
+                                Colors.blue.withOpacity(0.3),
+                              ],
+                            ),
+                            //--code to remove border
+                            border:
+                                const Border.fromBorderSide(BorderSide.none),
+                            shadowStrength: 5,
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(16),
+                            shadowColor: Colors.white.withOpacity(0.24),
+                            child: InkWell(
+                                onTap: (() => signOut()),
+                                child: Column(
+                                  children: [
+                                    const SizedBox(
+                                      height: 20.0,
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.logout,
+                                        color: Colors.white,
+                                        size: 45,
+                                      ),
+                                      onPressed: () => signOut(),
+                                    ),
+                                    const SizedBox(
+                                      height: 20.0,
+                                    ),
+                                    const Text(
+                                      "Sign Out",
+                                      style: TextStyle(
+                                          fontSize: 25.0,
+                                          color: Colors.white24),
+                                    )
+                                  ],
+                                )),
+                          ),
+                        ],
+                      ))),
+            ));
 
       case 5:
         return StreamBuilder<Object>(
@@ -2678,6 +2473,24 @@ class _MyHomePageState extends State<MyHomePage> {
               const Padding(padding: EdgeInsets.all(10.0), child: Text("SSSS")),
         );
     }
+  }
+}
+
+class BruxUser extends StatelessWidget {
+  final Function getUser;
+  const BruxUser({Key? key, required this.getUser});
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          print(snapshot.data);
+
+        }
+        return const Text("Future");
+      },
+      future: getUser(),
+    );
   }
 }
 
@@ -2726,6 +2539,50 @@ class SlideSchedule extends StatelessWidget {
       },
       future: getStatus(),
     );
+  }
+}
+
+class BruxismBottomNavigation extends StatelessWidget {
+  final Function selectPage;
+  final int idx;
+
+  const BruxismBottomNavigation(
+      {Key? key, required this.idx, required this.selectPage})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return ConvexAppBar(
+        initialActiveIndex: idx,
+        items: const [
+          TabItem(icon: Icons.home, title: 'Home'),
+          TabItem(icon: Icons.people, title: 'Discovery'),
+          TabItem(icon: Icons.message, title: 'Message'),
+          // TabItem(icon: Icons.people, title: 'Profile'),
+          // TabItem(icon: Icons.settings, title: 'Settings'),
+        ],
+        onTap: (int i) {
+          switch (i) {
+            case 0:
+              {
+                selectPage(0);
+              }
+              break;
+            case 1:
+              {
+                selectPage(1);
+              }
+              break;
+            case 2:
+              {
+                selectPage(2);
+              }
+              break;
+
+            default:
+              {}
+              break;
+          }
+        });
   }
 }
 
