@@ -1366,10 +1366,10 @@ class _MyHomePageState extends State<MyHomePage> {
     List<String> ids = [];
     ids.add("m4uAoRv8LThXzXvu0qiU");
     ids.add("a8V1hiAJWdEbyqD4FGOB");
-    var m = "init date";
-    bool initialized = false;
+    // var m = "init date";
+    // bool initialized = false;
 
-    final LocalStorage storage = LocalStorage('questions');
+    // final LocalStorage storage = LocalStorage('questions');
     var img = Image.asset(
       "assets/images/Brux_core.png",
       height: 120,
