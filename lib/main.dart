@@ -1370,11 +1370,11 @@ class _MyHomePageState extends State<MyHomePage> {
     // bool initialized = false;
 
     // final LocalStorage storage = LocalStorage('questions');
-    var img = Image.asset(
-      "assets/images/Brux_core.png",
-      height: 120,
-      width: 120,
-    );
+    // var img = Image.asset(
+    //   "assets/images/Brux_core.png",
+    //   height: 120,
+    //   width: 120,
+    // );
 
     // checkOnPendingNotification().then((value) {
     //   if (value == 0) {
@@ -1387,6 +1387,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
     switch (_pageMode) {
       case 0:
+        var img = Image.asset(
+          "assets/images/Brux_core.png",
+          height: 120,
+          width: 120,
+        );
         var ret = Scaffold(
             bottomNavigationBar: BruxismBottomNavigation(
               selectPage: _selectPage,
@@ -2175,7 +2180,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Padding(
                     padding: EdgeInsets.all(10),
                     child: Text(
-                      "Ver. 19\n\nNote:\n\nTurn the slider On will get\nnotification",
+                      "Ver. 20\n\nNote:\n\nTurn the slider On will get\nnotification",
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
