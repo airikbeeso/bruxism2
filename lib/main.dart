@@ -1307,17 +1307,24 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   int i = 0;
-  void setSwitch(bool s) {
+
+  int pending = 0;
+  setSwitch(bool s) async {
     setState(() {
-      isSwitched = s;
+      checkOnPendingNotification().then((value) {
+        pending = value;
+        isSwitched = s;
 
-      var now = DateTime.now();
-      // var now2 = DateTime.utc(now.year, now.month, now.day, 15);
+        var now = DateTime.now();
+        // var now2 = DateTime.utc(now.year, now.month, now.day, 15);
 
-      startSessions(isSwitched, now, false);
+        startSessions(isSwitched, now, false);
+      });
+
       // print("WWWWWWW");
       // startSessions_test(isSwitched, now, false);
     });
+    return pending;
   }
 
   Future getBruxUser() async {
@@ -1529,34 +1536,33 @@ class _MyHomePageState extends State<MyHomePage> {
                             width: 120,
                           ),
                           GlassContainer(
-                              height: 200,
-                              width: 200,
-                              blur: 4,
-                              color: Colors.white.withOpacity(0.7),
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  Colors.white.withOpacity(0.2),
-                                  Colors.blue.withOpacity(0.3),
-                                ],
-                              ),
-                              //--code to remove border
-                              border:
-                                  const Border.fromBorderSide(BorderSide.none),
-                              shadowStrength: 5,
-                              shape: BoxShape.circle,
-                              borderRadius: BorderRadius.circular(16),
-                              shadowColor: Colors.white.withOpacity(0.24),
-                              child: 
-                                  
-                                  SlideSchedule(
-                                      startSessions: startSessions,
-                                      checkPending: checkOnPendingNotification,
-                                      getStatus: () => readSettings(),
-                                      setSwitch: setSwitch),
-                                // ],
-                              ),
+                            height: 200,
+                            width: 200,
+                            blur: 4,
+                            color: Colors.white.withOpacity(0.7),
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                Colors.white.withOpacity(0.2),
+                                Colors.blue.withOpacity(0.3),
+                              ],
+                            ),
+                            //--code to remove border
+                            border:
+                                const Border.fromBorderSide(BorderSide.none),
+                            shadowStrength: 5,
+                            shape: BoxShape.circle,
+                            borderRadius: BorderRadius.circular(16),
+                            shadowColor: Colors.white.withOpacity(0.24),
+                            child: SlideSchedule(
+                                startSessions: startSessions,
+                                checkPending: checkOnPendingNotification,
+                                pending: pending,
+                                getStatus: () => readSettings(),
+                                setSwitch: setSwitch),
+                            // ],
+                          ),
 
                           // GlassContainer(
                           //     height: 200,
@@ -2551,54 +2557,85 @@ class SlideSchedule extends StatelessWidget {
       required this.getStatus,
       required this.setSwitch,
       required this.checkPending,
-      required this.startSessions})
+      required this.startSessions,
+      required this.pending})
       : super(key: key);
   late Function getStatus;
   late Function(bool a) setSwitch;
   late Function checkPending;
   late Function startSessions;
+  late int pending;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Padding(
-                  padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                  child: Text(
-                    "OFF",
-                    style: TextStyle(
-                        fontSize: 25.0,
-                        fontFamily: 'roboto',
-                        color: Colors.white),
-                  )),
-              Switch(
-                  value: snapshot.data as bool,
-                  onChanged: (value) {
-                    setSwitch(value);
-                    if (value) {
-                      checkPending().then((value) {
-                        if (value == 0) {
-                          var now = DateTime.now();
-                          // var now2 = DateTime.utc(now.year, now.month, now.day, 15);
+          return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Padding(
+                        padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                        child: Text(
+                          "OFF",
+                          style: TextStyle(
+                              fontSize: 25.0,
+                              fontFamily: 'roboto',
+                              color: Colors.white),
+                        )),
+                    Switch(
+                        value: snapshot.data as bool,
+                        onChanged: (value) {
+                          setSwitch(value).then((r) => pending = r);
+                          // print(pending);
+                          // if(true == value && pending == 0)
+                          // {
+                          //   setSwitch(false);
 
-                          startSessions(true, now, false);
-                        }
-                      });
-                    }
-                  }),
-              const Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                  child: Text("ON",
-                      style: TextStyle(
-                          fontSize: 25.0,
-                          fontFamily: 'roboto',
-                          color: Colors.white))),
-            ],
-          );
+                          // }
+
+                          // checkPending().then((r) {
+                          //   pending = r;
+                          //   if (pending == 0) {
+                          //     setSwitch(false);
+                          //   }
+                          // });
+
+                          // if (value) {
+                          //   checkPending().then((value) {
+                          //     if (value == 0) {
+                          //       var now = DateTime.now();
+                          //       // var now2 = DateTime.utc(now.year, now.month, now.day, 15);
+
+                          //       startSessions(true, now, false);
+                          //     }
+                          //   });
+                          // }
+                        }),
+                    const Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                        child: Text("ON",
+                            style: TextStyle(
+                                fontSize: 25.0,
+                                fontFamily: 'roboto',
+                                color: Colors.white))),
+                  ],
+                ),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                    child: Text(
+                      "$pending pending",
+                      style:
+                          const TextStyle(color: Colors.orange, fontSize: 25),
+                    ),
+                  ),
+                ),
+              ]);
         } else {
           return const SizedBox(
             height: 10.0,
