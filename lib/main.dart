@@ -1311,15 +1311,17 @@ class _MyHomePageState extends State<MyHomePage> {
   int pending = 0;
   setSwitch(bool s) async {
     setState(() {
-      checkOnPendingNotification().then((value) {
-        pending = value;
-        isSwitched = s;
-
-        var now = DateTime.now();
-        // var now2 = DateTime.utc(now.year, now.month, now.day, 15);
-
-        startSessions(isSwitched, now, false);
-      });
+      isSwitched = s;
+      var now = DateTime.now();
+      // var now2 = DateTime.utc(now.year, now.month, now.day, 15);
+      startSessions(isSwitched, now, false).then((dt) => {
+            if (isSwitched)
+              {
+                checkOnPendingNotification().then((value) {
+                  pending = value;
+                })
+              }
+          });
 
       // print("WWWWWWW");
       // startSessions_test(isSwitched, now, false);
@@ -2567,6 +2569,12 @@ class SlideSchedule extends StatelessWidget {
   late int pending;
   @override
   Widget build(BuildContext context) {
+
+                checkPending().then((r) {
+                            pending = r;
+                    
+                          });
+
     return FutureBuilder(
       builder: (context, snapshot) {
         if (snapshot.hasData) {
@@ -2627,13 +2635,18 @@ class SlideSchedule extends StatelessWidget {
                 ),
                 Center(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                    child: Text(
-                      "$pending pending",
-                      style:
-                          const TextStyle(color: Colors.orange, fontSize: 25),
-                    ),
-                  ),
+                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                      child: snapshot.data! as bool
+                          ? Text(
+                              "$pending pending",
+                              style: const TextStyle(
+                                  color: Colors.orange, fontSize: 20),
+                            )
+                          : const Text(
+                              "0 pending",
+                              style:
+                                  TextStyle(color: Colors.orange, fontSize: 20),
+                            )),
                 ),
               ]);
         } else {
