@@ -1,5 +1,3 @@
-import 'package:bruxism2/main.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'dart:io' show Platform;
 import 'package:rxdart/subjects.dart';
@@ -20,6 +18,7 @@ class LocalNotifyManager {
     }
     initializePlatform();
   }
+
   requestIOSPermission() {
     flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
@@ -51,7 +50,7 @@ class LocalNotifyManager {
 
   setOnNotificationClick(Function onNotificationClick) async {
     await flutterLocalNotificationsPlugin.initialize(initSettings,
-        onSelectNotification: (String? payload) async {
+        onDidReceiveNotificationResponse: (NotificationResponse ? payload) async {
       onNotificationClick(payload);
     });
   }
@@ -78,8 +77,8 @@ class LocalNotifyManager {
         payload: 'Net Payload');
   }
 
-  Future<void> dailyAtTimeNotification(int _id, int hour, DateTime dt2,
-      String id, String title, String description) async {
+  Future<void> dailyAtTimeNotification(int id, int hour, DateTime dt2,
+      String strId, String title, String description) async {
     // var now = DateTime.now();
     // var diff = dt2.difference(now);
     tz.initializeTimeZones();
@@ -186,21 +185,21 @@ class LocalNotifyManager {
     //     androidAllowWhileIdle: true);
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
-      _id,
+      id,
       title,
       description,
       currentDateTime,
       // dt.add(const Duration(seconds: 5)),
       platformChannel,
-      payload: id,
+      payload: strId,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.wallClockTime,
       androidAllowWhileIdle: true,
     );
   }
 
-  Future<void> dailyAtTimeNotification2(int _id, int hour, DateTime dt2,
-      String id, String title, String description) async {
+  Future<void> dailyAtTimeNotification2(int id, int hour, DateTime dt2,
+      String strId, String title, String description) async {
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.local);
     var dt = tz.TZDateTime.now(tz.local);
@@ -257,38 +256,38 @@ class LocalNotifyManager {
     // var iosChannel = const IOSNotificationDetails();
     var platformChannel = NotificationDetails(android: androidChannel);
 
-    print("gen Id : $_id");
+    print("gen Id : $id");
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        _id + 1000 + 1,
+        id + 1000 + 1,
         title,
         description,
         // currentDateTime,
         dt.add(const Duration(minutes: 5)),
         platformChannel,
-        payload: id,
+        payload: strId,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.wallClockTime,
         androidAllowWhileIdle: true);
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        _id += 1000 + 1,
+        id += 1000 + 1,
         title,
         description,
         // currentDateTime,
         dt.add(const Duration(seconds: 5 + 1)),
         platformChannel,
-        payload: id,
+        payload: strId,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.wallClockTime,
         androidAllowWhileIdle: true);
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        _id += 1000 + 1,
+        id += 1000 + 1,
         title,
         description,
         // currentDateTime,
         dt.add(const Duration(seconds: 5 + 2)),
         platformChannel,
-        payload: id,
+        payload: strId,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.wallClockTime,
         androidAllowWhileIdle: true);

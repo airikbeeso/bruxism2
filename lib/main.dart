@@ -131,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   late String? loginStatus;
   bool isSwitched = false;
-  String? country;
+  NotificationResponse? country;
 
   String? _token;
 
@@ -232,11 +232,11 @@ class _MyHomePageState extends State<MyHomePage> {
       var credential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       await credential.user!.updateDisplayName(displayName);
-      var _user = credential.user;
+      var user = credential.user;
 
-      var _super = {
-        "email": _user!.email,
-        "uid": _user.uid,
+      var userData = {
+        "email": user!.email,
+        "uid": user.uid,
         "photoUrl": "",
         "role": "1",
         "displayName": displayName,
@@ -245,8 +245,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
       await FirebaseFirestore.instance
           .collection("users")
-          .doc(_user.uid)
-          .set(_super);
+          .doc(user.uid)
+          .set(userData);
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }
@@ -320,7 +320,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final NotificationAppLaunchDetails? notificationAppLaunchDetails =
         await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
-    country = notificationAppLaunchDetails!.payload;
+    country = notificationAppLaunchDetails!.notificationResponse;
     if (null != country) {
       Navigator.push(context, MaterialPageRoute(
         builder: (context) {
@@ -442,7 +442,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // Future<DocumentReference>
 
-  Future<void> saveSchedule(DateTime dt, int mode, int _id) async {
+  Future<void> saveSchedule(DateTime dt, int mode, int id) async {
     LocalStorage storage = LocalStorage('questions');
     final QitemList list = QitemList();
 
@@ -615,7 +615,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // _saveToStorage();
 
     await LocalNotifyManager.init().dailyAtTimeNotification(
-        _id,
+        id,
         mode,
         dt,
         jsonEncode(context),
@@ -687,20 +687,20 @@ class _MyHomePageState extends State<MyHomePage> {
     print("hour: ${dt.hour} : ${dt.minute} : ${dt.second}");
 
     if (isActive) {
-      int _id = 0;
+      int id = 0;
 
       var nd9 =
           DateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);
       nd9 = nd9.add(const Duration(seconds: 3));
-      saveSchedule(nd9, 9, _id);
-      _id++;
+      saveSchedule(nd9, 9, id);
+      id++;
       print("next day: ${nd9.toIso8601String()}");
 
       var nd12 =
           DateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);
       nd12 = nd12.add(const Duration(seconds: 5));
-      saveSchedule(nd12, 12, _id);
-      _id++;
+      saveSchedule(nd12, 12, id);
+      id++;
       print("next day: ${nd12.toIso8601String()}");
 
       var nd15 =
@@ -708,22 +708,22 @@ class _MyHomePageState extends State<MyHomePage> {
       nd15 = nd15.add(const Duration(seconds: 10));
 
       print("next day: ${nd15.toIso8601String()}");
-      saveSchedule(nd15, 15, _id);
-      _id++;
+      saveSchedule(nd15, 15, id);
+      id++;
 
       var nd18 =
           DateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);
       nd18 = nd18.add(const Duration(seconds: 15));
 
       print("next day: ${nd18.toIso8601String()}");
-      saveSchedule(nd18, 18, _id);
-      _id++;
+      saveSchedule(nd18, 18, id);
+      id++;
 
       var nd21 =
           DateTime(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second);
       nd21 = nd21.add(const Duration(seconds: 15));
-      saveSchedule(nd21, 21, _id);
-      _id++;
+      saveSchedule(nd21, 21, id);
+      id++;
       print("next day: ${nd21.toIso8601String()}");
     } else {
       localNotifyManager.cancelAllScheduled();
@@ -754,7 +754,7 @@ class _MyHomePageState extends State<MyHomePage> {
     print("hour: ${dt.hour} : ${dt.minute} : ${dt.second}");
 
     if (isActive) {
-      int _id = 0;
+      int id = 0;
       // var ndT = DateTime.utc(dt.year, dt.month, dt.day, 14);
       // saveSchedule(ndT, 14, 8888);
 
@@ -762,181 +762,181 @@ class _MyHomePageState extends State<MyHomePage> {
         ///set next day for hours
 
         var nd9 = DateTime(dt.year, dt.month, dt.day + 1, 9, 0, 0);
-        saveSchedule(nd9, 9, _id);
-        _id++;
+        saveSchedule(nd9, 9, id);
+        id++;
 
         print("next day: ${nd9.toIso8601String()}");
         var nd12 = DateTime(dt.year, dt.month, dt.day + 1, 12, 0, 0);
-        saveSchedule(nd12, 12, _id);
-        _id++;
+        saveSchedule(nd12, 12, id);
+        id++;
 
         print("next day: ${nd12.toIso8601String()}");
         var nd15 = DateTime(dt.year, dt.month, dt.day + 1, 15, 0, 0);
         print("next day: ${nd15.toIso8601String()}");
-        saveSchedule(nd15, 15, _id);
-        _id++;
+        saveSchedule(nd15, 15, id);
+        id++;
 
         var nd18 = DateTime(dt.year, dt.month, dt.day + 1, 18, 0, 0);
         print("next day: ${nd18.toIso8601String()}");
-        saveSchedule(nd18, 18, _id);
-        _id++;
+        saveSchedule(nd18, 18, id);
+        id++;
 
         var nd21 = DateTime(dt.year, dt.month, dt.day + 1, 21, 0, 0);
-        saveSchedule(nd21, 21, _id);
-        _id++;
+        saveSchedule(nd21, 21, id);
+        id++;
 
         print("next day: ${nd21.toIso8601String()}");
       } else {
         if (dt.hour < 9) {
           var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
-          saveSchedule(nd9, 9, _id);
-          _id++;
+          saveSchedule(nd9, 9, id);
+          id++;
           print("next day: ${nd9.toIso8601String()}");
 
           var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
-          saveSchedule(nd12, 12, _id);
-          _id++;
+          saveSchedule(nd12, 12, id);
+          id++;
 
           print("next day: ${nd12.toIso8601String()}");
 
           var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
-          saveSchedule(nd15, 15, _id);
-          _id++;
+          saveSchedule(nd15, 15, id);
+          id++;
 
           print("next day: ${nd15.toIso8601String()}");
 
           var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
-          saveSchedule(nd18, 18, _id);
-          _id++;
+          saveSchedule(nd18, 18, id);
+          id++;
 
           print("next day: ${nd18.toIso8601String()}");
 
           var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
-          saveSchedule(nd21, 21, _id);
-          _id++;
+          saveSchedule(nd21, 21, id);
+          id++;
 
           print("next day: ${nd21.toIso8601String()}");
         } else if (dt.hour >= 9 && dt.hour < 12) {
           var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
-          saveSchedule(nd12, 12, _id);
-          _id++;
+          saveSchedule(nd12, 12, id);
+          id++;
 
           print("next day: ${nd12.toIso8601String()}");
 
           var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
-          saveSchedule(nd15, 15, _id);
-          _id++;
+          saveSchedule(nd15, 15, id);
+          id++;
 
           print("next day: ${nd15.toIso8601String()}");
 
           var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
-          saveSchedule(nd18, 18, _id);
-          _id++;
+          saveSchedule(nd18, 18, id);
+          id++;
 
           print("next day: ${nd18.toIso8601String()}");
 
           var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
-          saveSchedule(nd21, 21, _id);
-          _id++;
+          saveSchedule(nd21, 21, id);
+          id++;
 
           print("next day: ${nd21.toIso8601String()}");
 
           ///schedule next day
           dt = dt.add(const Duration(days: 1));
           var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
-          saveSchedule(nd9, 9, _id);
-          _id++;
+          saveSchedule(nd9, 9, id);
+          id++;
 
           print("next day: ${nd9.toIso8601String()}");
         } else if (dt.hour >= 12 && dt.hour < 15) {
           var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
-          saveSchedule(nd15, 15, _id);
-          _id++;
+          saveSchedule(nd15, 15, id);
+          id++;
 
           print("next day: ${nd15.toIso8601String()}");
 
           var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
-          saveSchedule(nd18, 18, _id);
-          _id++;
+          saveSchedule(nd18, 18, id);
+          id++;
 
           print("next day: ${nd18.toIso8601String()}");
 
           var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
-          saveSchedule(nd21, 21, _id);
-          _id++;
+          saveSchedule(nd21, 21, id);
+          id++;
 
           print("next day: ${nd21.toIso8601String()}");
 
           ///schedule next day
           dt = dt.add(const Duration(days: 1));
           var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
-          saveSchedule(nd9, 9, _id);
-          _id++;
+          saveSchedule(nd9, 9, id);
+          id++;
 
           print("next day: ${nd9.toIso8601String()}");
           var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
-          saveSchedule(nd12, 12, _id);
-          _id++;
+          saveSchedule(nd12, 12, id);
+          id++;
 
           print("next day: ${nd12.toIso8601String()}");
         } else if (dt.hour >= 15 && dt.hour < 18) {
           var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
-          saveSchedule(nd18, 18, _id);
-          _id++;
+          saveSchedule(nd18, 18, id);
+          id++;
 
           print("next day: ${nd18.toIso8601String()}");
 
           var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
-          saveSchedule(nd21, 21, _id);
-          _id++;
+          saveSchedule(nd21, 21, id);
+          id++;
 
           print("next day: ${nd21.toIso8601String()}");
 
           ///schedule next day
           dt = dt.add(const Duration(days: 1));
           var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
-          saveSchedule(nd9, 9, _id);
-          _id++;
+          saveSchedule(nd9, 9, id);
+          id++;
 
           print("next day: ${nd9.toIso8601String()}");
           var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
-          saveSchedule(nd12, 12, _id);
-          _id++;
+          saveSchedule(nd12, 12, id);
+          id++;
 
           print("next day: ${nd12.toIso8601String()}");
           var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
-          saveSchedule(nd15, 15, _id);
-          _id++;
+          saveSchedule(nd15, 15, id);
+          id++;
 
           print("next day: ${nd15.toIso8601String()}");
         } else if (dt.hour >= 18 && dt.hour < 21) {
           var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
-          saveSchedule(nd21, 21, _id);
-          _id++;
+          saveSchedule(nd21, 21, id);
+          id++;
 
           print("next day: ${nd21.toIso8601String()}");
 
           ///schedule next day
           dt = dt.add(const Duration(days: 1));
           var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
-          saveSchedule(nd9, 9, _id);
-          _id++;
+          saveSchedule(nd9, 9, id);
+          id++;
 
           print("next day: ${nd9.toIso8601String()}");
           var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
-          saveSchedule(nd12, 12, _id);
-          _id++;
+          saveSchedule(nd12, 12, id);
+          id++;
 
           print("next day: ${nd12.toIso8601String()}");
           var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
-          saveSchedule(nd15, 15, _id);
-          _id++;
+          saveSchedule(nd15, 15, id);
+          id++;
 
           print("next day: ${nd15.toIso8601String()}");
 
           var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
-          saveSchedule(nd18, 18, _id);
-          _id++;
+          saveSchedule(nd18, 18, id);
+          id++;
 
           print("next day: ${nd18.toIso8601String()}");
         }
@@ -949,181 +949,181 @@ class _MyHomePageState extends State<MyHomePage> {
           ///set next day for hours
 
           var nd9 = DateTime(dt.year, dt.month, dt.day + 1, 9, 0, 0);
-          saveSchedule(nd9, 9, _id);
-          _id++;
+          saveSchedule(nd9, 9, id);
+          id++;
 
           print("next day: ${nd9.toIso8601String()}");
           var nd12 = DateTime(dt.year, dt.month, dt.day + 1, 12, 0, 0);
-          saveSchedule(nd12, 12, _id);
-          _id++;
+          saveSchedule(nd12, 12, id);
+          id++;
 
           print("next day: ${nd12.toIso8601String()}");
           var nd15 = DateTime(dt.year, dt.month, dt.day + 1, 15, 0, 0);
           print("next day: ${nd15.toIso8601String()}");
-          saveSchedule(nd15, 15, _id);
-          _id++;
+          saveSchedule(nd15, 15, id);
+          id++;
 
           var nd18 = DateTime(dt.year, dt.month, dt.day + 1, 18, 0, 0);
           print("next day: ${nd18.toIso8601String()}");
-          saveSchedule(nd18, 18, _id);
-          _id++;
+          saveSchedule(nd18, 18, id);
+          id++;
 
           var nd21 = DateTime(dt.year, dt.month, dt.day + 1, 21, 0, 0);
-          saveSchedule(nd21, 21, _id);
-          _id++;
+          saveSchedule(nd21, 21, id);
+          id++;
 
           print("next day: ${nd21.toIso8601String()}");
         } else {
           if (dt.hour < 9) {
             var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
-            saveSchedule(nd9, 9, _id);
-            _id++;
+            saveSchedule(nd9, 9, id);
+            id++;
             print("next day: ${nd9.toIso8601String()}");
 
             var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
-            saveSchedule(nd12, 12, _id);
-            _id++;
+            saveSchedule(nd12, 12, id);
+            id++;
 
             print("next day: ${nd12.toIso8601String()}");
 
             var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
-            saveSchedule(nd15, 15, _id);
-            _id++;
+            saveSchedule(nd15, 15, id);
+            id++;
 
             print("next day: ${nd15.toIso8601String()}");
 
             var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
-            saveSchedule(nd18, 18, _id);
-            _id++;
+            saveSchedule(nd18, 18, id);
+            id++;
 
             print("next day: ${nd18.toIso8601String()}");
 
             var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
-            saveSchedule(nd21, 21, _id);
-            _id++;
+            saveSchedule(nd21, 21, id);
+            id++;
 
             print("next day: ${nd21.toIso8601String()}");
           } else if (dt.hour >= 9 && dt.hour < 12) {
             var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
-            saveSchedule(nd12, 12, _id);
-            _id++;
+            saveSchedule(nd12, 12, id);
+            id++;
 
             print("next day: ${nd12.toIso8601String()}");
 
             var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
-            saveSchedule(nd15, 15, _id);
-            _id++;
+            saveSchedule(nd15, 15, id);
+            id++;
 
             print("next day: ${nd15.toIso8601String()}");
 
             var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
-            saveSchedule(nd18, 18, _id);
-            _id++;
+            saveSchedule(nd18, 18, id);
+            id++;
 
             print("next day: ${nd18.toIso8601String()}");
 
             var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
-            saveSchedule(nd21, 21, _id);
-            _id++;
+            saveSchedule(nd21, 21, id);
+            id++;
 
             print("next day: ${nd21.toIso8601String()}");
 
             ///schedule next day
             dt = dt.add(const Duration(days: 1));
             var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
-            saveSchedule(nd9, 9, _id);
-            _id++;
+            saveSchedule(nd9, 9, id);
+            id++;
 
             print("next day: ${nd9.toIso8601String()}");
           } else if (dt.hour >= 12 && dt.hour < 15) {
             var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
-            saveSchedule(nd15, 15, _id);
-            _id++;
+            saveSchedule(nd15, 15, id);
+            id++;
 
             print("next day: ${nd15.toIso8601String()}");
 
             var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
-            saveSchedule(nd18, 18, _id);
-            _id++;
+            saveSchedule(nd18, 18, id);
+            id++;
 
             print("next day: ${nd18.toIso8601String()}");
 
             var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
-            saveSchedule(nd21, 21, _id);
-            _id++;
+            saveSchedule(nd21, 21, id);
+            id++;
 
             print("next day: ${nd21.toIso8601String()}");
 
             ///schedule next day
             dt = dt.add(const Duration(days: 1));
             var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
-            saveSchedule(nd9, 9, _id);
-            _id++;
+            saveSchedule(nd9, 9, id);
+            id++;
 
             print("next day: ${nd9.toIso8601String()}");
             var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
-            saveSchedule(nd12, 12, _id);
-            _id++;
+            saveSchedule(nd12, 12, id);
+            id++;
 
             print("next day: ${nd12.toIso8601String()}");
           } else if (dt.hour >= 15 && dt.hour < 18) {
             var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
-            saveSchedule(nd18, 18, _id);
-            _id++;
+            saveSchedule(nd18, 18, id);
+            id++;
 
             print("next day: ${nd18.toIso8601String()}");
 
             var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
-            saveSchedule(nd21, 21, _id);
-            _id++;
+            saveSchedule(nd21, 21, id);
+            id++;
 
             print("next day: ${nd21.toIso8601String()}");
 
             ///schedule next day
             dt = dt.add(const Duration(days: 1));
             var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
-            saveSchedule(nd9, 9, _id);
-            _id++;
+            saveSchedule(nd9, 9, id);
+            id++;
 
             print("next day: ${nd9.toIso8601String()}");
             var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
-            saveSchedule(nd12, 12, _id);
-            _id++;
+            saveSchedule(nd12, 12, id);
+            id++;
 
             print("next day: ${nd12.toIso8601String()}");
             var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
-            saveSchedule(nd15, 15, _id);
-            _id++;
+            saveSchedule(nd15, 15, id);
+            id++;
 
             print("next day: ${nd15.toIso8601String()}");
           } else if (dt.hour >= 18 && dt.hour < 21) {
             var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
-            saveSchedule(nd21, 21, _id);
-            _id++;
+            saveSchedule(nd21, 21, id);
+            id++;
 
             print("next day: ${nd21.toIso8601String()}");
 
             ///schedule next day
             dt = dt.add(const Duration(days: 1));
             var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
-            saveSchedule(nd9, 9, _id);
-            _id++;
+            saveSchedule(nd9, 9, id);
+            id++;
 
             print("next day: ${nd9.toIso8601String()}");
             var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
-            saveSchedule(nd12, 12, _id);
-            _id++;
+            saveSchedule(nd12, 12, id);
+            id++;
 
             print("next day: ${nd12.toIso8601String()}");
             var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
-            saveSchedule(nd15, 15, _id);
-            _id++;
+            saveSchedule(nd15, 15, id);
+            id++;
 
             print("next day: ${nd15.toIso8601String()}");
 
             var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
-            saveSchedule(nd18, 18, _id);
-            _id++;
+            saveSchedule(nd18, 18, id);
+            id++;
 
             print("next day: ${nd18.toIso8601String()}");
           }
@@ -1401,11 +1401,15 @@ class _MyHomePageState extends State<MyHomePage> {
         //   height: 120,
         //   width: 120,
         // );
+        var sizes = MediaQuery.of(context).size;
+
+
         var ret = Scaffold(
-            bottomNavigationBar: BruxismBottomNavigation(
+          
+            bottomNavigationBar: DefaultTabController(length: 3, initialIndex: 0, child: BruxismBottomNavigation(
               selectPage: _selectPage,
               idx: 0,
-            ),
+            ),) ,
 
             // persistentFooterButtons: <Widget>[
             //   IconButton(
@@ -1493,8 +1497,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       // SizedBox(
                       //     height: 10, width: MediaQuery.of(context).size.width),
                       GlassmorphicContainer(
-                    width: MediaQuery.of(context).size.width * 0.9 - 20,
-                    height: MediaQuery.of(context).size.height * 0.7 - 20,
+                    width: sizes.width * 0.9 - 20,
+                    height: sizes.height * 0.7 - 20,
                     borderRadius: 35,
                     margin: const EdgeInsets.all(10),
                     blur: 10,
@@ -1538,8 +1542,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             width: 120,
                           ),
                           GlassContainer(
-                            height: 200,
-                            width: 200,
+                            height: sizes.height * 0.30,
+                            width: sizes.width * 0.30,
                             blur: 4,
                             color: Colors.white.withOpacity(0.7),
                             gradient: LinearGradient(
@@ -2176,10 +2180,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
       case 2:
         return Scaffold(
-            bottomNavigationBar: BruxismBottomNavigation(
+            bottomNavigationBar: DefaultTabController(length: 3, initialIndex: 2, child: BruxismBottomNavigation(
               selectPage: _selectPage,
               idx: 2,
-            ),
+            ),) ,
             appBar: AppBar(title: const Text("Nofication")),
             body: Column(
               children: const [
@@ -2208,6 +2212,7 @@ class _MyHomePageState extends State<MyHomePage> {
             // appBar: AppBar(
             //   title: const Text("Login"),
             // ),
+            resizeToAvoidBottomInset: false,
             body: Center(
                 child: Container(
                     height: double.infinity,
@@ -2217,52 +2222,54 @@ class _MyHomePageState extends State<MyHomePage> {
                           image: Image.asset("assets/images/bg.png").image,
                           fit: BoxFit.cover),
                     ),
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 50,
-                        ),
-                        PasswordForm(
-                          email: "",
-                          login: (email, password) {
-                            signInWithEmailAndPassword2(
-                                email,
-                                password,
-                                (e) => _showErrorDialog(
-                                    context, 'Failed to sign in', e));
-                          },
-                          selectPage: _selectPage,
-                        ),
-                        // const Divider(
-                        //   height: 10,
-                        //   thickness: 2,
-                        //   indent: 20,
-                        //   endIndent: 0,
-                        //   color: Colors.grey,
-                        // ),
-                        // const SizedBox(
-                        //   height: 30,
-                        // ),
+                    child: IntrinsicHeight(
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          PasswordForm(
+                            email: "",
+                            login: (email, password) {
+                              signInWithEmailAndPassword2(
+                                  email,
+                                  password,
+                                  (e) => _showErrorDialog(
+                                      context, 'Failed to sign in', e));
+                            },
+                            selectPage: _selectPage,
+                          ),
+                          // const Divider(
+                          //   height: 10,
+                          //   thickness: 2,
+                          //   indent: 20,
+                          //   endIndent: 0,
+                          //   color: Colors.grey,
+                          // ),
+                          // const SizedBox(
+                          //   height: 30,
+                          // ),
 
-                        // RegisterForm(
-                        //   email: "",
-                        //   cancel: () {
-                        //     cancelRegistration();
-                        //   },
-                        //   registerAccount: (
-                        //     email,
-                        //     displayName,
-                        //     password,
-                        //   ) {
-                        //     registerAccount(
-                        //         email,
-                        //         displayName,
-                        //         password,
-                        //         (e) => _showErrorDialog(
-                        //             context, 'Failed to create account', e));
-                        //   },
-                        // ),
-                      ],
+                          // RegisterForm(
+                          //   email: "",
+                          //   cancel: () {
+                          //     cancelRegistration();
+                          //   },
+                          //   registerAccount: (
+                          //     email,
+                          //     displayName,
+                          //     password,
+                          //   ) {
+                          //     registerAccount(
+                          //         email,
+                          //         displayName,
+                          //         password,
+                          //         (e) => _showErrorDialog(
+                          //             context, 'Failed to create account', e));
+                          //   },
+                          // ),
+                        ],
+                      ),
                     ))));
       case 4:
         return GlassContainer(
@@ -2316,10 +2323,10 @@ class _MyHomePageState extends State<MyHomePage> {
       case 1:
         const double gheight = 180;
         return Scaffold(
-            bottomNavigationBar: BruxismBottomNavigation(
+            bottomNavigationBar: DefaultTabController(length: 3,initialIndex: 1, child: BruxismBottomNavigation(
               selectPage: _selectPage,
               idx: 1,
-            ),
+            ),) ,
             // appBar: AppBar(
             //   // Here we take the value from the MyHomePage object that was created by
             //   // the App.build method, and use it to set our appbar title.
@@ -2519,7 +2526,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 class BruxUser extends StatelessWidget {
   final Function getUser;
-  const BruxUser({Key? key, required this.getUser});
+  const BruxUser({Key? key, required this.getUser}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -2536,10 +2543,10 @@ class BruxUser extends StatelessWidget {
                     user.displayName.toString(),
                     style: const TextStyle(color: Colors.white, fontSize: 20),
                   ),
-                  Text("Email : " + user.email.toString(),
+                  Text("Email : ${user.email}",
                       style:
                           const TextStyle(color: Colors.white, fontSize: 20)),
-                  Text("Varified: " + user.emailVerified.toString(),
+                  Text("Varified: ${user.emailVerified}",
                       style:
                           const TextStyle(color: Colors.white, fontSize: 20)),
                 ],
@@ -2569,11 +2576,9 @@ class SlideSchedule extends StatelessWidget {
   late int pending;
   @override
   Widget build(BuildContext context) {
-
-                checkPending().then((r) {
-                            pending = r;
-                    
-                          });
+    checkPending().then((r) {
+      pending = r;
+    });
 
     return FutureBuilder(
       builder: (context, snapshot) {
@@ -2669,8 +2674,9 @@ class BruxismBottomNavigation extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+
     return ConvexAppBar(
-        initialActiveIndex: idx,
+        // initialActiveIndex: idx,
         items: const [
           TabItem(icon: Icons.home, title: 'Home'),
           TabItem(icon: Icons.people, title: 'Discovery'),
@@ -2707,7 +2713,8 @@ class BruxismBottomNavigation extends StatelessWidget {
 class NotificationBadge extends StatelessWidget {
   final int totalNotifications;
 
-  const NotificationBadge({required this.totalNotifications});
+  const NotificationBadge({Key? key, required this.totalNotifications})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -2752,7 +2759,11 @@ class AlertObj {
 
 class PasswordForm extends StatefulWidget {
   const PasswordForm(
-      {required this.login, required this.email, required this.selectPage});
+      {Key? key,
+      required this.login,
+      required this.email,
+      required this.selectPage})
+      : super(key: key);
   final String email;
   final void Function(String email, String password) login;
   final void Function(int page) selectPage;
@@ -2828,109 +2839,113 @@ class _PasswordFormState extends State<PasswordForm> {
                   padding: const EdgeInsets.all(8.0),
                   child: Form(
                     key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: TextFormField(
-                            style: const TextStyle(color: Colors.white),
-                            controller: _emailController,
-                            decoration: const InputDecoration(
-                                hintText: 'Enter your email',
-                                hintStyle: TextStyle(color: Colors.white)),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Enter your email address to continue';
-                              }
-                              return null;
-                            },
+                    child: IntrinsicHeight(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            child: TextFormField(
+                              style: const TextStyle(color: Colors.white),
+                              controller: _emailController,
+                              decoration: const InputDecoration(
+                                  hintText: 'Enter your email',
+                                  hintStyle: TextStyle(color: Colors.white)),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Enter your email address to continue';
+                                }
+                                return null;
+                              },
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: TextFormField(
-                            style: const TextStyle(color: Colors.white),
-                            controller: _passwordController,
-                            decoration: const InputDecoration(
-                                hintText: 'Password',
-                                hintStyle: TextStyle(color: Colors.white)),
-                            obscureText: true,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Enter your password';
-                              }
-                              return null;
-                            },
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24),
+                            child: TextFormField(
+                              style: const TextStyle(color: Colors.white),
+                              controller: _passwordController,
+                              decoration: const InputDecoration(
+                                  hintText: 'Password',
+                                  hintStyle: TextStyle(color: Colors.white)),
+                              obscureText: true,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Enter your password';
+                                }
+                                return null;
+                              },
+                            ),
                           ),
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Flex(
-                                  direction: Axis.horizontal,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    // const SizedBox(width: 3),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.only(left: lsMargin),
-                                    //   child: StyledButton(
-                                    //     onPressed: () {},
-                                    //     child: const Text('Register'),
-                                    //   ),
-                                    // ),
-                                    // const SizedBox(width: 16),
+                          Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Flex(
+                                    direction: Axis.horizontal,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      // const SizedBox(width: 3),
+                                      // Padding(
+                                      //   padding: const EdgeInsets.only(left: lsMargin),
+                                      //   child: StyledButton(
+                                      //     onPressed: () {},
+                                      //     child: const Text('Register'),
+                                      //   ),
+                                      // ),
+                                      // const SizedBox(width: 16),
 
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: lsMargin, left: lsMargin),
-                                      child: StyledButton(
-                                        onPressed: () {
-                                          widget.selectPage(4);
-                                        },
-                                        child: const Text(
-                                          'REGISTER',
-                                          style: TextStyle(color: Colors.white),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: lsMargin, left: lsMargin),
+                                        child: StyledButton(
+                                          onPressed: () {
+                                            widget.selectPage(4);
+                                          },
+                                          child: const Text(
+                                            'REGISTER',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: lsMargin),
-                                      child: StyledButton(
-                                        onPressed: () {
-                                          if (_formKey.currentState!
-                                              .validate()) {
-                                            widget.login(
-                                              _emailController.text,
-                                              _passwordController.text,
-                                            );
-                                          }
-                                        },
-                                        child: const Text(
-                                          'SIGN IN',
-                                          style: TextStyle(color: Colors.white),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: lsMargin),
+                                        child: StyledButton(
+                                          onPressed: () {
+                                            if (_formKey.currentState!
+                                                .validate()) {
+                                              widget.login(
+                                                _emailController.text,
+                                                _passwordController.text,
+                                              );
+                                            }
+                                          },
+                                          child: const Text(
+                                            'SIGN IN',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
                                         ),
-                                      ),
-                                    )
+                                      )
 
-                                    // const SizedBox(width: 3),
-                                  ],
-                                ),
-                                Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: TextButton(
-                                      onPressed: () {
-                                        widget.selectPage(5);
-                                      },
-                                      child: const Text("Forgot password"),
-                                    )),
-                              ],
-                            )),
-                      ],
+                                      // const SizedBox(width: 3),
+                                    ],
+                                  ),
+                                  Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: TextButton(
+                                        onPressed: () {
+                                          widget.selectPage(5);
+                                        },
+                                        child: const Text("Forgot password"),
+                                      )),
+                                ],
+                              )),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -2940,7 +2955,8 @@ class _PasswordFormState extends State<PasswordForm> {
 }
 
 class StyledButton extends StatelessWidget {
-  const StyledButton({required this.child, required this.onPressed});
+  const StyledButton({Key? key, required this.child, required this.onPressed})
+      : super(key: key);
   final Widget child;
   final void Function() onPressed;
 
@@ -2954,7 +2970,7 @@ class StyledButton extends StatelessWidget {
 }
 
 class Header extends StatelessWidget {
-  const Header(this.heading);
+  const Header(this.heading, {Key? key}) : super(key: key);
   final String heading;
 
   @override
@@ -2970,10 +2986,11 @@ class Header extends StatelessWidget {
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({
+    Key? key,
     required this.registerAccount,
     required this.cancel,
     required this.email,
-  });
+  }) : super(key: key);
   final String email;
   final void Function(String email, String displayName, String password)
       registerAccount;

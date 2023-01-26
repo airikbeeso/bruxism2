@@ -1,6 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/data/latest.dart' as tz;
 
 class NotificationService {
   static final NotificationService _notificationService =
@@ -19,8 +18,8 @@ class NotificationService {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('ic_launcher_background');
 
-    const IOSInitializationSettings initializationSettingsIOS =
-        IOSInitializationSettings(
+    const DarwinInitializationSettings initializationSettingsIOS =
+        DarwinInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
@@ -46,7 +45,7 @@ class NotificationService {
             importance: Importance.max,
             priority: Priority.max,
             icon: 'ic_launcher_background'),
-        iOS: IOSNotificationDetails(
+        iOS: DarwinNotificationDetails(
           sound: 'default.wav',
           presentAlert: true,
           presentBadge: true,
