@@ -180,18 +180,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
     localNotifyManager.setOnNotificationReceive(onNotificationReceive);
     localNotifyManager.setOnNotificationClick(onNotificationClick);
+
   }
 
   onNotificationReceive(ReceivedNotification notification) {
     print('Notification Received: ${notification.id}');
   }
 
-  onNotificationClick(String? payload) {
-    print('Payload xxx ::::: $payload');
+  onNotificationClick(NotificationResponse? payload) {
+    // print('Payload xxx ::::: $payload');
     Navigator.push(context, MaterialPageRoute(
       builder: (context) {
         return SecondScreen(
-            id: payload as String,
+            id: payload!.payload as String,
             description: "",
             title: "Bruxism",
             selectPage: _selectPage,
@@ -322,17 +323,18 @@ class _MyHomePageState extends State<MyHomePage> {
         await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
     country = notificationAppLaunchDetails!.notificationResponse;
     if (null != country) {
-      Navigator.push(context, MaterialPageRoute(
-        builder: (context) {
-          return SecondScreen(
-              id: country as String,
-              description: "",
-              title: "Bruxism",
-              selectPage: _selectPage,
-              storage: CounterStorage());
-        },
-      ));
+      var thePage = SecondScreen(
+          id: country as String,
+          description: "",
+          title: "Bruxism",
+          selectPage: _selectPage,
+          storage: CounterStorage());
+      redirectToPage(thePage);
     }
+  }
+
+  void redirectToPage(Widget thePage) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => thePage));
   }
 
   void _createAlert() {
@@ -1251,21 +1253,26 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _checkPendingNotificationRequests() async {
     final List<PendingNotificationRequest> pendingNotificationRequests =
         await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-    return showDialog<void>(
+    var theWidget = AlertDialog(
+      content:
+          Text('${pendingNotificationRequests.length} pending notification '
+              'requests'),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('OK'),
+        ),
+      ],
+    );
+    showPopup(theWidget);
+  }
+
+  void showPopup(Widget theWidget) {
+    showDialog<void>(
       context: context,
-      builder: (BuildContext context) => AlertDialog(
-        content:
-            Text('${pendingNotificationRequests.length} pending notification '
-                'requests'),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text('OK'),
-          ),
-        ],
-      ),
+      builder: (BuildContext context) => theWidget,
     );
   }
 
@@ -1403,13 +1410,15 @@ class _MyHomePageState extends State<MyHomePage> {
         // );
         var sizes = MediaQuery.of(context).size;
 
-
         var ret = Scaffold(
-          
-            bottomNavigationBar: DefaultTabController(length: 3, initialIndex: 0, child: BruxismBottomNavigation(
-              selectPage: _selectPage,
-              idx: 0,
-            ),) ,
+            bottomNavigationBar: DefaultTabController(
+              length: 3,
+              initialIndex: 0,
+              child: BruxismBottomNavigation(
+                selectPage: _selectPage,
+                idx: 0,
+              ),
+            ),
 
             // persistentFooterButtons: <Widget>[
             //   IconButton(
@@ -2180,10 +2189,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
       case 2:
         return Scaffold(
-            bottomNavigationBar: DefaultTabController(length: 3, initialIndex: 2, child: BruxismBottomNavigation(
-              selectPage: _selectPage,
-              idx: 2,
-            ),) ,
+            bottomNavigationBar: DefaultTabController(
+              length: 3,
+              initialIndex: 2,
+              child: BruxismBottomNavigation(
+                selectPage: _selectPage,
+                idx: 2,
+              ),
+            ),
             appBar: AppBar(title: const Text("Nofication")),
             body: Column(
               children: const [
@@ -2323,10 +2336,14 @@ class _MyHomePageState extends State<MyHomePage> {
       case 1:
         const double gheight = 180;
         return Scaffold(
-            bottomNavigationBar: DefaultTabController(length: 3,initialIndex: 1, child: BruxismBottomNavigation(
-              selectPage: _selectPage,
-              idx: 1,
-            ),) ,
+            bottomNavigationBar: DefaultTabController(
+              length: 3,
+              initialIndex: 1,
+              child: BruxismBottomNavigation(
+                selectPage: _selectPage,
+                idx: 1,
+              ),
+            ),
             // appBar: AppBar(
             //   // Here we take the value from the MyHomePage object that was created by
             //   // the App.build method, and use it to set our appbar title.
@@ -2674,7 +2691,6 @@ class BruxismBottomNavigation extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-
     return ConvexAppBar(
         // initialActiveIndex: idx,
         items: const [

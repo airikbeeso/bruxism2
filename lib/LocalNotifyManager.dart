@@ -43,15 +43,17 @@ class LocalNotifyManager {
   }
 
   setOnNotificationReceive(Function onNotificationReceive) {
-    didReceiveLocalNotificationSubject.listen((notification) {
-      onNotificationReceive(notification);
+    didReceiveLocalNotificationSubject
+        .listen((ReceiveNotification? notification) {
+      onNotificationReceive(notification!);
     });
   }
 
   setOnNotificationClick(Function onNotificationClick) async {
     await flutterLocalNotificationsPlugin.initialize(initSettings,
-        onDidReceiveNotificationResponse: (NotificationResponse ? payload) async {
-      onNotificationClick(payload);
+        onDidReceiveNotificationResponse:
+            (NotificationResponse? payload) async {
+      onNotificationClick(payload!);
     });
   }
 
