@@ -78,7 +78,7 @@ class _SecondScreenState extends State<SecondScreen> {
     // print("hour: ${dt.hour} : ${dt.minute} : ${dt.second}");
 
     if (isActive) {
-      int _id = 0;
+      int id = 0;
       // var ndT = DateTime.utc(dt.year, dt.month, dt.day, 14);
       // saveSchedule(ndT, 14, 8888);
 
@@ -86,181 +86,181 @@ class _SecondScreenState extends State<SecondScreen> {
         ///set next day for hours
 
         var nd9 = DateTime(dt.year, dt.month, dt.day + 1, 9, 0, 0);
-        saveSchedule(nd9, 9, _id);
-        _id++;
+        saveSchedule(nd9, 9, id);
+        id++;
 
         print("next day: ${nd9.toIso8601String()}");
         var nd12 = DateTime(dt.year, dt.month, dt.day + 1, 12, 0, 0);
-        saveSchedule(nd12, 12, _id);
-        _id++;
+        saveSchedule(nd12, 12, id);
+        id++;
 
         print("next day: ${nd12.toIso8601String()}");
         var nd15 = DateTime(dt.year, dt.month, dt.day + 1, 15, 0, 0);
         print("next day: ${nd15.toIso8601String()}");
-        saveSchedule(nd15, 15, _id);
-        _id++;
+        saveSchedule(nd15, 15, id);
+        id++;
 
         var nd18 = DateTime(dt.year, dt.month, dt.day + 1, 18, 0, 0);
         print("next day: ${nd18.toIso8601String()}");
-        saveSchedule(nd18, 18, _id);
-        _id++;
+        saveSchedule(nd18, 18, id);
+        id++;
 
         var nd21 = DateTime(dt.year, dt.month, dt.day + 1, 21, 0, 0);
-        saveSchedule(nd21, 21, _id);
-        _id++;
+        saveSchedule(nd21, 21, id);
+        id++;
 
         print("next day: ${nd21.toIso8601String()}");
       } else {
         if (dt.hour < 9) {
           var nd9 = DateTime(dt.year, dt.month, dt.day, 9, 0, 0);
-          saveSchedule(nd9, 9, _id);
-          _id++;
+          saveSchedule(nd9, 9, id);
+          id++;
           print("next day: ${nd9.toIso8601String()}");
 
           var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
-          saveSchedule(nd12, 12, _id);
-          _id++;
+          saveSchedule(nd12, 12, id);
+          id++;
 
           print("next day: ${nd12.toIso8601String()}");
 
           var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
-          saveSchedule(nd15, 15, _id);
-          _id++;
+          saveSchedule(nd15, 15, id);
+          id++;
 
           print("next day: ${nd15.toIso8601String()}");
 
           var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
-          saveSchedule(nd18, 18, _id);
-          _id++;
+          saveSchedule(nd18, 18, id);
+          id++;
 
           print("next day: ${nd18.toIso8601String()}");
 
           var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
-          saveSchedule(nd21, 21, _id);
-          _id++;
+          saveSchedule(nd21, 21, id);
+          id++;
 
           print("next day: ${nd21.toIso8601String()}");
         } else if (dt.hour >= 9 && dt.hour < 12) {
           var nd12 = DateTime(dt.year, dt.month, dt.day, 12, 0, 0);
-          saveSchedule(nd12, 12, _id);
-          _id++;
+          saveSchedule(nd12, 12, id);
+          id++;
 
           print("next day: ${nd12.toIso8601String()}");
 
           var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
-          saveSchedule(nd15, 15, _id);
-          _id++;
+          saveSchedule(nd15, 15, id);
+          id++;
 
           print("next day: ${nd15.toIso8601String()}");
 
           var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
-          saveSchedule(nd18, 18, _id);
-          _id++;
+          saveSchedule(nd18, 18, id);
+          id++;
 
           print("next day: ${nd18.toIso8601String()}");
 
           var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
-          saveSchedule(nd21, 21, _id);
-          _id++;
+          saveSchedule(nd21, 21, id);
+          id++;
 
           print("next day: ${nd21.toIso8601String()}");
 
           ///schedule next day
           var dt2 = dt.add(const Duration(days: 1));
           var nd9 = DateTime(dt2.year, dt2.month, dt2.day, 9, 0, 0);
-          saveSchedule(nd9, 9, _id);
-          _id++;
+          saveSchedule(nd9, 9, id);
+          id++;
 
           print("next day: ${nd9.toIso8601String()}");
         } else if (dt.hour >= 12 && dt.hour < 15) {
           var nd15 = DateTime(dt.year, dt.month, dt.day, 15, 0, 0);
-          saveSchedule(nd15, 15, _id);
-          _id++;
+          saveSchedule(nd15, 15, id);
+          id++;
 
           print("next day: ${nd15.toIso8601String()}");
 
           var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
-          saveSchedule(nd18, 18, _id);
-          _id++;
+          saveSchedule(nd18, 18, id);
+          id++;
 
           print("next day: ${nd18.toIso8601String()}");
 
           var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
-          saveSchedule(nd21, 21, _id);
-          _id++;
+          saveSchedule(nd21, 21, id);
+          id++;
 
           print("next day: ${nd21.toIso8601String()}");
 
           ///schedule next day
           var dt2 = dt.add(const Duration(days: 1));
           var nd9 = DateTime(dt2.year, dt2.month, dt2.day, 9, 0, 0);
-          saveSchedule(nd9, 9, _id);
-          _id++;
+          saveSchedule(nd9, 9, id);
+          id++;
 
           print("next day: ${nd9.toIso8601String()}");
           var nd12 = DateTime(dt2.year, dt2.month, dt2.day, 12, 0, 0);
-          saveSchedule(nd12, 12, _id);
-          _id++;
+          saveSchedule(nd12, 12, id);
+          id++;
 
           print("next day: ${nd12.toIso8601String()}");
         } else if (dt.hour >= 15 && dt.hour < 18) {
           var nd18 = DateTime(dt.year, dt.month, dt.day, 18, 0, 0);
-          saveSchedule(nd18, 18, _id);
-          _id++;
+          saveSchedule(nd18, 18, id);
+          id++;
 
           print("next day: ${nd18.toIso8601String()}");
 
           var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
-          saveSchedule(nd21, 21, _id);
-          _id++;
+          saveSchedule(nd21, 21, id);
+          id++;
 
           print("next day: ${nd21.toIso8601String()}");
 
           ///schedule next day
           var dt2 = dt.add(const Duration(days: 1));
           var nd9 = DateTime(dt2.year, dt2.month, dt2.day, 9, 0, 0);
-          saveSchedule(nd9, 9, _id);
-          _id++;
+          saveSchedule(nd9, 9, id);
+          id++;
 
           print("next day: ${nd9.toIso8601String()}");
           var nd12 = DateTime(dt2.year, dt2.month, dt2.day, 12, 0, 0);
-          saveSchedule(nd12, 12, _id);
-          _id++;
+          saveSchedule(nd12, 12, id);
+          id++;
 
           print("next day: ${nd12.toIso8601String()}");
           var nd15 = DateTime(dt2.year, dt2.month, dt2.day, 15, 0, 0);
-          saveSchedule(nd15, 15, _id);
-          _id++;
+          saveSchedule(nd15, 15, id);
+          id++;
 
           print("next day: ${nd15.toIso8601String()}");
         } else if (dt.hour >= 18 && dt.hour < 21) {
           var nd21 = DateTime(dt.year, dt.month, dt.day, 21, 0, 0);
-          saveSchedule(nd21, 21, _id);
-          _id++;
+          saveSchedule(nd21, 21, id);
+          id++;
 
           print("next day: ${nd21.toIso8601String()}");
 
           ///schedule next day
           var dt2 = dt.add(const Duration(days: 1));
           var nd9 = DateTime(dt2.year, dt2.month, dt2.day, 9, 0, 0);
-          saveSchedule(nd9, 9, _id);
-          _id++;
+          saveSchedule(nd9, 9, id);
+          id++;
 
           print("next day: ${nd9.toIso8601String()}");
           var nd12 = DateTime(dt2.year, dt2.month, dt2.day, 12, 0, 0);
-          saveSchedule(nd12, 12, _id);
-          _id++;
+          saveSchedule(nd12, 12, id);
+          id++;
 
           print("next day: ${nd12.toIso8601String()}");
           var nd15 = DateTime(dt2.year, dt2.month, dt2.day, 15, 0, 0);
-          saveSchedule(nd15, 15, _id);
-          _id++;
+          saveSchedule(nd15, 15, id);
+          id++;
 
           print("next day: ${nd15.toIso8601String()}");
 
           var nd18 = DateTime(dt2.year, dt2.month, dt2.day, 18, 0, 0);
-          saveSchedule(nd18, 18, _id);
-          _id++;
+          saveSchedule(nd18, 18, id);
+          id++;
 
           print("next day: ${nd18.toIso8601String()}");
         }
@@ -273,7 +273,7 @@ class _SecondScreenState extends State<SecondScreen> {
     }
   }
 
-  Future<void> saveSchedule(DateTime dt, int mode, int _id) async {
+  Future<void> saveSchedule(DateTime dt, int mode, int id) async {
     // LocalStorage storage = LocalStorage('questions');
 
     var list = [];
@@ -397,7 +397,7 @@ class _SecondScreenState extends State<SecondScreen> {
     //     .set(context);
 
     await LocalNotifyManager.init().dailyAtTimeNotification(
-        _id,
+        id,
         mode,
         dt,
         jsonEncode(context),
@@ -531,6 +531,7 @@ class _SecondScreenState extends State<SecondScreen> {
 
     Future<void> updateAnswer() async {
       context2["answerOn"] = DateTime.now().millisecondsSinceEpoch;
+      context2["device"] = "android";
 
       await FirebaseFirestore.instance.collection("alerts").add(context2);
       // showAlertDialog().then((value) => Navigator.pop(context));
@@ -734,8 +735,8 @@ class _SecondScreenState extends State<SecondScreen> {
               return SurveyKit(
                 task: task,
                 onResult: (SurveyResult result) {
-                  print(result.finishReason);
-                  var finalResult = result.results[0].results;
+                  // print(result.finishReason);
+                  // var finalResult = result.results[0].results;
 
                   for (var i = 0; i < result.results.length; i++) {
                     if (result.results[i].results[0].valueIdentifier !=
@@ -745,6 +746,7 @@ class _SecondScreenState extends State<SecondScreen> {
                           result.results[i].results[0].valueIdentifier;
                     }
                   }
+                 
                   updateAnswer();
                   // for (var i = 0; i < finalResult.length; i++) {
 
@@ -759,11 +761,7 @@ class _SecondScreenState extends State<SecondScreen> {
                 showProgress: true,
                 localizations: const {'cancel': 'Cancel', 'next': 'Next'},
                 themeData: Theme.of(context).copyWith(
-                  colorScheme:
-                      ColorScheme.fromSwatch(primarySwatch: Colors.cyan)
-                          .copyWith(onPrimary: Colors.white),
                   primaryColor: Colors.cyan,
-                  backgroundColor: Colors.white,
                   appBarTheme: const AppBarTheme(
                     color: Colors.white,
                     iconTheme: IconThemeData(color: Colors.cyan),
@@ -782,26 +780,26 @@ class _SecondScreenState extends State<SecondScreen> {
                   textButtonTheme: TextButtonThemeData(
                     style: ButtonStyle(
                       textStyle: MaterialStateProperty.all(
-                        Theme.of(context).textTheme.button?.copyWith(
+                        Theme.of(context).textTheme.labelLarge?.copyWith(
                               color: Colors.cyan,
                             ),
                       ),
                     ),
                   ),
                   textTheme: const TextTheme(
-                    headline2: TextStyle(
+                    displayLarge: TextStyle(
                         fontSize: 22.0,
                         color: Colors.black,
                         fontFamily: 'neucha'),
-                    headline5: TextStyle(
+                    displayMedium: TextStyle(
                         fontSize: 20.0,
                         color: Colors.black,
                         fontFamily: 'neucha'),
-                    bodyText2: TextStyle(
+                    displaySmall: TextStyle(
                         fontSize: 18.0,
                         color: Colors.black,
                         fontFamily: 'neucha'),
-                    subtitle1: TextStyle(
+                    titleLarge: TextStyle(
                         fontSize: 22.0,
                         color: Colors.black,
                         fontFamily: 'neucha'),
@@ -810,7 +808,8 @@ class _SecondScreenState extends State<SecondScreen> {
                     labelStyle: TextStyle(
                       color: Colors.black,
                     ),
-                  ),
+                  ), colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.cyan)
+                          .copyWith(onPrimary: Colors.white).copyWith(background: Colors.white),
                 ),
                 surveyProgressbarConfiguration: SurveyProgressConfiguration(
                   backgroundColor: Colors.white,
